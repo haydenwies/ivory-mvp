@@ -1,0 +1,88 @@
+/* ---------------------------- CSS Variables ---------------------------- */
+:root {
+  --login-page-height: clamp(300px, 100vh, 100vh)
+  --login-page-width:clamp(300px, 100vw, 100vw);
+  --form-clamp: clamp(100px, 90%, 500px);
+  --image-clamp:clamp(210px, 50%, 300px);
+  --box-shadow-clamp: clamp(100px, 90%, 90%);
+  --login-container-clamp:clamp(300px, 100%, 100%);
+}
+
+/* ---------------------------- Parent Class ---------------------------- */
+.login {
+  color: var(--textTheme);
+  background-color: var(--backgroundTheme);
+  height: clamp(100px, 100vh, 100vh);
+  width: var(--login-page-width);
+}
+
+/* ---------------------------- Login-box-shadow ----------------------------*/
+.login-box-shadow {
+  border-radius: var(--content-border-radius);
+  box-shadow: var(--content-box-shadow);
+  width: var(--box-shadow-clamp);
+  height: var(--box-shadow-clamp);
+  margin: auto;
+}
+
+/* ---------------------------- Logo Container ---------------------------- */
+.logo-container {
+  width: 100%;
+}
+.login img {
+  width: var(--image-clamp)
+}
+.login h6 {
+  color: rgba(255, 255, 255, 44%);
+  padding-top: 1em;
+  font-size: max(1vh, 1.5rem);
+  text-align: center;
+  font-weight: var(--lessBold);
+}
+
+/* ---------------------------- Login Container ----------------------------*/
+.login-container {
+  width: var(--login-container-clamp);
+}
+.login h3 {
+  padding-top:2rem;
+  font-size: 2rem;
+  padding-bottom: 1.5em;
+  text-align: left;
+  width: var(--form-clamp);
+}
+.login input {
+  background-color: transparent;
+  border-bottom: 1px solid white;
+  font-size: var(--loginInputSize);
+  padding-bottom: 1rem;
+  width: var(--form-clamp);
+}
+.login-email {
+  margin-bottom: 3em;
+}
+.login button {
+  font-size: clamp(1rem, 20vw, 1.5rem);
+  width: var(--form-clamp);
+  background-color: var(--green-btn);
+  border-radius: var(--button-border-radius);
+  padding: 1rem 0rem;
+  margin: clamp(1em, 10vh, 5em);
+  box-shadow: var(--button-box-shadow);
+}
+
+/* ---------------------------- Media Queries ---------------------------- */
+@media (max-width: 480px) {
+  :root{
+  --box-shadow-clamp: clamp(100px, 100%, 100%);
+
+  }
+  .login-box-shadow {
+    box-shadow: none;
+  }
+}
+@media (min-height: 1000px){
+  .content-container{
+    justify-content: space-around !important;
+  }
+}
