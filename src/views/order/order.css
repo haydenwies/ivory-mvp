@@ -1,0 +1,11 @@
+.order {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  height:100vh;
+}
+.receipt-section{
+    border:solid 1px white;
+}
+.items-section{
+    border:solid 1px white;
+}
