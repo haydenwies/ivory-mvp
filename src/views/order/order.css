@@ -1,11 +1,19 @@
+/* ---------------------------- Order Custom Variables ---------------------------- */
+:root{
+
+}
+/* ---------------------------- Order Container ---------------------------- */
 .order {
   display: grid;
   grid-template-columns: 1fr 3fr;
   height:100vh;
 }
+/* ---------------------------- Receipt ---------------------------- */
 .receipt-section{
-    border:solid 1px white;
+  
 }
+
+/* ---------------------------- Items ---------------------------- */
 .items-section{
-    border:solid 1px white;
+    /* border:solid 1px white; */
 }

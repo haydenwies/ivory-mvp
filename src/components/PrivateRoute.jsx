@@ -8,7 +8,7 @@ function PrivateRoute({ children }) {
   if (!authIsReady) {
     return <div style={{ color: "white" }}>Loading</div>;
   } else {
-    return user ? children : <Navigate to="/" />;
+    return user ? children : <Navigate to="/login" />;
   }
 }
 

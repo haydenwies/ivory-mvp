@@ -5,6 +5,8 @@ import { useAuthContext } from "./hooks/useAuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Logout from "./views/logout/Logout";
 import Order from "./views/order/Order";
+import Nav from "./views/nav/Nav";
+import ViewOrders from "./views/view_orders/ViewOrders";
 function App() {
   const { auth, user } = useAuthContext();
 
@@ -12,9 +14,10 @@ function App() {
     <div className="app">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path="/" element={<Navigate to="/order" />} />
+          <Route path="/login" element={<Login />} />
           <Route
-            path="/home"
+            path="/logout"
             element={
               <PrivateRoute>
                 <Logout />
@@ -25,7 +28,25 @@ function App() {
             path="/order"
             element={
               <PrivateRoute>
+                {/* <Nav /> */}
                 <Order />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/view-orders"
+            element={
+              <PrivateRoute>
+                {false && <Nav />}
+                <ViewOrders />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/*"
+            element={
+              <PrivateRoute>
+                <Navigate to="/login"/>
               </PrivateRoute>
             }
           />

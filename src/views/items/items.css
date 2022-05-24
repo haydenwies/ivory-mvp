@@ -1,0 +1,92 @@
+/* Custom CSS Variables */
+:root {
+  --options-gap: clamp(4rem, 10vw + 5rem, 8rem);
+  --options-height: clamp(30px, 10vw, 50px);
+  --main-option-WH: clamp(30px, 10vw + 40px, 50px);
+}
+
+/* ----------------------------- Items ----------------------------- */
+.items {
+  display: grid;
+  height: 100%;
+  max-height: 100vh;
+  grid-template-rows: 4fr 4fr 1fr;
+  margin-left: 1rem;
+}
+/* ----------------------------- Selection ----------------------------- */
+.selection {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-gap: 0.3em;
+  margin: 1em 0;
+}
+.selection-item {
+  background-color: #edbb51;
+  color: black;
+  border-radius: 0.2rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  cursor: pointer;
+}
+/* ----------------------------- Category ----------------------------- */
+.category {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-gap: 0.3em;
+  margin-top: 1em;
+}
+.category-item {
+  background-color: #1e202c;
+  color: white;
+  border-radius: 0.2rem;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  cursor: pointer;
+}
+/* ----------------------------- Item Options ----------------------------- */
+.item-options {
+  padding: 0 3rem;
+  align-self: center;
+}
+.trash,
+.info,
+.custom,
+.undo,
+.search,
+.elipse {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.main-options {
+  column-gap: var(--options-gap);
+  background-color: #1e202c;
+  padding: 0 var(--options-gap);
+  border-radius: 1rem;
+  height: var(--options-height);
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.info,
+.custom,
+.undo,
+.search {
+  cursor: pointer;
+  width: var(--main-option-WH);
+  height: var(--main-option-WH);
+}
+.item-options img {
+  transform: scale(1.1);
+}
+.elipse,
+.trash {
+  height: var(--options-height);
+  background-color: #1e202c;
+  border-radius: 1rem;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+}
+.elipse img,
+.trash img {
+  transform: scale(1);
+  padding: 0 1.5em;
+}

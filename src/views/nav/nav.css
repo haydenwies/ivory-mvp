@@ -1,0 +1,106 @@
+/* ---------------------------- Order Custom Variables ---------------------------- */
+:root {
+  --user-icon-WH: clamp(100px, 10vw + 50px, 120px);
+  --nav-link-gap: clamp(1.5rem, 10vw + 2rem, 4rem);
+  --nav-link-margin-top: clamp(3rem, 40vw + 1rem, 5rem);
+  --nav-link-font-size: clamp(1rem, 10vw + 1.2rem, 1.4rem);
+  --nav-panel-min-width: 350px;
+  --shadow-panel-min-width: 400px;
+}
+/* ---------------------------- Nav ---------------------------- */
+.nav {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  height: 100vh;
+  max-height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+}
+/* ---------------------------- Nav Panel ---------------------------- */
+.close-nav {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  cursor: pointer;
+}
+.close-nav img {
+  width: 20px;
+}
+.nav-panel {
+  position: relative;
+  background-color: #121421;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  height: 100%;
+  padding: 0 1.5rem;
+  min-width: var(--nav-panel-min-width);
+}
+.user-icon {
+  margin-top: 4rem;
+  width: var(--user-icon-WH);
+  height: var(--user-icon-WH);
+  background-color: #1e202c;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.nav-links {
+  margin-top: var(--nav-link-margin-top);
+  row-gap: var(--nav-link-gap);
+  cursor: pointer;
+}
+.nav-link {
+  column-gap: 1.5rem;
+}
+.nav-link p {
+  font-size: var(--nav-link-font-size);
+  font-weight: 200;
+}
+.logout-link {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  cursor: pointer;
+}
+.logout-link {
+  column-gap: 1.5rem;
+}
+.logout-link p {
+  font-size: var(--nav-link-font-size);
+  font-weight: 200;
+}
+.logout-link img {
+  width: 40px;
+}
+/* ---------------------------- Shadow Panel ---------------------------- */
+.shadow-panel {
+  position: relative;
+  min-width: var(--shadow-panel-min-width);
+}
+.background-blur {
+  background-color: rgba(14, 15, 21, 0.98);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.company-name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+.company-name h1 {
+  font-size: 3.5rem;
+}
+.company-name h4 {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 1.5rem;
+  padding-top: 1.2rem;
+  font-weight: 200;
+}

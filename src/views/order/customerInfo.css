@@ -1,0 +1,63 @@
+.customer-info {
+  row-gap: 1rem;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
+  height: 98%;
+  width: 95%;
+  margin: auto;
+}
+
+h1 {
+  font-size: 2.5rem;
+  padding-top: 2rem;
+}
+.order-type {
+  width: 60%;
+}
+.order-type button {
+  border: solid 1px white;
+  padding: 0.5rem 3rem;
+  font-size: 1.8rem;
+  border-radius: 0.7rem;
+  margin:0 1rem;
+}
+.customer-info-input {
+  width: 100%;
+  margin-top: 3rem;
+  height: 100%;
+}
+.input-info {
+  width: 100%;
+}
+.input-info input {
+  background: none;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
+  padding: 0.8rem 0;
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  font-size: 1.5rem;
+  resize: none;
+}
+.input-info textarea {
+  background: none;
+  border: none;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
+  padding: 0.8rem 0;
+  width: 60%;
+  margin: auto;
+  text-align: center;
+  font-size: 1.5rem;
+  resize: none;
+}
+textarea:focus {
+  outline: none;
+}
+.phone-number {
+}
+.print {
+  background-color: #20b68a;
+  width: 60%;
+  padding: 1rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+}
