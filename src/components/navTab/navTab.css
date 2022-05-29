@@ -1,0 +1,7 @@
+.nav-tab {
+    position: absolute;
+    top: 2rem;
+    left: 1rem;
+    cursor: pointer;
+  z-index: 2;
+  }

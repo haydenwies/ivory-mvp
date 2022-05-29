@@ -3,9 +3,15 @@ import "./nav.css";
 import { useNavigate } from "react-router-dom";
 import { Order, Saved, Settings, Logout, XIcon } from "../../Assets/Images";
 import { useLogout } from "../../hooks/useLogout";
+import { useDispatch } from "react-redux";
+import { setInstances } from "../../redux/functionality";
 function Nav() {
+  /* ----------------------------- Nav Panel ----------------------------- */
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { logout } = useLogout();
+
+  /* ----------------------------- Functions ----------------------------- */
 
   const handleLogout = () => {
     navigate("/login");
@@ -15,9 +21,14 @@ function Nav() {
     <div className="nav">
       {/* ----------------------------- Nav Panel ----------------------------- */}
       <div className="nav-panel col-fs-c">
-        <div className="close-nav">
+        <button
+          className="close-nav"
+          onClick={() => {
+            dispatch(setInstances(["setNavOn", false]));
+          }}
+        >
           <img src={XIcon} alt="Close Nav" />
-        </div>
+        </button>
         <div className="user-icon row-c-c">
           <h1>KY</h1>
         </div>
@@ -31,7 +42,7 @@ function Nav() {
             <p>View Orders</p>
           </div>
           <div className="nav-link row-fs-c" onClick={() => navigate("/settings")}>
-            <img src={Settings} alt="Settings" className="settings" />
+            <img src={Settings} alt="Settings" className="settings-icon" />
             <p>Settings</p>
           </div>
         </div>

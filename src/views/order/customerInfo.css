@@ -1,29 +1,33 @@
 .customer-info {
   row-gap: 1rem;
-  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
   height: 98%;
   width: 95%;
   margin: auto;
+  display: grid;
+  grid-template-columns: 7fr 1fr;
+  column-gap: 0.5rem;
+  position: relative;
+  background-color: #121421;
 }
 
 h1 {
   font-size: 2.5rem;
-  padding-top: 2rem;
 }
+/* ----------------------------- Order Type ----------------------------- */
 .order-type {
   width: 60%;
 }
 .order-type button {
-  border: solid 1px white;
   padding: 0.5rem 3rem;
   font-size: 1.8rem;
   border-radius: 0.7rem;
-  margin:0 1rem;
+  margin: 0 1rem;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
 }
 .customer-info-input {
   width: 100%;
-  margin-top: 3rem;
   height: 100%;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
 }
 .input-info {
   width: 100%;
@@ -60,4 +64,18 @@ textarea:focus {
   padding: 1rem 1rem;
   border-radius: 0.5rem;
   font-size: 1.5rem;
+}
+/* ----------------------------- Print Options ----------------------------- */
+.print-options {
+  height: 100%;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
+}
+.exit-customer-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  background-color: crimson;
+  z-index: 0;
 }

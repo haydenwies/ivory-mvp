@@ -9,9 +9,10 @@
 .items {
   display: grid;
   height: 100%;
+  width: 95%;
   max-height: 100vh;
   grid-template-rows: 4fr 4fr 1fr;
-  margin-left: 1rem;
+  margin: auto;
 }
 /* ----------------------------- Selection ----------------------------- */
 .selection {
@@ -28,6 +29,10 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
 }
+.selection-item p {
+  color: black;
+  font-weight: 300;
+}
 /* ----------------------------- Category ----------------------------- */
 .category {
   display: grid;
@@ -42,6 +47,7 @@
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
+  font-weight: 300
 }
 /* ----------------------------- Item Options ----------------------------- */
 .item-options {

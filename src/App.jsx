@@ -6,10 +6,14 @@ import PrivateRoute from "./components/PrivateRoute";
 import Logout from "./views/logout/Logout";
 import Order from "./views/order/Order";
 import Nav from "./views/nav/Nav";
+import Settings from "./views/settings/Settings";
 import ViewOrders from "./views/view_orders/ViewOrders";
+import { useDispatch, useSelector } from "react-redux";
+import NavTab from "./components/navTab/NavTab";
 function App() {
-  const { auth, user } = useAuthContext();
-
+  // const { auth, user } = useAuthContext();
+  const { navOn } = useSelector(({functionality}) => functionality.instances[functionality.indexInstance]);
+  // document.addEventListener("contextmenu", (e) => e.preventDefault());
   return (
     <div className="app">
       <BrowserRouter>
@@ -28,7 +32,8 @@ function App() {
             path="/order"
             element={
               <PrivateRoute>
-                {/* <Nav /> */}
+                {navOn && <Nav />}
+                <NavTab />
                 <Order />
               </PrivateRoute>
             }
@@ -37,8 +42,19 @@ function App() {
             path="/view-orders"
             element={
               <PrivateRoute>
-                {false && <Nav />}
+                {navOn && <Nav />}
+                <NavTab />
                 <ViewOrders />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <PrivateRoute>
+                {navOn && <Nav />}
+                <NavTab />
+                <Settings />
               </PrivateRoute>
             }
           />
@@ -46,7 +62,7 @@ function App() {
             path="/*"
             element={
               <PrivateRoute>
-                <Navigate to="/login"/>
+                <Navigate to="/order" />
               </PrivateRoute>
             }
           />

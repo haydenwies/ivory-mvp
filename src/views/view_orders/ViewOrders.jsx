@@ -1,15 +1,11 @@
 import React from "react";
 import "./viewOrder.css";
-import { NavigationTab, WhiteLogo } from "../../Assets/Images";
 import FinancialInfo from "./FinancialInfo";
 import ReceiptData from "./ReceiptData";
 function ViewOrders() {
   return (
     <div className="view-orders row-c-c">
       <div className="view-order-container col-fs-c">
-        <div className="nav-tab">
-          <img src={NavigationTab} alt="Navigation Tab" className="nav-tab" />
-        </div>
         {/* ----------------------------- Header Section ----------------------------- */}
         <div className="view-order-header">
           <h1>View Orders</h1>
@@ -18,9 +14,8 @@ function ViewOrders() {
             <h4 className={true ? "active-tab" : ""}>Financial Info</h4>
           </div>
         </div>
-
         {/* ----------------------------- Receipt Section ----------------------------- */}
-        {true &&<ReceiptData />}
+        {true && <ReceiptData />}
         {/* ----------------------------- Financial Section ----------------------------- */}
         {/* {true&& <FinancialInfo />} */}
       </div>

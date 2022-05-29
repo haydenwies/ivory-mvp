@@ -1,0 +1,36 @@
+:root {
+  --add-menu-item-width: clamp(40px, 10vw + 20px, 50px);
+}
+.menu-customization {
+  height: 75%;
+  width: 95%;
+  margin: auto;
+}
+.menu-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2rem;
+  margin-top: 2rem;
+}
+.menu-item {
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
+  padding: 2rem;
+  min-width: 200px;
+  position: relative;
+}
+.delete-menu-item {
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  background-color: #e11c27;
+  padding: 0.5rem;
+}
+.add-menu-item {
+  position: absolute;
+  font-size: 2rem;
+  bottom: 1rem;
+  right: 1rem;
+}
+.add-menu-item img {
+  width: var(--add-menu-item-width);
+}

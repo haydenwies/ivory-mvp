@@ -7,43 +7,33 @@
 /* ----------------------------- Receipt ----------------------------- */
 .receipt {
   position: relative;
-  /* padding: 2rem 0; */
-  width:98%;
+  width: 98%;
   height: 98%;
-  margin:auto;
-  /* height: clamp(500px, 98vh, 1200px); */
+  margin: auto;
   border-radius: 0.2em;
   overflow-y: scroll;
   scrollbar-width: none;
-/* box-shadow: rgba(255, 255, 255, 0.1) 0px 0px 3px, rgba(255, 255, 255, 0.23) 0px 0px 3px; */
-  box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 3px, rgba(0, 0, 0, 1) 0px 0px 3px;
+  z-index: 1;
+  background-color: #121421;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
 }
 .receipt-container {
   width: 100%;
   height: 100%;
-}
-/* ----------------------------- Navigation Tab ----------------------------- */
-.nav-tab {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  cursor: pointer;
 }
 .receipt h3 {
   font-size: 1.5rem;
 }
 /* ----------------------------- Receipt Items ----------------------------- */
 .receipt-items {
-  margin-top:2rem;
+  margin-top: 2rem;
   width: 100%;
   row-gap: 1.5rem;
 }
 .receipt-item {
   position: relative;
   width: var(--receipt-width);
-  /* box-shadow: rgba(255, 255, 255, 0.422) 0px 0px 6px inset; */
-  /* box-shadow: rgba(0, 0, 0,.5) 0px 0px 6px, rgba(0, 0, 0, .6) 0px 1px 6px; */
-  border: solid 1px white;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
   padding: 0.8rem 0;
   border-radius: 0.3rem;
   cursor: pointer;
@@ -59,19 +49,26 @@
 .receipt-item img {
   width: var(--item-delete);
 }
-.receipt-item-note {
+.receipt-components {
   flex-basis: 100%;
 }
-.receipt-item-note h6 {
+.receipt-components ul {
+  margin-top:.5rem;
+  padding-left: 1.5rem;
+}
+.receipt-modifiers {
+  flex-basis: 100%;
+}
+.receipt-modifiers h6 {
   font-size: 1.2rem;
   color: #20b78b;
   font-weight: 300;
   padding: 0.8rem 0 0.5rem 0;
 }
-.receipt-item-note ul {
+.receipt-modifiers ul {
   padding-left: 1.5rem;
 }
-.receipt-item-note li {
+.receipt-modifiers li {
   padding: 0 0 0.2rem 0;
 }
 .totals-and-options {

@@ -13,6 +13,7 @@ import Search from "./Search.svg";
 import Saved from "./Saved.svg";
 import Logout from "./Logout.svg";
 import Blur from "./Blur.svg";
+import AddIcon from "./AddIcon.svg";
 
 export {
   WhiteLogo,
@@ -29,5 +30,6 @@ export {
   Trash,
   Undo,
   Logout,
-  Blur
+  Blur,
+  AddIcon,
 };

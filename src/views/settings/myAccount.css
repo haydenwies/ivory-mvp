@@ -1,0 +1,24 @@
+.my-account{
+    width:100%;
+    height:75%;
+    justify-content: flex-start;
+    row-gap: 5rem;
+    padding:0 2rem;
+}
+.account-info{
+    width:100%;
+    row-gap: 2rem;
+}
+.account-logo{
+    width:90px;
+    height:90px;
+    border-radius: 50%;
+    background-color: rgb(78, 57, 32);
+}
+.account-property{
+    width:100%;
+    font-size:1.5rem;
+}
+.account-property h5{
+    color:rgba(255,255,255,.6);
+}
