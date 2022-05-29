@@ -8,7 +8,12 @@ import { setOrder } from "../../redux/orderInfo";
 import { numbersOnly, formatPhoneNumber } from "../../utils/formValidation";
 function CustomerInfo() {
   const dispatch = useDispatch();
-  const { phoneNumber } = useSelector(({ orderInfo }) => orderInfo.order);
+  const { phoneNumber, orderType, waitTime, isScheduledOrder } = useSelector(
+    ({ orderInfo }) => orderInfo.order
+  );
+  const { waitTimeOn } = useSelector(
+    ({ functionality }) => functionality.instances[functionality.indexInstance]
+  );
   /* ----------------------------- Methods ----------------------------- */
   const handlePhoneNumber = (e) => {
     let word = e.target.value;
@@ -61,18 +66,116 @@ function CustomerInfo() {
             />
           </div>
           <div className="order-type row-sb-c">
-            <button>Pick-Up</button>
-            <button>Delivery</button>
+            <button
+              className={orderType === "PICK_UP" ? "order-type-active" : undefined}
+              onClick={() => {
+                dispatch(setOrder(["setOrderType", "PICK_UP"]));
+              }}
+            >
+              Pick-Up
+            </button>
+            <button
+              className={orderType === "DELIVERY" ? "order-type-active" : undefined}
+              onClick={() => {
+                dispatch(setOrder(["setOrderType", "DELIVERY"]));
+              }}
+            >
+              Delivery
+            </button>
           </div>
-          <div className="address input-info row-c-c">
-            <input type="text" placeholder="Address" />
-          </div>
+          {/* DELIVERY */}
+          {orderType === "DELIVERY" && (
+            <div className="address input-info row-c-c">
+              <input type="text" placeholder="Address" />
+            </div>
+          )}
+          {/* WAIT TIME */}
           <div className="wait-time input-info row-c-c">
-            <input type="text" placeholder="Wait Time" />
+            <button
+              onClick={() => {
+                dispatch(setInstances(["setWaitTimeOn", true]));
+              }}
+            >
+              {waitTime.displayName ? waitTime.displayName : "Select Wait Time"}
+            </button>
           </div>
+          {waitTimeOn && (
+            <>
+              <BackgroundExit
+                exitPage={() => {
+                  dispatch(setInstances(["setWaitTimeOn", false]));
+                }}
+              />
+              <div className="wait-time-modal col-c-c">
+                <div className="wait-time-content">
+                  <div className="order-time-header row-sb-c">
+                    <h2>Wait Times</h2>
+                    <div className="order-time-options row-se-c">
+                      <button
+                        className={!isScheduledOrder ? "option-active wait-time-option" : "wait-time-option"}
+                        onClick={() => {
+                          dispatch(setOrder(["setIsScheduledOrder", false]));
+                        }}
+                      >
+                        Wait Time
+                      </button>
+                      <button
+                        className={
+                          isScheduledOrder ? "option-active schedule-time-option" : "schedule-time-option"
+                        }
+                        onClick={() => {
+                          dispatch(setOrder(["setIsScheduledOrder", true]));
+                        }}
+                      >
+                        Schedule
+                      </button>
+                    </div>
+                  </div>
+                  {/* Scheduled Order */}
+                  {isScheduledOrder ? (
+                    <div className="scheduled-order col-c-c">
+                      <label className="col-c-c">
+                        <span>Date</span>
+                        <input type="date" placeholder="YYYY-MM-DD" />
+                      </label>
+                      <label className="col-c-c">
+                        <span>Time</span>
+                        <input type="time" placeholder="HH-MM-PM" />
+                      </label>
+                    </div>
+                  ) : (
+                    // Wait Times
+                    <div className="wait-times col-c-c">
+                      {[
+                        "10 Minutes",
+                        "20 Minutes",
+                        "30 Minutes",
+                        "40 Minutes",
+                        "50 Minutes",
+                        "60 Minutes",
+                        "70 Minutes",
+                      ].map((option) => (
+                        <div
+                          className="time-option row-c-c"
+                          onClick={() => {
+                            dispatch(setOrder(["setWaitTime", option]));
+                          }}
+                        >
+                          {option}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <button className="wait-time-save">Save</button>
+                </div>
+              </div>
+            </>
+          )}
+          {/* NOTES */}
           <div className="notes input-info row-c-c">
             <textarea type="textarea" placeholder="Notes" />
           </div>
+          {/* PRINT RECEIPT */}
           <button className="print">Print Receipt</button>
         </div>
 

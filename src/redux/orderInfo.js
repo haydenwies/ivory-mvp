@@ -8,11 +8,13 @@ export const orderInfoSlice = createSlice({
       phoneNumber: "",
       time: "",
       date: "", //YYYY-MM-DD
-      orderType: "DELIVERY",
+      orderType: "PICK_UP",
       deliveryAddress: "",
       deliveryFee: (0.0).toFixed(2),
       orderTime: "",
-      waitTime: "",
+      isScheduledOrder: false,
+      scheduledTime: { date: "", time: "" },
+      waitTime: { displayName: "", units: "", magnitude: 0 },
       finishTime: "",
       paid: false,
       note: "",
@@ -88,11 +90,31 @@ export const orderInfoSlice = createSlice({
         case "setPhoneNumber":
           order.phoneNumber = value;
           break;
+        // ---------------- Set Order Type---------------- //
+        case "setOrderType":
+          order.orderType = value;
+          break;
+        // ---------------- Set isScheduled Order---------------- //
+        case "setIsScheduledOrder":
+          order.isScheduledOrder = value;
+          break;
+        // ---------------- Set Wait Time---------------- //
+        case "setWaitTime":
+          order.waitTime = value;
+          console.log(value);
+          break;
+        // ---------------- Set Finish Time---------------- //
+        case "setFinishTime":
+          if (order.isScheduledOrder) {
+            order.finishTime = value;
+          } else {
+            //Peform data/time calculations to determine finish time.
+          }
+          break;
         // ---------------- Set Subtotal ---------------- //
         case "setSubTotal":
           order.subTotal = value;
           break;
-
         // ---------------- Set Before Tax Discount ---------------- //
 
         case "setBeforeTaxDiscount":

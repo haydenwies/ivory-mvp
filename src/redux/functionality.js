@@ -10,6 +10,7 @@ export const functionalitySlice = createSlice({
         navOn: false,
         customerInfoOn: false,
         categoryType: "",
+        waitTimeOn: false,
       },
     ],
   },
@@ -28,6 +29,9 @@ export const functionalitySlice = createSlice({
           break;
         case "setCategoryType":
           instance.categoryType = value;
+          break;
+        case "setWaitTimeOn":
+          instance.waitTimeOn = value;
           break;
       }
     },

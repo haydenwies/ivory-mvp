@@ -33,6 +33,9 @@ h5,
 h6 {
   font-weight: var(--normalBold);
 }
+.option-active{
+  color:#20b68a !important;
+}
 input {
   color: var(--textTheme);
   border: none;
