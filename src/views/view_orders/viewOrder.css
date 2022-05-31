@@ -145,6 +145,10 @@
 .full-receipt-on {
   background-color: #20b98a;
 }
+
+.full-receipt-on::before {
+  transform: translate(120%, -50%);
+}
 /* ---------------------------- Display Options Modal ---------------------------- */
 .display-options-modal {
   position: absolute;
@@ -178,7 +182,8 @@
 }
 .receipt-card {
   background-color: #1e202c;
-  box-shadow: inset rgba(255, 255, 255, 0.5) 0px 0px 2px, rgba(255, 255, 255, 0.5) 0px 0px 6px;
+  /* box-shadow: inset rgba(255, 255, 255, 0.5) 0px 0px 2px, rgba(255, 255, 255, 0.5) 0px 0px 6px; */
+  box-shadow: rgb(0 0 0 / 16%) 0px 3px 6px, rgb(0 0 0 / 23%) 0px 3px 6px;
   width: 100%;
   height: 100%;
   border-radius: 1rem;
