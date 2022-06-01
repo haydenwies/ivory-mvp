@@ -1,0 +1,17 @@
+/* ----------------------------- Note ----------------------------- */
+.input-info textarea {
+  background: none;
+  border: none;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+
+  /* box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px; */
+  padding: 0.8rem 0;
+  width: var(--customer-info-content-width);
+  margin: auto;
+  text-align: center;
+  font-size: 1.5rem;
+  resize: none;
+}
+textarea:focus {
+  outline: none;
+}

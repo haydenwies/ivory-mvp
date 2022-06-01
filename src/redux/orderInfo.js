@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { calculateFinishTime } from "../utils/dateFormat";
 
 export const orderInfoSlice = createSlice({
   name: "orderInfo",
@@ -24,7 +25,7 @@ export const orderInfoSlice = createSlice({
       beforeTaxDiscount: (0.0).toFixed(2),
       tax: (0.0).toFixed(2),
       afterTaxDiscount: (0.0).toFixed(2),
-      grandTotal: (0.0).toFixed(2),
+      total: (0.0).toFixed(2),
       paymentMethod: "",
       printed: false,
     },
@@ -33,6 +34,13 @@ export const orderInfoSlice = createSlice({
       isDiscountAfterTax: false,
       isDeliveryBeforeTax: false,
       isDeliveryAfterTax: true,
+      printers: [{ name: "", ip: "" }],
+      printerOptions: [
+        { name: "No Print", ip: "192.168.0.1" },
+        { name: "Kitchen Printer", ip: "192.168.0.14" },
+        { name: "Cashier Printer", ip: "192.168.0.28" },
+      ],
+      numOfPrinters: 2,
     },
   },
   reducers: {
@@ -51,6 +59,10 @@ export const orderInfoSlice = createSlice({
           break;
         case "setIsDeliveryAfterTax":
           orderOptions.isDeliveryAfterTax = value;
+          break;
+        case "setPrinter":
+          orderOptions.printers[value.index] = { name: value.name, ip: value.ip };
+          console.log(orderOptions.printers[value.index]);
           break;
       }
     },
@@ -94,22 +106,52 @@ export const orderInfoSlice = createSlice({
         case "setOrderType":
           order.orderType = value;
           break;
+        // ---------------- Set Delivery Address---------------- //
+        case "setDeliveryAddress":
+          order.deliveryAddress = value;
+          break;
         // ---------------- Set isScheduled Order---------------- //
         case "setIsScheduledOrder":
           order.isScheduledOrder = value;
           break;
+        // ---------------- Set isScheduled Order---------------- //
+        case "setScheduledTime":
+          if (value[0] === "TIME") {
+            let hourFormat = parseFloat(value[1].slice(0, 2));
+            hourFormat = hourFormat % 12 === 0 ? "12" : `${hourFormat % 12}`;
+            let meridian = parseFloat(value[1].slice(0, 2)) >= 12 ? "PM" : "AM";
+            let minutes = value[1].slice(2);
+
+            order.scheduledTime.time = `${hourFormat + minutes} ${meridian}`;
+          } else if (value[0] === "DATE") {
+            order.scheduledTime.date = value[1];
+          }
+          console.log(order.scheduledTime.time, order.scheduledTime.date);
+          break;
         // ---------------- Set Wait Time---------------- //
         case "setWaitTime":
           order.waitTime = value;
-          console.log(value);
+          console.log(order.waitTime);
           break;
         // ---------------- Set Finish Time---------------- //
         case "setFinishTime":
           if (order.isScheduledOrder) {
-            order.finishTime = value;
+            order.finishTime = order.scheduledTime;
           } else {
-            //Peform data/time calculations to determine finish time.
+            order.finishTime = calculateFinishTime(order.waitTime.magnitude);
           }
+          break;
+        // ---------------- Set Payment Method---------------- //
+        case "setPaymentMethod":
+          if (order.paymentMethod === value) {
+            order.paymentMethod = "";
+          } else {
+            order.paymentMethod = value;
+          }
+          break;
+        // ---------------- Set Notes---------------- //
+        case "setNote":
+          order.note = value;
           break;
         // ---------------- Set Subtotal ---------------- //
         case "setSubTotal":
@@ -131,14 +173,14 @@ export const orderInfoSlice = createSlice({
           order.afterTaxDiscount = value;
           break;
 
-        // ---------------- Set Grand Total---------------- //
-        case "setGrandTotal":
-          order.grandTotal = value;
+        // ---------------- Set Total---------------- //
+        case "setTotal":
+          order.total = value;
           break;
       }
     },
   },
 });
 
-export const { setOrder } = orderInfoSlice.actions;
+export const { setOrder, setOrderOptions } = orderInfoSlice.actions;
 export default orderInfoSlice.reducer;

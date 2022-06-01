@@ -15,7 +15,7 @@ function Receipt() {
     tax,
     beforeTaxDiscount,
     afterTaxDiscount,
-    grandTotal,
+    total,
     paymentMethod,
     orderType,
     deliveryFee,
@@ -26,10 +26,10 @@ function Receipt() {
 
   const getTotal = () => {
     new Totals(items, false, false, "after tax", "after tax", 0.1, 6.0, 0.13);
-    const { subTotal, tax, grandTotal, discount } = Totals.getTotals();
+    const { subTotal, tax, total, discount } = Totals.getTotals();
     dispatch(setOrder(["setSubTotal", subTotal]));
     dispatch(setOrder(["setTax", tax]));
-    dispatch(setOrder(["setGrandTotal", grandTotal]));
+    dispatch(setOrder(["setTotal", total]));
   };
 
   // Moves receipt scroll position to the bottom of the page.
@@ -135,7 +135,7 @@ function Receipt() {
             )}
             <div className="grand-total row-sb-c total-container">
               <h6 className="price-label">Grand-Total:</h6>
-              <h6 className="price-amount">${grandTotal}</h6>
+              <h6 className="price-amount">${total}</h6>
             </div>
           </div>
           {/* ----------------------------- Options ----------------------------- */}

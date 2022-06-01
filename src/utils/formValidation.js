@@ -5,7 +5,7 @@ const numbersOnly = (charInput) => {
 };
 
 const formatPhoneNumber = (input) => {
-  let numbersOnlyInput = input.replace(/-/g, "");
+  let numbersOnlyInput = numbersOnlyPhoneNum(input);
 
   //Formats the phone number with dashes.
   if (numbersOnlyInput.length >= 7) {
@@ -17,4 +17,7 @@ const formatPhoneNumber = (input) => {
   }
 };
 
-export { numbersOnly, formatPhoneNumber };
+const numbersOnlyPhoneNum = (dashedPhoneNum) => {
+  return dashedPhoneNum.replace(/-/g, "");
+};
+export { numbersOnly, formatPhoneNumber, numbersOnlyPhoneNum };

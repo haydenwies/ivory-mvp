@@ -8,7 +8,7 @@ export class Totals {
   static subTotal = 0.0;
   static tax = 0.0;
   static discount = 0.0;
-  static grandTotal = 0.0;
+  static total = 0.0;
 
   constructor(
     items,
@@ -77,11 +77,11 @@ export class Totals {
   static getGrandTotal() {
     let { subTotal, tax, discount, discountOn, deliveryFee, deliveryOn, deliveryType } = Totals;
     if (discountOn) {
-      return (Totals.grandTotal = subTotal + tax - discount);
+      return (Totals.total = subTotal + tax - discount);
     } else if (deliveryOn && deliveryType === "after tax") {
-      return (Totals.grandTotal = subTotal + tax + deliveryFee);
+      return (Totals.total = subTotal + tax + deliveryFee);
     } else {
-      return (Totals.grandTotal = subTotal + tax);
+      return (Totals.total = subTotal + tax);
     }
   }
 
@@ -90,12 +90,12 @@ export class Totals {
     Totals.getTax();
     Totals.getDiscount();
     Totals.getGrandTotal();
-    let { subTotal, tax, discount, grandTotal } = Totals;
+    let { subTotal, tax, discount, total } = Totals;
     return {
       subTotal: subTotal.toFixed(2),
       tax: tax.toFixed(2),
       discount: discount.toFixed(2),
-      grandTotal: grandTotal.toFixed(2),
+      total: total.toFixed(2),
     };
   }
 }

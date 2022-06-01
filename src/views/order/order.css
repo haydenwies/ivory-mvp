@@ -1,20 +1,24 @@
 /* ---------------------------- Order Custom Variables ---------------------------- */
-:root{
-
+:root {
+  --receipt-min-width: 300px;
+  --order-min-width: 700px;
 }
 /* ---------------------------- Order Container ---------------------------- */
 .order {
   display: grid;
   grid-template-columns: 1fr 3fr;
-  height:100vh;
+  height: 100vh;
 }
 /* ---------------------------- Receipt ---------------------------- */
-.receipt-section{
-  overflow:hidden;
-  scrollbar-width:none;
+.receipt-section {
+  overflow: hidden;
+  scrollbar-width: none;
+  width:100%;
+  min-width: var(--receipt-width);
 }
 
 /* ---------------------------- Items ---------------------------- */
-.items-section{
-    /* border:solid 1px white; */
+.items-section {
+  /* border:solid 1px white; */
+  min-width: var(--order-width);
 }
