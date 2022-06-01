@@ -46,6 +46,10 @@
 .receipt-item-content h2 {
   font-size: 1.2rem;
 }
+.delete-icon{
+  width:30px;
+  height:30px;
+}
 .receipt-item img {
   width: var(--item-delete);
 }

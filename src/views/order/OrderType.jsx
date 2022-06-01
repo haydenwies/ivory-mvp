@@ -29,11 +29,21 @@ function OrderType() {
         </button>
         {/* ADDRESS */}
       </div>
-      {orderType === "DELIVERY" && (
+      {/* {orderType === "DELIVERY" && (
         <div className="address input-info row-c-c">
-          <input type="text" placeholder="Address" value={deliveryAddress} onChange={(e)=>{dispatch(setOrder(["setDeliveryAddress", e.target.value]))}} />
+          <input
+            type="text"
+            placeholder="Address"
+            value={deliveryAddress}
+            onChange={(e) => {
+              dispatch(setOrder(["setDeliveryAddress", e.target.value]));
+            }}
+          />
+          <div className="delivery-options">
+            <button>Broadway</button>
+          </div>
         </div>
-      )}
+      )} */}
     </>
   );
 }

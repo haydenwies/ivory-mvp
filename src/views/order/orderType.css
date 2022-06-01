@@ -1,22 +1,30 @@
 /* ----------------------------- Order Type ----------------------------- */
 .order-type {
-    width: var(--customer-info-content-width);
-  }
-  .order-type button {
-    padding: 0.5rem 3rem;
-    font-size: var(--customer-info-btn);
-    border-radius: 0.7rem;
-    margin: 0 1rem;
-    box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
-  }
-  .order-type-active {
-    /* background-color: #3968ff; */
-    border: 3px solid #20b68a;
-    box-shadow: none !important;
-  }
-  .customer-info-input {
-    width: 100%;
-    height: 100%;
-    background-color: #121421;
-    /* box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px; */
-  }
+  width: var(--customer-info-content-width);
+}
+.order-type button {
+  padding: 0.5rem 3rem;
+  font-size: var(--customer-info-btn);
+  border-radius: 0.7rem;
+  margin: 0 1rem;
+  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
+}
+.order-type-active {
+  /* background-color: #3968ff; */
+  border: 3px solid #20b68a;
+  box-shadow: none !important;
+}
+.customer-info-input {
+  width: 100%;
+  height: 100%;
+  background-color: #121421;
+  /* box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px; */
+}
+.address {
+  position: relative;
+}
+.delivery-options {
+  position: absolute;
+  width:70%;
+  background-color:#0c0d12;
+}

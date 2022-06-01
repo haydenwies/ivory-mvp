@@ -21,3 +21,7 @@ const numbersOnlyPhoneNum = (dashedPhoneNum) => {
   return dashedPhoneNum.replace(/-/g, "");
 };
 export { numbersOnly, formatPhoneNumber, numbersOnlyPhoneNum };
+
+const formatTime = (input)=>{
+  let numbersOnlyInput = input.replace(/:/, "");
+}

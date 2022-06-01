@@ -14,7 +14,7 @@ export const orderInfoSlice = createSlice({
       deliveryFee: (0.0).toFixed(2),
       orderTime: "",
       isScheduledOrder: false,
-      scheduledTime: { date: "", time: "" },
+      scheduledTime: { date: "", time: "", hours: "", minutes: "", meridian: "PM" },
       waitTime: { displayName: "", units: "", magnitude: 0 },
       finishTime: "",
       paid: false,
@@ -34,13 +34,13 @@ export const orderInfoSlice = createSlice({
       isDiscountAfterTax: false,
       isDeliveryBeforeTax: false,
       isDeliveryAfterTax: true,
-      printers: [{ name: "", ip: "" }],
+      printers: Array(3).fill({ name: "No Printer", ip: "192.168.0.1" }),
+      printerToggles: Array(3).fill(false),
       printerOptions: [
-        { name: "No Print", ip: "192.168.0.1" },
+        { name: "No Printer", ip: "192.168.0.1" },
         { name: "Kitchen Printer", ip: "192.168.0.14" },
         { name: "Cashier Printer", ip: "192.168.0.28" },
       ],
-      numOfPrinters: 2,
     },
   },
   reducers: {
@@ -62,7 +62,10 @@ export const orderInfoSlice = createSlice({
           break;
         case "setPrinter":
           orderOptions.printers[value.index] = { name: value.name, ip: value.ip };
-          console.log(orderOptions.printers[value.index]);
+          break;
+        case "setPrinterToggles":
+          orderOptions.printerToggles = Array(orderOptions.printerToggles.length).fill(false);
+          orderOptions.printerToggles[value.index] = value.isOn;
           break;
       }
     },
@@ -114,19 +117,28 @@ export const orderInfoSlice = createSlice({
         case "setIsScheduledOrder":
           order.isScheduledOrder = value;
           break;
-        // ---------------- Set isScheduled Order---------------- //
+        // ---------------- Set Scheduled Date---------------- //
+        case "setScheduledDate":
+          order.scheduledTime.date = value;
+          console.log(value);
+          break;
+        // ---------------- Set Scheduled Time---------------- //
         case "setScheduledTime":
-          if (value[0] === "TIME") {
-            let hourFormat = parseFloat(value[1].slice(0, 2));
-            hourFormat = hourFormat % 12 === 0 ? "12" : `${hourFormat % 12}`;
-            let meridian = parseFloat(value[1].slice(0, 2)) >= 12 ? "PM" : "AM";
-            let minutes = value[1].slice(2);
-
-            order.scheduledTime.time = `${hourFormat + minutes} ${meridian}`;
-          } else if (value[0] === "DATE") {
-            order.scheduledTime.date = value[1];
-          }
-          console.log(order.scheduledTime.time, order.scheduledTime.date);
+          order.scheduledTime.time = value;
+          console.log(value);
+          break;
+        // ---------------- Set Scheduled Hours---------------- //
+        case "setScheduledHours":
+          order.scheduledTime.hours = value;
+          break;
+        // ---------------- Set Scheduled Minutes---------------- //
+        case "setScheduledMinutes":
+          order.scheduledTime.minutes = value;
+          break;
+        // ---------------- Set Scheduled Meridian---------------- //
+        case "setScheduledMeridian":
+          console.log(value);
+          order.scheduledTime.meridian = value;
           break;
         // ---------------- Set Wait Time---------------- //
         case "setWaitTime":

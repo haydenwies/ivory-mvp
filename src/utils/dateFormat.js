@@ -45,7 +45,7 @@ const getDate = (idFormat) => {
   if (idFormat) {
     return `${today.getFullYear()}${month}${day}`; //Gets current date
   }
-  return `${today.getFullYear()}/${today.getMonth() + 1}/${today.getDate()}`; //Gets current date
+  return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`; //Gets current date
 };
 export { calculateFinishTime, getDate, getTime, getSeconds };
 

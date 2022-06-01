@@ -7,7 +7,7 @@
 .customer-info {
   row-gap: 1rem;
   height: 98%;
-  width:95%;
+  width: 95%;
   margin: auto;
   display: grid;
   grid-template-columns: 3fr 1fr;
@@ -38,31 +38,6 @@ h1 {
   border: 2px solid rgba(255, 255, 255, 0.5);
   box-shadow: none;
 }
-
-/* ----------------------------- Print Options ----------------------------- */
-.print {
-  background-color: #20b68a;
-  width: var(--customer-info-content-width);
-  padding: 1rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 1.5rem;
-}
-.printer {
-  margin: 1rem 0;
-}
-.printer select {
-  background-color: #121421;
-  border: 1px solid white;
-  border-radius: 0.3rem;
-  padding: 0.5rem 1rem;
-}
-.print-options {
-  height: 100%;
-  min-width: 300px;
-  background-color: #141418;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  /* box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px; */
-}
 .exit-customer-info {
   position: absolute;
   top: 0;
@@ -71,4 +46,11 @@ h1 {
   height: 50px;
   background-color: crimson;
   z-index: 0;
+}
+.print {
+  background-color: #20b68a;
+  width: var(--customer-info-content-width);
+  padding:1rem 0;
+  border-radius: .5rem;
+  font-size: 1.2rem;
 }

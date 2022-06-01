@@ -1,6 +1,6 @@
 /* ---------------------------- Order Custom Variables ---------------------------- */
 :root {
-  --receipt-min-width: 300px;
+  --receipt-min-width: 350px;
   --order-min-width: 700px;
 }
 /* ---------------------------- Order Container ---------------------------- */
@@ -14,7 +14,7 @@
   overflow: hidden;
   scrollbar-width: none;
   width:100%;
-  min-width: var(--receipt-width);
+  min-width: var(--receipt-min-width);
 }
 
 /* ---------------------------- Items ---------------------------- */

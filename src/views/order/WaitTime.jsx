@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setOrder } from "../../redux/orderInfo";
 import BackgroundExit from "../../components/backgroundExit/BackgroundExit";
@@ -6,10 +6,12 @@ import { setInstances } from "../../redux/functionality";
 import "./waitTime.css";
 
 function WaitTime() {
-  const { waitTime, isScheduledOrder } = useSelector(({ orderInfo }) => orderInfo.order);
+  const { waitTime, isScheduledOrder, scheduledTime } = useSelector(({ orderInfo }) => orderInfo.order);
   const { waitTimeOn } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
+  const hourRef = useRef();
+  const minuteRef = useRef();
   const dispatch = useDispatch();
   return (
     <>
@@ -19,7 +21,11 @@ function WaitTime() {
             dispatch(setInstances(["setWaitTimeOn", true]));
           }}
         >
-          {waitTime.displayName ? waitTime.displayName : "Select Wait Time"}
+          {!isScheduledOrder && (waitTime.displayName ? waitTime.displayName : "Select Wait Time")}
+          {isScheduledOrder &&
+            (scheduledTime.hours && scheduledTime.minutes
+              ? `${scheduledTime.hours} : ${scheduledTime.minutes} ${scheduledTime.meridian}`
+              : "Select Wait Time")}
         </button>
       </div>
       {waitTimeOn && (
@@ -57,30 +63,63 @@ function WaitTime() {
               {/* Scheduled Order */}
               {isScheduledOrder ? (
                 <div className="scheduled-order col-c-c">
-                  <label className="col-c-c">
+                  <div className="scheduled-date col-c-c">
                     <span>Date</span>
                     <input
+                      className="scheduled-date-input"
                       type="date"
                       placeholder="YYYY-MM-DD"
+                      value={scheduledTime.date}
                       onChange={(e) => {
-                        dispatch(() => {
-                          dispatch(setOrder(["setScheduledTime", ["DATE", e.target.value]]));
-                        });
+                        dispatch(setOrder(["setScheduledDate", e.target.value]));
                       }}
                     />
-                  </label>
-                  <label className="col-c-c">
+                  </div>
+                  <div className="scheduled-time col-c-c">
                     <span>Time</span>
-                    <input
-                      type="time"
-                      placeholder="HH-MM-PM"
-                      onChange={(e) => {
-                        dispatch(() => {
-                          dispatch(setOrder(["setScheduledTime", ["TIME", e.target.value]]));
-                        });
-                      }}
-                    />
-                  </label>
+                    <div className="time-container">
+                      <input
+                        type="input"
+                        className="scheduled-hours-input row-c-c"
+                        value={scheduledTime.hours}
+                        placeholder="00"
+                        onChange={(e) => {
+                          dispatch(setOrder(["setScheduledHours", e.target.value]));
+                        }}
+                      />
+                      <div className="time-colon col-c-c">
+                        <div className="dot1"></div>
+                        <div className="dot2"></div>
+                      </div>
+                      <input
+                        type="input"
+                        className="scheduled-minutes-input row-c-c"
+                        placeholder="00"
+                        value={scheduledTime.minutes}
+                        onChange={(e) => {
+                          dispatch(setOrder(["setScheduledMinutes", e.target.value]));
+                        }}
+                      />
+                    </div>
+                    <div className="meridian-container row-c-c">
+                      <button
+                        onClick={() => {
+                          dispatch(setOrder(["setScheduledMeridian", "AM"]));
+                        }}
+                        className={scheduledTime.meridian === "AM" ? "meridian-active" : undefined}
+                      >
+                        AM
+                      </button>
+                      <button
+                        onClick={() => {
+                          dispatch(setOrder(["setScheduledMeridian", "PM"]));
+                        }}
+                        className={scheduledTime.meridian === "PM" ? "meridian-active" : undefined}
+                      >
+                        PM
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 // Wait Times

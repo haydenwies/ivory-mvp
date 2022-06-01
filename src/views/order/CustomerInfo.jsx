@@ -15,12 +15,12 @@ import OrderType from "./OrderType";
 import Notes from "./Notes";
 import { numbersOnlyPhoneNum } from "../../utils/formValidation";
 import { setOrderOptions } from "../../redux/orderInfo";
+import PrinterOptions from "./PrinterOptions";
 // import {firestore} from "./firebaseInit";
 // import {addDoc, setDoc, doc, collectio} from "firebase/firestore";
 function CustomerInfo() {
   const dispatch = useDispatch();
   const { order, orderOptions } = useSelector(({ orderInfo }) => orderInfo);
-  const { printers, printerOptions, numOfPrinters } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
   const { phoneNumber } = useSelector(({ orderInfo }) => orderInfo.order);
   /* ----------------------------- Methods ----------------------------- */
   const printOrder = async () => {
@@ -42,8 +42,9 @@ function CustomerInfo() {
       printers: finalizedOrderOptions.printers,
       id: finalizedOrder.id,
     };
-    // await addDoc(ordersRef, finalizedOrder);
-    // await addDoc(printQueRef, printInfo);
+
+    await addDoc(ordersRef, finalizedOrder);
+    await addDoc(printQueRef, printInfo);
   };
 
   return (
@@ -80,44 +81,7 @@ function CustomerInfo() {
         </div>
 
         {/* ----------------------------- Print Options ----------------------------- */}
-        <div className="print-options col-sa-c">
-          <div className="printer-option col-c-c">
-            <h4>Printer Option</h4>
-            <div className="printer col-c-c">
-              {Array.from(Array(1)).map((undefined, optionKey) => (
-                <label key={optionKey}>
-                  <select name="Printer-Options" onChange={() => {}}>
-                    {printerOptions.map((printer, key) => (
-                      <option
-                        key={key}
-                        value={printer.ip}
-                        selected={printer.name === "Kitchen Printer"}
-                        onClick={(e) => {
-                          dispatch(
-                            setOrderOptions([
-                              "setPrinter",
-                              { index: optionKey, name: printer.name, ip: printer.ip },
-                            ])
-                          );
-                        }}
-                      >
-                        {printer.name}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              ))}
-            </div>
-          </div>
-          <div className="reprint-order">
-            <h4>Reprint Order</h4>
-            <img src="" alt="" />
-          </div>
-          <div className="save-order">
-            <h4>Save Order</h4>
-            <img src="" alt="" />
-          </div>
-        </div>
+        <PrinterOptions />
       </div>
     </>
   );
