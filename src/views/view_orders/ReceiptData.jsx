@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Info, Search } from "../../Assets/Images";
+import { Search , XIcon } from "../../Assets/Images";
 import { db } from "../../firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import "./viewOrder.css";
@@ -17,13 +17,33 @@ function Receipts() {
   const [data, setData] = useState();
 
   const onToggleModal = (e) => {
-      if (modalType === e.target.innerHTML && showModal === true) {
-        setShowModal(false)
-      } else {
-        setModalType(e.target.innerHTML);
-        setShowModal(true)
-      };
+    if (e.target.alt === "Close modal") {
+      setShowModal(false)
+    } else if (modalType === e.target.innerHTML && showModal === true) {
+      setShowModal(false)
+    } else {
+      setModalType(e.target.innerHTML);
+      setShowModal(true)
+    };
   };
+
+  const onModalClick = (e) => {
+    e.preventDefault();
+    if (modalType === "Filter") {
+      // Handle different filter outcomes
+
+    } else if (modalType === "Sort") {
+      // Handle sort outcomes
+      // Retrieve method of sort from innerHTML (ex. "time") and make compatible with database conventions
+      const method = e.target.innerHTML.toLowerCase()
+      // Sort and return data
+      setData(data.sort((a, b) => {
+        return a[method].localeCompare(b[method])
+      }))
+    }
+    // Close modal to update view
+    setShowModal(false)
+  }
 
   const onToggleFullReceipt = (e) => {
     e.preventDefault();
@@ -48,7 +68,7 @@ function Receipts() {
 
     getData();
     
-  }, []);
+  }, [date]);
 
   return (
     <div className="receipt-data">
@@ -75,10 +95,21 @@ function Receipts() {
         {/* ---------- Options Modal ---------- */}
         {showModal && (
           <div className="display-options-modal col-c-fs">
+            <button 
+              className="display-close"
+              onClick={onToggleModal}
+            >
+              <img src={XIcon} alt="Close modal" />
+            </button>
             <h2>{modalType} Options</h2>
-            {["Time", "Date", "Name"].map((property) => (
+            {["Time", "Name"].map((property) => (
               <div key={property}>
-                <button className="display-option">{property}</button>
+                <button 
+                  className="display-option"
+                  onClick={onModalClick}
+                >
+                  {property}
+                </button>
               </div>
             ))}
           </div>

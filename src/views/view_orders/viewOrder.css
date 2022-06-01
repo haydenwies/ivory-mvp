@@ -152,20 +152,27 @@
 /* ---------------------------- Display Options Modal ---------------------------- */
 .display-options-modal {
   position: absolute;
-  bottom: -320px;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  bottom: -230px;
   right: 0;
-  width:clamp(200px, 40vw + 220px, 450px);
-  height: 300px;
+  width: clamp(300px, 30vw, 350px);
+  height: auto;
   background-color: #121421;
   border:solid 1px white;
   row-gap: 2rem;
 }
 .display-options-modal h2 {
-    padding-left:4rem;
+    padding-left:3.5rem;
 }
 .display-option{
     padding-left:4rem;
     text-align: left;
+}
+.display-close {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
 }
 /* ---------------------------- Receipts ---------------------------- */
 .receipts {
