@@ -1,7 +1,55 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { Info, Search } from "../../Assets/Images";
+import { db } from "../../firebase/config";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import "./viewOrder.css";
 function Receipts() {
+  // Modal data
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("");
+
+  // Show full receipt toggle data
+  const [showFullReceipt, setShowFullReceipt] = useState(false);
+
+  // Receipt fetch data
+  const timezone = "America/Toronto";
+  const date = new Date().toLocaleString('sv', {timeZone: timezone}).slice(0, 10);
+  const [data, setData] = useState();
+
+  const onToggleModal = (e) => {
+      if (modalType === e.target.innerHTML && showModal === true) {
+        setShowModal(false)
+      } else {
+        setModalType(e.target.innerHTML);
+        setShowModal(true)
+      };
+  };
+
+  const onToggleFullReceipt = (e) => {
+    e.preventDefault();
+    setShowFullReceipt(!showFullReceipt);
+  };
+
+  // Fetch data when the page loads
+  useEffect(() => {
+
+    const getData = async () => {
+      // Get documents with correct date
+      const q = query(collection(db, "orders"), where("date", "==", date));
+      const snapshot = await getDocs(q);
+      // Loop through data and add to array
+      const docs = []
+      snapshot.forEach((doc) => {
+        docs.push(doc.data())
+      });
+      // Set data as array once loop finishes
+      setData(docs);
+    };
+
+    getData();
+    
+  }, []);
+
   return (
     <div className="receipt-data">
       {/* ----------------------------- Display Receipt Options ----------------------------- */}
@@ -12,38 +60,42 @@ function Receipts() {
         <div className="display-options row-fe-c">
           <div className="row-sb-c full-receipt">
             <h5>Full Receipt</h5>
-            <button className={true ? "full-receipt-btn full-receipt-on" : "full-receipt-btn"}></button>
+            <button 
+              className={showFullReceipt ? "full-receipt-btn full-receipt-on" : "full-receipt-btn"}
+              onClick={onToggleFullReceipt}
+            />
           </div>
           <div className="sort">
-            <h5>Sort</h5>
+            <h5 onClick={onToggleModal}>Sort</h5>
           </div>
           <div className="filter">
-            <h5>Filter</h5>
+            <h5 onClick={onToggleModal}>Filter</h5>
           </div>
         </div>
-        {/* Options Modal */}
-        <div className="display-options-modal col-c-fs">
-          <h2>Sort Options</h2>
-          {["Time", "Date", "Name"].map((property) => (
-            <>
-              <button className="display-option">{property}</button>
-            </>
-          ))}
-        </div>
+        {/* ---------- Options Modal ---------- */}
+        {showModal && (
+          <div className="display-options-modal col-c-fs">
+            <h2>{modalType} Options</h2>
+            {["Time", "Date", "Name"].map((property) => (
+              <div key={property}>
+                <button className="display-option">{property}</button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       {/* ----------------------------- Receipts ----------------------------- */}
-      <div className="receipts">
+      {data && <div className="receipts">
         <div className="receipts-container">
-          {Array(50)
-            .fill("HELLO WORLD")
+          {data
             .map((doc, key) => (
               /* ----------------------------- Receipt Meta Data ----------------------------- */
               <div key={key} className="receipt-card">
                 {false && (
                   <div className="receipt-content">
-                    <h2>519-281-2313</h2>
-                    <h3>Kevin</h3>
-                    <h4>Pick Up</h4>
+                    <h2>{doc.phoneNumber}</h2>
+                    <h3>{doc.name}</h3>
+                    <h4>{doc.orderType}</h4>
                   </div>
                 )}
 
@@ -51,79 +103,88 @@ function Receipts() {
                 {true && (
                   <div className="receipt-content receipt-full-content col-c-fs">
                     <div className="receipt-title row-c-c">
-                      <h2>519-123-4567</h2>
+                      <h2>{doc.phoneNumber}</h2>
                     </div>
                     <div className="receipt-property row-sb-c">
                       <p>Paid:</p>
                       <p>
-                        <b>Paid</b>
+                        {doc.paid && (
+                          <b>TRUE</b>
+                        )}
+                        {!doc.paid && (
+                          <b>FALSE</b>
+                        )}
                       </p>
                     </div>
                     <div className="receipt-property row-sb-c">
                       <p>Name:</p>
                       <p>
-                        <b>Kevin</b>
+                        <b>{doc.name}</b>
                       </p>
                     </div>
                     <div className="receipt-property row-sb-c">
-                      <p>Pick-Up:</p>
+                      <p>Order Type:</p>
                       <p>
-                        <b>Kevin</b>
+                        <b>{doc.orderType}</b>
                       </p>
                     </div>
                     <div className="receipt-property row-sb-c">
                       <p>Order Time:</p>
                       <p>
-                        <b>Kevin</b>
+                        <b>{doc.time}</b>
                       </p>
                     </div>
                     <div className="receipt-property row-sb-c">
                       <p>Wait Time:</p>
                       <p>
-                        <b>Kevin</b>
+                        <b>{doc.waitTime.displayName}</b>
                       </p>
                     </div>
-                    <div className="items-property receipt-property col-c-fs">
-                      <p>Items:</p>
-                      <div className="items-container col-c-fe">
-                        {Array(6)
-                          .fill("Egg Rolls")
-                          .map((item, key) => (
-                            <div key={key} className="item-container row-sb-c">
-                              <p>
-                                <b>{item}</b>
-                              </p>
-                              <p>
-                                <b>${key}.00</b>
-                              </p>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Sub-Total:</p>
-                      <p>
-                        <b>Kevin</b>
-                      </p>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Taxes:</p>
-                      <p>
-                        <b>Kevin</b>
-                      </p>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Grand-Total:</p>
-                      <p>
-                        <b>Kevin</b>
-                      </p>
-                    </div>
+                    
+                    {showFullReceipt && (
+                      <>
+                        <div className="items-property receipt-property col-c-fs">
+                          <p>Items:</p>
+                          <div className="items-container col-c-fe">
+                            {doc.items
+                              .map((item, key) => (
+                                <div key={key} className="item-container row-sb-c">
+                                  <p>
+                                    <b>{item.name}</b>
+                                  </p>
+                                  <p>
+                                    <b>${item.price}</b>
+                                  </p>
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                        <div className="receipt-property row-sb-c">
+                          <p>Sub-Total:</p>
+                          <p>
+                            <b>{doc.subTotal}</b>
+                          </p>
+                        </div>
+                        <div className="receipt-property row-sb-c">
+                          <p>Taxes:</p>
+                          <p>
+                            <b>{doc.tax}</b>
+                          </p>
+                        </div>
+                        <div className="receipt-property row-sb-c">
+                          <p>Total:</p>
+                          <p>
+                            <b>{doc.total}</b>
+                          </p>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )}
               </div>
             ))}
         </div>
-      </div>
+      </div>}
     </div>
   );
 }
