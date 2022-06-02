@@ -10,10 +10,15 @@ import Settings from "./views/settings/Settings";
 import ViewOrders from "./views/view_orders/ViewOrders";
 import { useDispatch, useSelector } from "react-redux";
 import NavTab from "./components/navTab/NavTab";
+import { useEffect } from "react";
+import {setOrderManagement} from "./redux/orderInfo"
 function App() {
   // const { auth, user } = useAuthContext();
   const { navOn } = useSelector(({functionality}) => functionality.instances[functionality.indexInstance]);
-  // document.addEventListener("contextmenu", (e) => e.preventDefault());
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]))
+  },[])
   return (
     <div className="app">
       <BrowserRouter>

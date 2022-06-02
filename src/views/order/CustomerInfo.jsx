@@ -13,7 +13,7 @@ import PaymentMethod from "./PaymentMethod";
 import PhoneNumber from "./PhoneNumber";
 import OrderType from "./OrderType";
 import Notes from "./Notes";
-import { numbersOnlyPhoneNum } from "../../utils/formValidation";
+import { numbersOnlyPhoneNum } from "../../utils/customerInfoUtils";
 import { setOrderOptions } from "../../redux/orderInfo";
 import PrinterOptions from "./PrinterOptions";
 // import {firestore} from "./firebaseInit";
