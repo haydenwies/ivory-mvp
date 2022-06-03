@@ -24,7 +24,7 @@
   margin: 1em 0;
 }
 .selection-item {
-  background-color: #edbb51;
+  background-color: #f2d38f;
   color: black;
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
@@ -33,6 +33,9 @@
 .selection-item p {
   color: black;
   font-weight: 300;
+}
+.modifiable-item{
+  background-color: #78ce7a
 }
 /* ----------------------------- Category ----------------------------- */
 .category {

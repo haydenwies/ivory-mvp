@@ -3,19 +3,33 @@ import "./items.css";
 import { Trash, Info, Swap, Draw, Undo, Search, Elipse, Custom } from "../../Assets/Images";
 import { setInstances } from "../../redux/functionality";
 import { useDispatch, useSelector } from "react-redux";
-import { setOrder, setOrderManagement } from "../../redux/orderInfo";
+import { setOrder, setOrderManagement, setOrderOptions } from "../../redux/orderInfo";
 import { getDefaultState } from "../../utils/managementUtils";
 import CustomItem from "../order/CustomItem";
 import SearchItem from "../order/SearchItem";
+import EditItem from "../order/EditItem";
 function Items() {
   /* ----------------------------- State Variables ----------------------------- */
   const dispatch = useDispatch();
   const { order } = useSelector((state) => state.orderInfo);
-  const { menuItems, menuCategories } = useSelector((state) => state.menuData);
-  const { categoryType, customItemOn, searchItemOn } = useSelector(
+  const { items } = useSelector((state) => state.orderInfo.order);
+  const { editingItemIndex } = useSelector((state) => state.orderInfo.orderOptions);
+  const { menuItems, menuCategories, selectionItems } = useSelector((state) => state.menuData);
+  const { categoryType, customItemOn, searchItemOn, editItemOn } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
+  const handleAddItem = (item) => {
+    dispatch(setOrder(["ADD_ITEM", item]));
 
+    if (item.modifiable) {
+      let selectionIndex = selectionItems.findIndex((selection) => {
+        return selection.category === item.selectionCategory;
+      });
+      let selectionList =  selectionItems[selectionIndex].list;
+      dispatch(setOrderOptions(["setEditingItemIndex", [item, selectionList]]));
+      dispatch(setInstances(["setEditItemOn", true]));
+    }
+  };
   return (
     <div className="items">
       {/* ----------------------------- Selection Items ----------------------------- */}
@@ -25,15 +39,24 @@ function Items() {
           .map((item, key) => (
             <div
               key={key}
-              className="selection-item row-c-c"
+              className={
+                item.modifiable ? `modifiable-item selection-item row-c-c` : `selection-item row-c-c`
+              }
               onClick={() => {
-                dispatch(setOrder(["ADD_ITEM", item]));
+                handleAddItem(item);
               }}
             >
               <p>{item.name}</p>
             </div>
           ))}
       </div>
+
+      {/* ----------------------------- Edit Items ----------------------------- */}
+      {editItemOn && items[editingItemIndex] && (
+        <div className="edit-item-container">
+          <EditItem />
+        </div>
+      )}
 
       {/* ----------------------------- Item Categories ----------------------------- */}
       <div className="category">

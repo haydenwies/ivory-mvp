@@ -3,6 +3,58 @@ import { createSlice } from "@reduxjs/toolkit";
 const menuDataSlice = createSlice({
   name: "menuData",
   initialState: {
+    menuCategories: ["Family Dinners", "Sepcial Combo", "Fried Rice"],
+    selectionItems: [
+      {
+        category: "Family Dinners",
+        list: [
+          "Appetizers",
+          "Soups",
+          "Sweet & Sour",
+          "Chickens",
+          "Chow Mein",
+          "Fried Rice",
+          "Lo Mein",
+          "Vegetable Almond",
+          "Popular Suggestions",
+          "Chef Suggestions",
+          "Szechaun",
+          "Seafood",
+          "Honey & Curry",
+          "Egg Fu Young",
+          "Canadian Dishes",
+          "Family Dinners",
+          "Extra Sauce",
+          "Drinks",
+          "No Add",
+        ],
+      },
+      {
+        category: "combos",
+        list: [
+          "Special Combo",
+          "Appetizers",
+          "Soups",
+          "Sweet & Sour",
+          "Chickens",
+          "Chow Mein",
+          "Fried Rice",
+          "Lo Mein",
+          "Vegetable Almond",
+          "Popular Suggestions",
+          "Chef Suggestions",
+          "Szechaun",
+          "Seafood",
+          "Honey & Curry",
+          "Egg Fu Young",
+          "Canadian Dishes",
+          "Family Dinners",
+          "Extra Sauce",
+          "Drinks",
+          "No Add",
+        ],
+      },
+    ],
     menuItems: [
       {
         name: "Dinner for 5",
@@ -11,6 +63,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: ["Terriyaki Beef"],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "combos",
       },
       {
         name: "Noodles with the Sauce",
@@ -19,6 +74,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "None Yea",
@@ -27,6 +85,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "combo",
@@ -36,6 +97,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       // Appetizers
       {
@@ -46,6 +110,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Spring Roll",
@@ -55,6 +122,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Wings",
@@ -64,6 +134,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Almond Soo Guy",
@@ -73,6 +146,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Deep Fried Wontons",
@@ -82,6 +158,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Breaded Shrimp",
@@ -91,6 +170,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Breaded Scallops",
@@ -100,6 +182,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Teriyaki",
@@ -109,6 +194,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Teriyaki",
@@ -118,6 +206,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "B.B.Q Pork Slices",
@@ -127,6 +218,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "B.B.Q Pork Ribs",
@@ -136,6 +230,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: true,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bo Bo Tray For Two",
@@ -145,6 +242,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bo Bo Tray for Four",
@@ -154,6 +254,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       // Soups
       {
@@ -164,6 +267,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Wonton Soup (S)",
@@ -173,6 +279,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Hot and Sour Soup",
@@ -182,6 +291,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Noodle Soup",
@@ -191,6 +303,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Noodle Soup",
@@ -200,6 +315,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pork Noodle Soup",
@@ -209,6 +327,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Fine Noodle Soup",
@@ -218,6 +339,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Egg Flower Soup",
@@ -227,6 +351,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Consomme Soup",
@@ -236,6 +363,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Miso Soup",
@@ -245,6 +375,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Sweet and Sour
       {
@@ -255,6 +388,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pineapple Chicken Balls",
@@ -264,6 +400,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sweet and Sour Pork",
@@ -273,6 +412,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sweet and Sour Spare Ribs",
@@ -282,6 +424,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sweet and Sour Breaded Shrimp",
@@ -291,6 +436,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Deep Fried Wontons",
@@ -300,6 +448,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sweet and Sour Breaded Scallops",
@@ -309,6 +460,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sweet and Sour Beef",
@@ -318,6 +472,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Chow Mein & Chop Suey
       {
@@ -328,6 +485,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Chop Suey",
@@ -337,6 +497,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pork Chop Suey",
@@ -346,6 +509,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp Chop Suey",
@@ -355,6 +521,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Harmony Chop Suey",
@@ -364,6 +533,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
 
       {
@@ -374,6 +546,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Chow Mein",
@@ -383,6 +558,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pork Chow Mein",
@@ -392,6 +570,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp Chow Mein",
@@ -401,6 +582,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Harmony Chow Mein",
@@ -410,6 +594,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Vegetable Chop Suey",
@@ -419,6 +606,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Vegetable Chow Mein",
@@ -428,6 +618,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Honey Garlic
       {
@@ -438,6 +631,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Honey Garlic Chicken Wings",
@@ -447,6 +643,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Honey Garlic Wontons",
@@ -456,6 +655,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Honey Garlic Shrimps",
@@ -465,6 +667,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Fried Rices
       {
@@ -475,6 +680,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Fried Rice",
@@ -484,6 +692,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pork Fried Rice",
@@ -493,6 +704,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp Fried Rice",
@@ -502,6 +716,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Harmony Special Fried Rice",
@@ -511,6 +728,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Mushroom Fried Rice",
@@ -520,6 +740,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Vegetable Fried Rice",
@@ -529,6 +752,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Steamed Rice (s)",
@@ -538,6 +764,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Steamed Rice (L)",
@@ -547,6 +776,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Vegetable Almonds
 
@@ -558,6 +790,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Almond Beef Ding",
@@ -567,6 +802,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Almond B.B.Q Pork Ding",
@@ -576,6 +814,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Almond Shrimp Ding",
@@ -585,6 +826,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Stir Fried Mixed Vegetables Almond",
@@ -594,6 +838,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Lo-Mein
       {
@@ -604,6 +851,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Lo-Mein",
@@ -613,6 +863,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pork Lo-Mein",
@@ -622,6 +875,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp Lo-Mein",
@@ -631,6 +887,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Harmony Special Lo-Mein",
@@ -640,6 +899,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Cantonese Style Chow Mein",
@@ -649,6 +911,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Plain Lo-Mein",
@@ -658,6 +923,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Mixed Vegetable Lo-Mein",
@@ -667,6 +935,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Shanghai",
@@ -676,6 +947,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Shanghai",
@@ -685,6 +959,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Singapore Chow Mein",
@@ -694,6 +971,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Egg Fu Young
       {
@@ -704,6 +984,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Egg Fu Young",
@@ -713,6 +996,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "B.B.Q Pork Egg Fu Young",
@@ -722,6 +1008,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp Egg Fu Young",
@@ -731,6 +1020,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Mushroom Egg Fu Young",
@@ -740,6 +1032,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
 
       //Curry
@@ -751,6 +1046,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Curry Chicken with Vegetables",
@@ -760,6 +1058,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Curry Beef with Vegetables",
@@ -769,6 +1070,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Curry Shrimp with Vegetables",
@@ -778,6 +1082,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Curry Chicken Wings with Vegetables",
@@ -787,6 +1094,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Szechaun
       {
@@ -797,6 +1107,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Spicy Beef",
@@ -806,6 +1119,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Kung Po Chicken",
@@ -815,6 +1131,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Kung Po Beef",
@@ -824,6 +1143,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Kung Pao Shrimps",
@@ -833,6 +1155,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Szechuan Chicken",
@@ -842,6 +1167,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Szechuan Beef",
@@ -851,6 +1179,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Satay Chicken",
@@ -860,6 +1191,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Satay Beef",
@@ -869,6 +1203,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Ginger Beef",
@@ -878,6 +1215,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Ma Po Tofu (Beef, Chicken Or Pork)",
@@ -887,6 +1227,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Ma Po Tofu",
@@ -896,6 +1239,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Ma Po Tofu",
@@ -905,6 +1251,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pork Ma Po Tofu",
@@ -914,6 +1263,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Seafood
       {
@@ -924,6 +1276,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Seafood Delight",
@@ -933,6 +1288,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Soo Chow Scallops",
@@ -942,6 +1300,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Soo Chow Har Kew",
@@ -951,6 +1312,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Soo Chow Wonton",
@@ -960,6 +1324,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Scallops and Mixed Vegetables",
@@ -969,6 +1336,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp Lobster Sauce",
@@ -978,6 +1348,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Popular Dishes
       {
@@ -988,6 +1361,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Broccoli",
@@ -997,6 +1373,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Mixed Vegetables",
@@ -1006,6 +1385,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp Mixed Vegetables",
@@ -1015,6 +1397,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Moo Goo Guy Pan",
@@ -1024,6 +1409,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Mixed Oriental Vegetables",
@@ -1033,6 +1421,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Mushroom",
@@ -1042,6 +1433,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Mushroom",
@@ -1051,6 +1445,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Snow Peas",
@@ -1060,6 +1457,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Snow Peas",
@@ -1069,6 +1469,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp Snow Peas",
@@ -1078,6 +1481,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken with Green Pepper",
@@ -1087,6 +1493,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef with Green Pepper",
@@ -1096,6 +1505,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Shrimp with Green Pepper",
@@ -1105,6 +1517,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Chinese Green",
@@ -1114,6 +1529,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pepper Steak",
@@ -1123,6 +1541,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Tomato",
@@ -1132,6 +1553,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Tomato",
@@ -1141,6 +1565,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Baby Corn",
@@ -1150,6 +1577,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Deep Fried Chicken eg. lemon chicken
       {
@@ -1160,6 +1590,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "General Tao chicken",
@@ -1169,6 +1602,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Orange Chicken",
@@ -1178,6 +1614,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sesame Chicken",
@@ -1187,6 +1626,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sweet & Sour Chicken",
@@ -1196,6 +1638,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Wings",
@@ -1205,6 +1650,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Almond Soo Guy",
@@ -1214,6 +1662,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
 
       //Chef Suggestions
@@ -1225,6 +1676,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken Mushroom & Broccoli",
@@ -1234,6 +1688,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Mushroom & Broccoli",
@@ -1243,6 +1700,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Soo Chow Wonton",
@@ -1252,6 +1712,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Hong Sew Guy Kew",
@@ -1261,6 +1724,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef and Onion",
@@ -1270,6 +1736,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Wai Guy Kew",
@@ -1279,6 +1748,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chicken with Black Bean Sauce",
@@ -1288,6 +1760,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef with Black Bean Sauce",
@@ -1297,6 +1772,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Pepper Spare Ribs",
@@ -1306,6 +1784,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Beef Mushroom with Oyster Sauce",
@@ -1315,6 +1796,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Woo Dip Har",
@@ -1324,6 +1808,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Golden Garlic Spare Ribs",
@@ -1333,6 +1820,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
 
       //Canadian Dishes
@@ -1344,6 +1834,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Fish and Chips",
@@ -1353,6 +1846,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "French Fries",
@@ -1362,6 +1858,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Onion Rings",
@@ -1371,6 +1870,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
 
       //Family Meals
@@ -1382,6 +1884,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Dinner for 3",
@@ -1391,6 +1896,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Dinner for 4",
@@ -1400,6 +1908,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Dinner for 5",
@@ -1409,6 +1920,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Dinner for 6",
@@ -1418,6 +1932,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Dinner for 8",
@@ -1427,6 +1944,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
 
       //Extra
@@ -1438,6 +1958,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sweet & Sour Sauce (L)",
@@ -1447,6 +1970,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Lemon Sauce (s)",
@@ -1456,6 +1982,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Lemon Sauce (L)",
@@ -1465,6 +1994,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Gravy (s)",
@@ -1474,6 +2006,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Honey Sauce",
@@ -1483,6 +2018,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Chop Sticks",
@@ -1492,6 +2030,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Utensils",
@@ -1501,6 +2042,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Extra Soy Sauce",
@@ -1510,6 +2054,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Extra Plum Sauce",
@@ -1519,6 +2066,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Extra Hot Sauce",
@@ -1528,6 +2078,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Extra Mustard",
@@ -1537,6 +2090,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Dry Noodles",
@@ -1546,6 +2102,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Extra Fortune Cookies",
@@ -1555,6 +2114,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Extra Spicy",
@@ -1564,6 +2126,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Out of Town Delivery",
@@ -1573,6 +2138,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       //Removal Items
       {
@@ -1583,6 +2151,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No pepper",
@@ -1592,6 +2163,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No mushroom",
@@ -1601,6 +2175,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No garlic",
@@ -1610,6 +2187,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No broccoli",
@@ -1619,6 +2199,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No celery",
@@ -1628,6 +2211,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No vegetable",
@@ -1637,6 +2223,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No chicken",
@@ -1646,6 +2235,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No beef",
@@ -1655,6 +2247,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No pork",
@@ -1664,6 +2259,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No shrimp",
@@ -1673,6 +2271,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "^ No Meat",
@@ -1682,6 +2283,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "All No Meat",
@@ -1691,6 +2295,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No egg",
@@ -1700,6 +2307,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No sauce",
@@ -1709,6 +2319,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No carrot",
@@ -1718,6 +2331,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "No gravy",
@@ -1727,6 +2343,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Sauce on side",
@@ -1736,6 +2355,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
 
       //Drinks
@@ -1747,6 +2369,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Ice Tea Bottle",
@@ -1756,6 +2381,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Can Pepsi",
@@ -1765,6 +2393,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Can Coke",
@@ -1774,6 +2405,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Can Gingerale",
@@ -1783,6 +2417,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Can Rootbeer",
@@ -1792,6 +2429,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Can Sprite",
@@ -1801,6 +2441,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bottle Pepsi",
@@ -1810,6 +2453,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bottle Coke",
@@ -1819,6 +2465,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bottle Diet Coke",
@@ -1828,6 +2477,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bottle Diet Pepsi",
@@ -1837,6 +2489,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bottle Orange Crush",
@@ -1846,6 +2501,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bottle Gingerale",
@@ -1855,6 +2513,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bottle 7UP",
@@ -1864,6 +2525,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
       {
         name: "Bottle Natural Water",
@@ -1873,6 +2537,9 @@ const menuDataSlice = createSlice({
         quantity: 1,
         modifiers: [],
         components: [],
+        modifiable: false,
+        swappable: true,
+        selectionCategory: "",
       },
     ],
     menuCategories: ["Fried Rice", "Family Dinners", "Noodles", "Soup"],

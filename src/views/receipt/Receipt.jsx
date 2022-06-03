@@ -4,7 +4,8 @@ import { NavigationTab, XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
 import { setNavOn } from "../../redux/functionality";
 import { Totals } from "../../utils/totalCalculations";
-import orderInfo, { setOrder } from "../../redux/orderInfo";
+import { setOrder, setOrderOptions } from "../../redux/orderInfo";
+import { setInstances } from "../../redux/functionality";
 
 function Receipt() {
   const dispatch = useDispatch();
@@ -43,6 +44,10 @@ function Receipt() {
     dispatch(setOrder([isDiscountBeforeTax ? "setBeforeTaxDiscount" : "setAfterTaxDiscount", discount]));
   };
 
+  const handleEditingItem = (item) => {
+    dispatch(setOrderOptions(["setEditingItemIndex", item]));
+    dispatch(setInstances(["setEditItemOn", true]));
+  };
   // Moves receipt scroll position to the bottom of the page.
   useEffect(() => {
     let r = document.querySelector(".receipt");
@@ -60,7 +65,13 @@ function Receipt() {
         <div className="receipt-items col-c-c">
           <h3>Name</h3>
           {items.map((item, key) => (
-            <div key={key} className="receipt-item row-sb-c" onClick={() => {}}>
+            <div
+              key={key}
+              className="receipt-item row-sb-c"
+              onClick={() => {
+                handleEditingItem(item);
+              }}
+            >
               <div className="receipt-item-content row-sb-c">
                 <div className="item-name">
                   <h2>

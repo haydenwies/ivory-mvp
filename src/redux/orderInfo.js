@@ -297,7 +297,7 @@ export const orderInfoSlice = createSlice({
       finishTime: "",
       paid: false,
       note: "",
-      items: [], //item->{name(string), price(float), components(string), modifiers(string), quantity(int)}
+      items: [], //item->{name(string), price(float), components(string), modifiable(bool), modifiers(string), selectionList:[], quantity(int)}
       subTotal: (0.0).toFixed(2),
       discounted: false,
       beforeTaxDiscount: (0.0).toFixed(2),
@@ -323,6 +323,11 @@ export const orderInfoSlice = createSlice({
       filteredAddresses: [],
       addressList: ADDRESS_LIST,
       filteredItems: [],
+      searchedItem: "",
+      editingItemIndex: 0,
+      editingTab: "Selection List",
+      editingCategory: "",
+      editingSelection: [],
     },
     orderManagement: {
       backupOrder: {},
@@ -391,7 +396,21 @@ export const orderInfoSlice = createSlice({
           break;
         case "setFilteredItems":
           orderOptions.filteredItems = value;
-          console.log(orderOptions.filteredItems);
+          break;
+        case "setSearchedItem":
+          orderOptions.searchedItem = value;
+          break;
+        case "setEditingItemIndex":
+          let [item, selectionList] = value;
+          orderOptions.editingItemIndex = items.findIndex((receiptItem) => {
+            //We have to create a copy of the item with the same quantity to check if the objects are the same.
+            let tempItem = JSON.parse(JSON.stringify(receiptItem));
+            let tempValue = JSON.parse(JSON.stringify(item));
+            tempItem.quantity = 1;
+            tempValue.quantity = 1;
+            return JSON.stringify(tempItem) === JSON.stringify(tempValue);
+          });
+          orderOptions.editingSelection = selectionList;
           break;
       }
     },
@@ -401,8 +420,8 @@ export const orderInfoSlice = createSlice({
 
       switch (actionType) {
         case "SAVE_DEFAULT_ORDER":
-          orderManagement.defaultOrder = Object.assign(order);
-          orderManagement.defaultOrderOptions = Object.assign(orderOptions);
+          orderManagement.defaultOrder = JSON.parse(JSON.stringify(order));
+          orderManagement.defaultOrderOptions = JSON.parse(JSON.stringify(orderOptions));
           break;
         case "RESTORE_BACKUP_ORDER":
           if (Object.entries(orderManagement.backupOrder) === 0) {
@@ -426,9 +445,14 @@ export const orderInfoSlice = createSlice({
         // ---------------- Adding an item to items --------------- //
         case "ADD_ITEM":
           let index = items.findIndex((item) => {
-            return item.name === value.name;
+            //We have to create a copy of the item with the same quantity to check if the objects are the same.
+            let tempItem = JSON.parse(JSON.stringify(item));
+            let tempValue = JSON.parse(JSON.stringify(value));
+            tempItem.quantity = 1;
+            tempValue.quantity = 1;
+            return JSON.stringify(tempItem) === JSON.stringify(tempValue);
           });
-          if (index === -1) {
+          if (index === -1 || value.modifiable) {
             order.items = [...items, value];
           } else {
             order.items[index].quantity++;
@@ -437,6 +461,7 @@ export const orderInfoSlice = createSlice({
         // ---------------- Deleting item from items ---------------- //
         case "DELETE_ITEM":
           for (let i = 0; i < items.length; i++) {
+            //Side note we know that stringify will work since the two objects will be identical in properties (as well as in quanity)
             if (JSON.stringify(items[i]) === JSON.stringify(value)) {
               order.items[i].quantity--;
             }
@@ -445,10 +470,10 @@ export const orderInfoSlice = createSlice({
           break;
         // ---------------- Reset Order ---------------- //
         case "RESET_ORDER":
-          orderManagement.backupOrder = Object.assign(state.order);
-          orderManagement.backupOrderOptions = Object.assign(state.orderOptions);
-          state.order = Object.assign(orderManagement.defaultOrder);
-          state.orderOptions = Object.assign(orderManagement.defaultOrderOptions);
+          orderManagement.backupOrder = JSON.parse(JSON.stringify(state.order));
+          orderManagement.backupOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
+          state.order = JSON.parse(JSON.stringify(orderManagement.defaultOrder));
+          state.orderOptions = JSON.parse(JSON.stringify(orderManagement.defaultOrderOptions));
           break;
         // ---------------- Set Phone Number---------------- //
         case "setPhoneNumber":
