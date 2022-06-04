@@ -11,6 +11,9 @@ export const functionalitySlice = createSlice({
         customerInfoOn: false,
         categoryType: "",
         waitTimeOn: false,
+        customItemOn: false,
+        searchItemOn: false,
+        editItemOn: false,
       },
     ],
   },
@@ -21,7 +24,7 @@ export const functionalitySlice = createSlice({
 
       switch (actionType) {
         case "setNavOn":
-          console.log(value)
+          console.log(value);
           instance.navOn = value;
           break;
         case "setCustomerInfoOn":
@@ -32,6 +35,16 @@ export const functionalitySlice = createSlice({
           break;
         case "setWaitTimeOn":
           instance.waitTimeOn = value;
+          break;
+        case "setCustomItemOn":
+          instance.customItemOn = value;
+          break;
+        case "setSearchItemOn":
+          instance.searchItemOn = value;
+          break;
+        case "setEditItemOn":
+          console.log("EDIT")
+          instance.editItemOn = value;
           break;
       }
     },

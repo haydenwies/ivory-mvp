@@ -1,0 +1,11 @@
+/* ----------------------------- Payment ----------------------------- */
+.payment {
+}
+.payment span {
+  font-size: 1.2rem;
+  margin-bottom: .5rem;
+}
+.payment input {
+  width:25px;
+  height:25px;
+}

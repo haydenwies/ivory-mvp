@@ -8,7 +8,7 @@ export class Totals {
   static subTotal = 0.0;
   static tax = 0.0;
   static discount = 0.0;
-  static grandTotal = 0.0;
+  static total = 0.0;
 
   constructor(
     items,
@@ -25,9 +25,9 @@ export class Totals {
     Totals.deliveryOn = deliveryOn;
     Totals.discountType = discountType;
     Totals.deliveryType = deliveryType;
-    Totals.discountPercent = discountPercent;
-    Totals.deliveryFee = deliveryFee;
-    Totals.taxPercent = taxPercent;
+    Totals.discountPercent = parseFloat(discountPercent);
+    Totals.deliveryFee = parseFloat(deliveryFee);
+    Totals.taxPercent = parseFloat(taxPercent);
   }
 
   static getSubTotal() {
@@ -55,11 +55,12 @@ export class Totals {
       deliveryType,
       taxPercent,
     } = Totals;
-    if (discountOn && deliveryOn && discountType === "before tax") {
+    if (discountOn && deliveryOn && discountType === "BEFORE_TAX") {
       return (Totals.tax = (subTotal * (1 - discountPercent) + deliveryFee) * taxPercent);
-    } else if (discountOn && discountType === "before tax") {
+    } else if (discountOn && discountType === "BEFORE_TAX") {
       return (Totals.tax = subTotal * (1 - discountPercent) * taxPercent);
-    } else if (deliveryOn && deliveryType === "before tax") {
+    } else if (deliveryOn && deliveryType === "BEFORE_TAX") {
+      console.log(deliveryFee);
       return (Totals.tax = (subTotal + deliveryFee) * taxPercent);
     } else {
       return (Totals.tax = subTotal * taxPercent);
@@ -74,14 +75,14 @@ export class Totals {
     }
   }
 
-  static getGrandTotal() {
+  static getTotal() {
     let { subTotal, tax, discount, discountOn, deliveryFee, deliveryOn, deliveryType } = Totals;
     if (discountOn) {
-      return (Totals.grandTotal = subTotal + tax - discount);
-    } else if (deliveryOn && deliveryType === "after tax") {
-      return (Totals.grandTotal = subTotal + tax + deliveryFee);
+      return (Totals.total = subTotal + tax - discount);
+    } else if (deliveryOn && deliveryType === "AFTER_TAX") {
+      return (Totals.total = subTotal + tax + deliveryFee);
     } else {
-      return (Totals.grandTotal = subTotal + tax);
+      return (Totals.total = subTotal + tax);
     }
   }
 
@@ -89,13 +90,13 @@ export class Totals {
     Totals.getSubTotal();
     Totals.getTax();
     Totals.getDiscount();
-    Totals.getGrandTotal();
-    let { subTotal, tax, discount, grandTotal } = Totals;
+    Totals.getTotal();
+    let { subTotal, tax, discount, total } = Totals;
     return {
       subTotal: subTotal.toFixed(2),
       tax: tax.toFixed(2),
       discount: discount.toFixed(2),
-      grandTotal: grandTotal.toFixed(2),
+      total: total.toFixed(2),
     };
   }
 }

@@ -1,0 +1,8 @@
+.exit-tab {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 45px;
+  height: 45px;
+  background-color: crimson !important;
+}

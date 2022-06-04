@@ -3,16 +3,33 @@ import "./items.css";
 import { Trash, Info, Swap, Draw, Undo, Search, Elipse, Custom } from "../../Assets/Images";
 import { setInstances } from "../../redux/functionality";
 import { useDispatch, useSelector } from "react-redux";
-import { setOrder } from "../../redux/orderInfo";
+import { setOrder, setOrderManagement, setOrderOptions } from "../../redux/orderInfo";
+import { getDefaultState } from "../../utils/managementUtils";
+import CustomItem from "../order/CustomItem";
+import SearchItem from "../order/SearchItem";
+import EditItem from "../order/EditItem";
 function Items() {
   /* ----------------------------- State Variables ----------------------------- */
   const dispatch = useDispatch();
   const { order } = useSelector((state) => state.orderInfo);
-  const { menuItems, menuCategories } = useSelector((state) => state.menuData);
-  const { categoryType } = useSelector(
+  const { items } = useSelector((state) => state.orderInfo.order);
+  const { editingItemIndex } = useSelector((state) => state.orderInfo.orderOptions);
+  const { menuItems, menuCategories, selectionItems } = useSelector((state) => state.menuData);
+  const { categoryType, customItemOn, searchItemOn, editItemOn } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
+  const handleAddItem = (item) => {
+    dispatch(setOrder(["ADD_ITEM", item]));
 
+    if (item.modifiable) {
+      let selectionIndex = selectionItems.findIndex((selection) => {
+        return selection.category === item.selectionCategory;
+      });
+      let selectionList =  selectionItems[selectionIndex].list;
+      dispatch(setOrderOptions(["setEditingItemIndex", [item, selectionList]]));
+      dispatch(setInstances(["setEditItemOn", true]));
+    }
+  };
   return (
     <div className="items">
       {/* ----------------------------- Selection Items ----------------------------- */}
@@ -22,15 +39,24 @@ function Items() {
           .map((item, key) => (
             <div
               key={key}
-              className="selection-item row-c-c"
+              className={
+                item.modifiable ? `modifiable-item selection-item row-c-c` : `selection-item row-c-c`
+              }
               onClick={() => {
-                dispatch(setOrder(["ADD_ITEM", item]));
+                handleAddItem(item);
               }}
             >
               <p>{item.name}</p>
             </div>
           ))}
       </div>
+
+      {/* ----------------------------- Edit Items ----------------------------- */}
+      {editItemOn && items[editingItemIndex] && (
+        <div className="edit-item-container">
+          <EditItem />
+        </div>
+      )}
 
       {/* ----------------------------- Item Categories ----------------------------- */}
       <div className="category">
@@ -46,13 +72,25 @@ function Items() {
           </div>
         ))}
       </div>
+      {/* ----------------------------- Item Categories ----------------------------- */}
+      {customItemOn && (
+        <div className="custom-item-container row-c-c">
+          <CustomItem />
+        </div>
+      )}
+      {/* ----------------------------- Search Item ----------------------------- */}
+      {searchItemOn && (
+        <div className="search-item-container row-c-c">
+          <SearchItem />
+        </div>
+      )}
 
       {/* ----------------------------- Item Options ----------------------------- */}
       <div className="item-options row-sb-c">
         <div
           className="trash"
           onClick={() => {
-            dispatch(setOrder(["CLEAR_ITEMS"]));
+            dispatch(setOrder(["RESET_ORDER", getDefaultState()]));
           }}
         >
           <img src={Trash} alt="" />
@@ -66,13 +104,28 @@ function Items() {
           >
             <img src={Info} alt="" />
           </div>
-          <div className="custom">
+          <div
+            className="custom"
+            onClick={() => {
+              dispatch(setInstances(["setCustomItemOn", true]));
+            }}
+          >
             <img src={Custom} alt="" />
           </div>
-          <div className="undo">
+          <div
+            className="undo"
+            onClick={() => {
+              dispatch(setOrderManagement(["RESTORE_BACKUP_ORDER"]));
+            }}
+          >
             <img src={Undo} alt="" />
           </div>
-          <div className="search">
+          <div
+            className="search"
+            onClick={() => {
+              dispatch(setInstances(["setSearchItemOn", true]));
+            }}
+          >
             <img src={Search} alt="" />
           </div>
         </div>
