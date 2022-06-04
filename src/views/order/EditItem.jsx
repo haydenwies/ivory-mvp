@@ -27,6 +27,7 @@ function EditItem() {
     dispatch(setOrderOptions(["setDesiredSwapItem", ""]));
   };
 
+  const test = editingCategory === "No Add" || editingCategory === "Add";
   useEffect(() => {}, [editingItemIndex]);
   return (
     <>
@@ -69,7 +70,7 @@ function EditItem() {
             <button
               className={editingCategory === "Add" ? "editing-tab-active" : undefined}
               onClick={(e) => {
-                dispatch(setOrder(["setEditingCategory", e.target.innerText]));
+                dispatch(setOrderOptions(["setEditingCategory", e.target.innerText]));
               }}
             >
               Add
@@ -175,18 +176,31 @@ function EditItem() {
             </div>
           )}
           {/* ----------------------------- Add/No Add Items ----------------------------- */}
-          {(editingCategory === "No Add") | (editingCategory === "Add") && (
-            <div className="add-or-no-add">
-              {Array(10)
-                .fill("oof")
-                .map((item, key) => (
-                  <div key={key} className="no-add-items col-c-c">
-                    <p>{item}</p>
-                    <div className="checkbox-container row-c-c">{true && <img src={CheckMark} />}</div>
-                  </div>
-                ))}
-            </div>
-          )}
+          {editingCategory === "No Add" ||
+            (editingCategory === "Add" && (
+              <div className="add-or-no-add">
+                {item.modifierList
+                  .filter((modifier) =>
+                    editingCategory === "No Add"
+                      ? modifier.modifyType === "No Add"
+                      : modifier.modifyType === "Add"
+                  )
+                  .map((modifier, key) => (
+                    <div
+                      key={key}
+                      className="no-add-items col-c-c"
+                      onClick={() => {
+                        dispatch(setOrder(["TOGGLE_MODIFIER", modifier]));
+                      }}
+                    >
+                      <p>{modifier.name}</p>
+                      <div className="checkbox-container row-c-c">
+                        {modifier.checked ? <img src={CheckMark} /> : <></>}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            ))}
 
           {/* ----------------------------- Edit Item Buttons ----------------------------- */}
           <div className="edit-item-btns row-se-c">

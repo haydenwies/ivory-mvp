@@ -419,6 +419,8 @@ export const orderInfoSlice = createSlice({
           orderOptions.editingSelection = value; //Sets the list of items the special order can choose from (aka combos)
           break;
         case "setEditingCategory":
+          console.log(value);
+
           orderOptions.editingCategory = value;
           break;
         case "setSwapItem":
@@ -523,18 +525,41 @@ export const orderInfoSlice = createSlice({
           }
           order.items[editingItemIndex].quantity = value;
           break;
-        // ---------------- Add Modifier---------------- //
+        // ---------------- Add Modifier ---------------- //
         case "ADD_MODIFIER":
           if (orderOptions.currentSwapItem !== "" && orderOptions.desiredSwapItem !== "") {
             items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value];
           }
           break;
-        // ---------------- Delete Modifier---------------- //
+        // ---------------- Delete Modifier ---------------- //
         case "DELETE_MODIFIER":
           items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter(
-            (modifier) => modifier !== value
+            (modifier) => modifier !== value //Value is the modifier name
           );
+
+          // Uncheck the no add modified Item
+          items[editingItemIndex].modifierList.forEach((modifier, i) => {
+            if (modifier.name === value) {
+              items[editingItemIndex].modifierList[i].checked = false;
+            }
+          });
           break;
+        // ---------------- Toggle Modifier ---------------- //
+        case "TOGGLE_MODIFIER":
+          let modifierIndex = items[editingItemIndex].modifierList.findIndex(
+            (modifier) => modifier.name === value.name && modifier.checked === value.checked
+          );
+          items[editingItemIndex].modifierList[modifierIndex].checked = !value.checked;
+
+          if (items[editingItemIndex].modifierList[modifierIndex].checked) {
+            items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value.name];
+          } else {
+            items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter(
+              (modifierItem) => modifierItem !== value.name
+            );
+          }
+          break;
+
         // ---------------- Set Phone Number---------------- //
         case "setPhoneNumber":
           order.phoneNumber = value;
