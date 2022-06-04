@@ -317,7 +317,7 @@ export const orderInfoSlice = createSlice({
       printerOptions: [
         { name: "No Printer", ip: "192.168.0.1" },
         { name: "Kitchen Printer", ip: "192.168.0.14" },
-        { name: "Cashier Printer", ip: "192.168.0.28" },
+        { name: "Cashier Printer", ip: "192.168.0.45" },
       ],
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
       filteredAddresses: [],
