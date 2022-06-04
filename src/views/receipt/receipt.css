@@ -80,8 +80,6 @@
   grid-column: span 2;
 }
 .modifier-container {
-  /* width: 90%; */
-  /* margin: auto; */
   width:100%;
   grid-column: span 1;
   display: grid;

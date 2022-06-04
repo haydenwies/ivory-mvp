@@ -130,28 +130,26 @@ function Receipt() {
                   item.modifiers.length > 0 && (
                     <div className="receipt-modifiers col-c-fs">
                       <h6>{item.note} Note</h6>
-                      <div className="modifier-container ">
-                        {item.modifiers &&
-                          item.modifiers.map((modifier, key) => (
-                            <>
-                              <p className="modifier" key={key}>
-                                {modifier}
-                              </p>
-                              {editingItemIndex === itemKey && editItemOn ? (
-                                <button
-                                  className="remove-modifier"
-                                  onClick={() => {
-                                    dispatch(setOrder(["DELETE_MODIFIER", modifier]));
-                                  }}
-                                >
-                                  -
-                                </button>
-                              ) : (
-                                <button></button>
-                              )}
-                            </>
-                          ))}
-                      </div>
+                      {/* <div className="modifier-container "> */}
+                      {item.modifiers &&
+                        item.modifiers.map((modifier, key) => (
+                          <div className="modifier-container" key={key}>
+                            <p key={key}>{modifier}</p>
+                            {editingItemIndex === itemKey && editItemOn ? (
+                              <button
+                                className="remove-modifier"
+                                onClick={() => {
+                                  dispatch(setOrder(["DELETE_MODIFIER", modifier]));
+                                }}
+                              >
+                                -
+                              </button>
+                            ) : (
+                              <button></button>
+                            )}
+                          </div>
+                        ))}
+                      {/* </div> */}
                     </div>
                   )
                 ) : (
