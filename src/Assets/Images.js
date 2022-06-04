@@ -14,6 +14,7 @@ import Saved from "./Saved.svg";
 import Logout from "./Logout.svg";
 import Blur from "./Blur.svg";
 import AddIcon from "./AddIcon.svg";
+import CheckMark from "./CheckMark.svg";
 
 export {
   WhiteLogo,
@@ -32,4 +33,5 @@ export {
   Logout,
   Blur,
   AddIcon,
+  CheckMark
 };
