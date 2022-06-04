@@ -297,7 +297,7 @@ export const orderInfoSlice = createSlice({
       finishTime: "",
       paid: false,
       note: "",
-      items: [], //item->{name(string), price(float), components(string), modifiable(bool), modifiers(string), selectionList:[], quantity(int)}
+      items: [], //item->{name(string), price(float), selectionList:{itemLimit:int, items:[arr]},selectionCategory:str, swappable:bool, modifiable(bool), modifiers(string), selectionList:[], quantity(int)}
       subTotal: (0.0).toFixed(2),
       discounted: false,
       beforeTaxDiscount: (0.0).toFixed(2),
@@ -326,8 +326,10 @@ export const orderInfoSlice = createSlice({
       searchedItem: "",
       editingItemIndex: 0,
       editingTab: "Selection List",
-      editingCategory: "",
+      editingCategory: "Selection List",
       editingSelection: [],
+      currentSwapItem: "",
+      desiredSwapItem: "",
     },
     orderManagement: {
       backupOrder: {},
@@ -376,9 +378,12 @@ export const orderInfoSlice = createSlice({
                 name: orderOptions.customItem.name,
                 price: parseFloat(orderOptions.customItem.price),
                 category: [],
-                quantity: 1,
+                modifiable: false,
+                selectionList: { itemLimit: 0, items: [] },
+                selectionCategory: "",
+                swappable: false,
                 modifiers: [],
-                components: [],
+                quantity: 1,
               },
             ];
           } else {
@@ -401,16 +406,35 @@ export const orderInfoSlice = createSlice({
           orderOptions.searchedItem = value;
           break;
         case "setEditingItemIndex":
-          let [item, selectionList] = value;
           orderOptions.editingItemIndex = items.findIndex((receiptItem) => {
             //We have to create a copy of the item with the same quantity to check if the objects are the same.
             let tempItem = JSON.parse(JSON.stringify(receiptItem));
-            let tempValue = JSON.parse(JSON.stringify(item));
+            let tempValue = JSON.parse(JSON.stringify(value));
             tempItem.quantity = 1;
             tempValue.quantity = 1;
             return JSON.stringify(tempItem) === JSON.stringify(tempValue);
           });
-          orderOptions.editingSelection = selectionList;
+          break;
+        case "setEditingSelectionList":
+          orderOptions.editingSelection = value; //Sets the list of items the special order can choose from (aka combos)
+          break;
+        case "setEditingCategory":
+          orderOptions.editingCategory = value;
+          break;
+        case "setSwapItem":
+          console.log(value);
+          if (orderOptions.currentSwapItem === "") {
+            orderOptions.currentSwapItem = value;
+            break;
+          } else if (orderOptions.desiredSwapItem === "") {
+            orderOptions.desiredSwapItem = value;
+          }
+          break;
+        case "setCurrentSwapItem":
+          orderOptions.currentSwapItem = value;
+          break;
+        case "setDesiredSwapItem":
+          orderOptions.desiredSwapItem = value;
           break;
       }
     },
@@ -440,7 +464,7 @@ export const orderInfoSlice = createSlice({
       const { order, orderOptions, orderManagement } = state;
       const [actionType, value] = payload; //We pass in [] with [<action we want to do>, <The value we want to send as our payload>]
       let { items } = order;
-
+      let { editingItemIndex } = orderOptions;
       switch (actionType) {
         // ---------------- Adding an item to items --------------- //
         case "ADD_ITEM":
@@ -456,6 +480,23 @@ export const orderInfoSlice = createSlice({
             order.items = [...items, value];
           } else {
             order.items[index].quantity++;
+          }
+          break;
+        // ---------------- Setting the selection Items  --------------- //
+        case "setSelectionItems":
+          items[editingItemIndex].selectionList.items = value;
+          break;
+        // ---------------- Adding a Selection Item --------------- //
+        case "ADD_SELECTION_ITEM":
+          let emptySpot = items[editingItemIndex].selectionList.items.indexOf("/");
+          if (emptySpot !== -1) {
+            items[editingItemIndex].selectionList.items[emptySpot] = value;
+          }
+          break;
+        // ---------------- Deleting an item from selection items --------------- //
+        case "DELETE_SELECTION_ITEM":
+          if (items[editingItemIndex].selectionList.items[value] !== "/") {
+            items[editingItemIndex].selectionList.items[value] = "/";
           }
           break;
         // ---------------- Deleting item from items ---------------- //
@@ -474,6 +515,25 @@ export const orderInfoSlice = createSlice({
           orderManagement.backupOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
           state.order = JSON.parse(JSON.stringify(orderManagement.defaultOrder));
           state.orderOptions = JSON.parse(JSON.stringify(orderManagement.defaultOrderOptions));
+          break;
+        // ---------------- Set Item Quantity ---------------- //
+        case "setItemQuantity":
+          if (value < 1) {
+            break;
+          }
+          order.items[editingItemIndex].quantity = value;
+          break;
+        // ---------------- Add Modifier---------------- //
+        case "ADD_MODIFIER":
+          if (orderOptions.currentSwapItem !== "" && orderOptions.desiredSwapItem !== "") {
+            items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value];
+          }
+          break;
+        // ---------------- Delete Modifier---------------- //
+        case "DELETE_MODIFIER":
+          items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter(
+            (modifier) => modifier !== value
+          );
           break;
         // ---------------- Set Phone Number---------------- //
         case "setPhoneNumber":

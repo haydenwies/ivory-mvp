@@ -14,7 +14,7 @@ function Items() {
   const { order } = useSelector((state) => state.orderInfo);
   const { items } = useSelector((state) => state.orderInfo.order);
   const { editingItemIndex } = useSelector((state) => state.orderInfo.orderOptions);
-  const { menuItems, menuCategories, selectionItems } = useSelector((state) => state.menuData);
+  const { menuItems, menuCategories, choiceList } = useSelector((state) => state.menuData);
   const { categoryType, customItemOn, searchItemOn, editItemOn } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
@@ -22,12 +22,20 @@ function Items() {
     dispatch(setOrder(["ADD_ITEM", item]));
 
     if (item.modifiable) {
-      let selectionIndex = selectionItems.findIndex((selection) => {
+      let selectionIndex = choiceList.findIndex((selection) => {
         return selection.category === item.selectionCategory;
       });
-      let selectionList =  selectionItems[selectionIndex].list;
-      dispatch(setOrderOptions(["setEditingItemIndex", [item, selectionList]]));
-      dispatch(setInstances(["setEditItemOn", true]));
+
+      if (selectionIndex !== -1) {
+        let selectionList = choiceList[selectionIndex].list;
+        dispatch(setOrderOptions(["setEditingItemIndex", item]));
+        dispatch(setOrderOptions(["setEditingSelectionList", selectionList]));
+        dispatch(setInstances(["setEditItemOn", true]));
+
+        if (item.selectionList.items.length === 0) {
+          dispatch(setOrder(["setSelectionItems", Array(item.selectionList.itemLimit).fill("/")]));
+        }
+      }
     }
   };
   return (

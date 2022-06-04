@@ -22,9 +22,12 @@ function Receipt() {
     deliveryFee,
   } = useSelector(({ orderInfo }) => orderInfo.order);
   const { order } = useSelector(({ orderInfo }) => orderInfo);
-  const { isDiscountBeforeTax, isDeliveryBeforeTax, discountPercent, taxPercent } = useSelector(
-    ({ orderInfo }) => orderInfo.orderOptions
+  const { isDiscountBeforeTax, isDeliveryBeforeTax, discountPercent, taxPercent, editingItemIndex } =
+    useSelector(({ orderInfo }) => orderInfo.orderOptions);
+  const { editItemOn } = useSelector(
+    ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
+  const { choiceList } = useSelector((state) => state.menuData);
 
   const getTotal = () => {
     new Totals(
@@ -45,8 +48,23 @@ function Receipt() {
   };
 
   const handleEditingItem = (item) => {
-    dispatch(setOrderOptions(["setEditingItemIndex", item]));
-    dispatch(setInstances(["setEditItemOn", true]));
+    if (item.modifiable) {
+      // This finds the selection items that is associated with the item (aka combo selection list)
+      let selectionIndex = choiceList.findIndex((selection) => {
+        return selection.category === item.selectionCategory;
+      });
+
+      if (selectionIndex !== -1) {
+        let itemChoices = choiceList[selectionIndex].list; //These are the items to be selected from
+        dispatch(setOrderOptions(["setEditingItemIndex", item]));
+        dispatch(setOrderOptions(["setEditingSelectionList", itemChoices]));
+        dispatch(setInstances(["setEditItemOn", true]));
+
+        if (item.selectionList.items.length === 0) {
+          dispatch(setOrder(["setSelectionItems", Array(item.selectionList.itemLimit).fill("/")]));
+        }
+      }
+    }
   };
   // Moves receipt scroll position to the bottom of the page.
   useEffect(() => {
@@ -55,25 +73,23 @@ function Receipt() {
 
     r.scrollTop = r.scrollHeight;
   }, [items, discounted]);
-  useEffect(() => {
-    console.log("ITEMS CHANGED IN RECEIPT");
-  }, [order]);
+
   return (
     <div className="receipt col-fe-c">
       <div className="receipt-container col-sb-c">
         {/* ----------------------------- Receipt Items ----------------------------- */}
         <div className="receipt-items col-c-c">
           <h3>Name</h3>
-          {items.map((item, key) => (
-            <div
-              key={key}
-              className="receipt-item row-sb-c"
-              onClick={() => {
-                handleEditingItem(item);
-              }}
-            >
-              <div className="receipt-item-content row-sb-c">
-                <div className="item-name">
+          {items.map((item, itemKey) => (
+            <div key={itemKey} className="receipt-item row-sb-c">
+              <div className="receipt-item-content ">
+                {/* Item Name */}
+                <div
+                  className="item-name"
+                  onClick={() => {
+                    handleEditingItem(item);
+                  }}
+                >
                   <h2>
                     <span>{item.quantity > 1 && `${item.quantity} x `} </span>
                     <span>{item.name}</span>
@@ -94,12 +110,12 @@ function Receipt() {
                   </div>
                 </div>
 
-                {/* Components */}
-                {item.components ? (
-                  item.components.length > 0 && (
-                    <div className="receipt-components">
+                {/* SelectionList */}
+                {item.selectionList ? (
+                  item.selectionList.items.length > 0 && (
+                    <div className="receipt-selection-list">
                       <ul>
-                        {item.components.map((subItem, key) => (
+                        {item.selectionList.items.map((subItem, key) => (
                           <li key={key}>{subItem}</li>
                         ))}
                       </ul>
@@ -112,11 +128,30 @@ function Receipt() {
                 {/* Modifiers */}
                 {item.modifiers ? (
                   item.modifiers.length > 0 && (
-                    <div className="receipt-modifiers">
+                    <div className="receipt-modifiers col-c-fs">
                       <h6>{item.note} Note</h6>
-                      <ul>
-                        {item.modifiers && item.modifiers.map((subItem, key) => <li key={key}>{subItem}</li>)}
-                      </ul>
+                      <div className="modifier-container ">
+                        {item.modifiers &&
+                          item.modifiers.map((modifier, key) => (
+                            <>
+                              <p className="modifier" key={key}>
+                                {modifier}
+                              </p>
+                              {editingItemIndex === itemKey && editItemOn ? (
+                                <button
+                                  className="remove-modifier"
+                                  onClick={() => {
+                                    dispatch(setOrder(["DELETE_MODIFIER", modifier]));
+                                  }}
+                                >
+                                  -
+                                </button>
+                              ) : (
+                                <button></button>
+                              )}
+                            </>
+                          ))}
+                      </div>
                     </div>
                   )
                 ) : (
