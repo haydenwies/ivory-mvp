@@ -1,7 +1,7 @@
 import React from "react";
 import "./items.css";
 import { Trash, Info, Swap, Draw, Undo, Search, Elipse, Custom } from "../../Assets/Images";
-import { setInstances } from "../../redux/functionality";
+import { setInstances, setInstancesDefaultSettings } from "../../redux/functionality";
 import { useDispatch, useSelector } from "react-redux";
 import { setOrder, setOrderManagement, setOrderOptions } from "../../redux/orderInfo";
 import { getDefaultState } from "../../utils/managementUtils";
@@ -98,7 +98,8 @@ function Items() {
         <div
           className="trash"
           onClick={() => {
-            dispatch(setOrder(["RESET_ORDER", getDefaultState()]));
+            dispatch(setOrderManagement(["RESET_ORDER"]))
+            dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
           }}
         >
           <img src={Trash} alt="" />

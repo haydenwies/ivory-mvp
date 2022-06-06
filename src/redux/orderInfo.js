@@ -456,8 +456,8 @@ export const orderInfoSlice = createSlice({
 
       switch (actionType) {
         case "SAVE_DEFAULT_ORDER":
-          orderManagement.defaultOrder = JSON.parse(JSON.stringify(order));
-          orderManagement.defaultOrderOptions = JSON.parse(JSON.stringify(orderOptions));
+          state.orderManagement.defaultOrder = JSON.parse(JSON.stringify(state.order));
+          state.orderManagement.defaultOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
           break;
         case "RESTORE_BACKUP_ORDER":
           if (Object.entries(orderManagement.backupOrder) === 0) {
@@ -466,8 +466,16 @@ export const orderInfoSlice = createSlice({
           if (order.items.length > 0) {
             break;
           }
-          state.order = orderManagement.backupOrder;
-          state.orderOptions = orderManagement.backupOrderOptions;
+          state.order = JSON.parse(JSON.stringify(state.orderManagement.backupOrder));
+          state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.backupOrderOptions));
+          break;
+
+        case "RESET_ORDER":
+          state.orderManagement.backupOrder = JSON.parse(JSON.stringify(state.order));
+          state.orderManagement.backupOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
+
+          state.order = JSON.parse(JSON.stringify(state.orderManagement.defaultOrder));
+          state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.defaultOrderOptions));
           break;
       }
     },

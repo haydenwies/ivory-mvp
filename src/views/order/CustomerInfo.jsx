@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import "./customerInfo.css";
 import { XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
-import { setInstances } from "../../redux/functionality";
+import { setInstances, setInstancesDefaultSettings } from "../../redux/functionality";
 import { db } from "../../firebase/config";
 import { collection, addDoc, doc, setDoc, collectionGroup } from "firebase/firestore";
 import { calculateFinishTime, getDate, getTime, getSeconds } from "../../utils/dateFormat";
@@ -14,7 +14,7 @@ import PhoneNumber from "./PhoneNumber";
 import OrderType from "./OrderType";
 import Notes from "./Notes";
 import { numbersOnlyPhoneNum } from "../../utils/customerInfoUtils";
-import { setOrderOptions } from "../../redux/orderInfo";
+import { setOrderOptions, setOrderManagement } from "../../redux/orderInfo";
 import PrinterOptions from "./PrinterOptions";
 // import {firestore} from "./firebaseInit";
 // import {addDoc, setDoc, doc, collectio} from "firebase/firestore";
@@ -42,8 +42,12 @@ function CustomerInfo() {
       printers: finalizedOrderOptions.printers.filter((printer) => printer.name !== "No Printer"),
       id: finalizedOrder.id,
     };
+
     await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
-    await setDoc(doc(db, "printQue", finalizedOrder.id), printQueRef, printInfo);
+    await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
+
+    dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
+    dispatch(setOrderManagement(["RESET_ORDER"]));
   };
 
   return (

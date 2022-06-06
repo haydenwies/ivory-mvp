@@ -69,7 +69,7 @@ const formatAddress = (addressEntry, streetName) => {
       break;
     }
   }
-  return `${streetNum}${streetName}`;
+  return `${streetNum === undefined? "": streetNum}${streetName}`;
 };
 
 const priceInputCheck = (priceEntry) => {
