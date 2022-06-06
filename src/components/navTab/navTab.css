@@ -1,16 +1,16 @@
 .nav-tab {
-<<<<<<< HEAD
+/* <<<<<<< HEAD */
     position: absolute;
     top: 2rem;
     left: 1rem;
     cursor: pointer;
     z-index: 3;
   }
-=======
-  position: absolute;
+/* ======= */
+  /* position: absolute;
   top: 2rem;
   left: 1rem;
   cursor: pointer;
-  z-index: 3;
-}
->>>>>>> e6b578e53979ac1e0f9ca9995d33aecd3705d391
+  z-index: 3; */
+/* } */
+/* >>>>>>> e6b578e53979ac1e0f9ca9995d33aecd3705d391 */
