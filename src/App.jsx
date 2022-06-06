@@ -12,12 +12,14 @@ import { useDispatch, useSelector } from "react-redux";
 import NavTab from "./components/navTab/NavTab";
 import { useEffect } from "react";
 import {setOrderManagement} from "./redux/orderInfo"
+import { setInstancesDefaultSettings } from "./redux/functionality";
 function App() {
   // const { auth, user } = useAuthContext();
   const { navOn } = useSelector(({functionality}) => functionality.instances[functionality.indexInstance]);
   const dispatch = useDispatch();
   useEffect(()=>{
     dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]))
+    dispatch(setInstancesDefaultSettings(["SAVE_DEFAULT_FUNCTIONALITY"]))
   },[])
   return (
     <div className="app">

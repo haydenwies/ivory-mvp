@@ -16,9 +16,11 @@ export const functionalitySlice = createSlice({
         editItemOn: false,
       },
     ],
+    instancesDefaultSettings: [{}],
   },
   reducers: {
-    setInstances: ({ instances, indexInstance }, { payload }) => {
+    setInstances: (state, { payload }) => {
+      const { instances, indexInstance } = state;
       const [actionType, value] = payload;
       let instance = instances[indexInstance];
 
@@ -43,13 +45,28 @@ export const functionalitySlice = createSlice({
           instance.searchItemOn = value;
           break;
         case "setEditItemOn":
-          console.log("EDIT")
           instance.editItemOn = value;
+          break;
+        //This resets all modals and closes them
+        case "RESET_DEFAULT_FUNCTIONALITY":
+          instances[indexInstance] = state.instancesDefaultSettings[indexInstance];
+          break;
+      }
+    },
+    setInstancesDefaultSettings: (state, { payload }) => {
+      const { instancesDefaultSettings, indexInstance } = state;
+      const [actionType, value] = payload;
+      switch (actionType) {
+        // Stores the default state of all the modals.
+        case "SAVE_DEFAULT_FUNCTIONALITY":
+          instancesDefaultSettings[indexInstance] = JSON.parse(
+            JSON.stringify(state.instances[indexInstance])
+          );
           break;
       }
     },
   },
 });
 
-export const { setInstances } = functionalitySlice.actions;
+export const { setInstances, setInstancesDefaultSettings } = functionalitySlice.actions;
 export default functionalitySlice.reducer;

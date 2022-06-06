@@ -328,8 +328,9 @@ export const orderInfoSlice = createSlice({
       editingTab: "Selection List",
       editingCategory: "Selection List",
       editingSelection: [],
-      currentSwapItem: "",
-      desiredSwapItem: "",
+      currentSwapItem: { name: "", price: 0.0 },
+      desiredSwapItem: { name: "", price: 0.0 },
+      swapPrice: "",
     },
     orderManagement: {
       backupOrder: {},
@@ -419,17 +420,23 @@ export const orderInfoSlice = createSlice({
           orderOptions.editingSelection = value; //Sets the list of items the special order can choose from (aka combos)
           break;
         case "setEditingCategory":
-          console.log(value);
-
           orderOptions.editingCategory = value;
           break;
         case "setSwapItem":
-          console.log(value);
-          if (orderOptions.currentSwapItem === "") {
+          if (
+            orderOptions.currentSwapItem.name === "" ||
+            !orderOptions.currentSwapItem.hasOwnProperty("name")
+          ) {
             orderOptions.currentSwapItem = value;
             break;
-          } else if (orderOptions.desiredSwapItem === "") {
+          } else if (
+            orderOptions.desiredSwapItem.name === "" ||
+            !orderOptions.desiredSwapItem.hasOwnProperty("name")
+          ) {
             orderOptions.desiredSwapItem = value;
+            orderOptions.swapPrice = `${parseFloat(
+              orderOptions.desiredSwapItem.price - orderOptions.currentSwapItem.price
+            ).toFixed(2)}`;
           }
           break;
         case "setCurrentSwapItem":
@@ -437,6 +444,9 @@ export const orderInfoSlice = createSlice({
           break;
         case "setDesiredSwapItem":
           orderOptions.desiredSwapItem = value;
+          break;
+        case "setSwapPrice":
+          orderOptions.swapPrice = value;
           break;
       }
     },
@@ -446,8 +456,8 @@ export const orderInfoSlice = createSlice({
 
       switch (actionType) {
         case "SAVE_DEFAULT_ORDER":
-          orderManagement.defaultOrder = JSON.parse(JSON.stringify(order));
-          orderManagement.defaultOrderOptions = JSON.parse(JSON.stringify(orderOptions));
+          state.orderManagement.defaultOrder = JSON.parse(JSON.stringify(state.order));
+          state.orderManagement.defaultOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
           break;
         case "RESTORE_BACKUP_ORDER":
           if (Object.entries(orderManagement.backupOrder) === 0) {
@@ -456,8 +466,16 @@ export const orderInfoSlice = createSlice({
           if (order.items.length > 0) {
             break;
           }
-          state.order = orderManagement.backupOrder;
-          state.orderOptions = orderManagement.backupOrderOptions;
+          state.order = JSON.parse(JSON.stringify(state.orderManagement.backupOrder));
+          state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.backupOrderOptions));
+          break;
+
+        case "RESET_ORDER":
+          state.orderManagement.backupOrder = JSON.parse(JSON.stringify(state.order));
+          state.orderManagement.backupOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
+
+          state.order = JSON.parse(JSON.stringify(state.orderManagement.defaultOrder));
+          state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.defaultOrderOptions));
           break;
       }
     },
@@ -525,37 +543,45 @@ export const orderInfoSlice = createSlice({
           }
           order.items[editingItemIndex].quantity = value;
           break;
-        // ---------------- Add Modifier ---------------- //
-        case "ADD_MODIFIER":
-          if (orderOptions.currentSwapItem !== "" && orderOptions.desiredSwapItem !== "") {
-            items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value];
-          }
+        // ---------------- Add Swap ---------------- //
+        case "ADD_SWAP":
+          items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value];
           break;
         // ---------------- Delete Modifier ---------------- //
         case "DELETE_MODIFIER":
           items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter(
-            (modifier) => modifier !== value //Value is the modifier name
+            (modifier) => JSON.stringify(modifier) !== JSON.stringify(value) //Value is the modifier name
           );
 
           // Uncheck the no add modified Item
           items[editingItemIndex].modifierList.forEach((modifier, i) => {
-            if (modifier.name === value) {
+            if (modifier.name === value.name) {
               items[editingItemIndex].modifierList[i].checked = false;
             }
           });
           break;
         // ---------------- Toggle Modifier ---------------- //
         case "TOGGLE_MODIFIER":
+          //Finds the index of the checked item from the modifier list
           let modifierIndex = items[editingItemIndex].modifierList.findIndex(
             (modifier) => modifier.name === value.name && modifier.checked === value.checked
           );
+
+          //Toggles the checkbox of the modifier item
           items[editingItemIndex].modifierList[modifierIndex].checked = !value.checked;
 
           if (items[editingItemIndex].modifierList[modifierIndex].checked) {
-            items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value.name];
+            //If its checked add it to the modifiers list
+            items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value];
           } else {
+            //If not checked remove it to the modifiers list
+            console.log(
+              items[editingItemIndex].modifiers.filter(
+                (modifierItem) => JSON.stringify(modifierItem) !== JSON.stringify(value)
+              )[0]
+            );
             items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter(
-              (modifierItem) => modifierItem !== value.name
+              (modifierItem) => modifierItem.name !== value.name
             );
           }
           break;
@@ -625,21 +651,17 @@ export const orderInfoSlice = createSlice({
           order.subTotal = value;
           break;
         // ---------------- Set Before Tax Discount ---------------- //
-
         case "setBeforeTaxDiscount":
           order.beforeTaxDiscount = value;
           break;
-
         // ---------------- Set Tax ---------------- //
         case "setTax":
           order.tax = value;
           break;
-
         // ---------------- Set After Tax Discount ---------------- //
         case "setAfterTaxDiscount":
           order.afterTaxDiscount = value;
           break;
-
         // ---------------- Set Total---------------- //
         case "setTotal":
           order.total = value;

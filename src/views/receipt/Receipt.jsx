@@ -80,84 +80,88 @@ function Receipt() {
         {/* ----------------------------- Receipt Items ----------------------------- */}
         <div className="receipt-items col-c-c">
           <h3>Name</h3>
-          {items.map((item, itemKey) => (
-            <div key={itemKey} className="receipt-item row-sb-c">
-              <div className="receipt-item-content ">
-                {/* Item Name */}
-                <div
-                  className="item-name"
-                  onClick={() => {
-                    handleEditingItem(item);
-                  }}
-                >
-                  <h2>
-                    <span>{item.quantity > 1 && `${item.quantity} x `} </span>
-                    <span>{item.name}</span>
-                  </h2>
-                </div>
-
-                <div className="right-item-section row-c-c">
-                  {/* Item Price */}
-                  <div className="item-price">${parseFloat(item.price * item.quantity).toFixed(2)}</div>
-                  {/* Delete Icon */}
+          {items &&
+            items.map((item, itemKey) => (
+              <div key={itemKey} className="receipt-item row-sb-c">
+                <div className="receipt-item-content ">
+                  {/* Item Name */}
                   <div
-                    className="delete-icon row-c-c"
+                    className="item-name"
                     onClick={() => {
-                      dispatch(setOrder(["DELETE_ITEM", item]));
+                      handleEditingItem(item);
                     }}
                   >
-                    <img src={XIcon} alt="Delete Icon" />
+                    <h2>
+                      <span>{item.quantity > 1 && `${item.quantity} x `} </span>
+                      <span>{item.name}</span>
+                    </h2>
                   </div>
+
+                  <div className="right-item-section row-c-c">
+                    {/* Item Price */}
+                    <div className="item-price">${parseFloat(item.price * item.quantity).toFixed(2)}</div>
+                    {/* Delete Icon */}
+                    <div
+                      className="delete-icon row-c-c"
+                      onClick={() => {
+                        dispatch(setOrder(["DELETE_ITEM", item]));
+                      }}
+                    >
+                      <img src={XIcon} alt="Delete Icon" />
+                    </div>
+                  </div>
+
+                  {/* SelectionList */}
+                  {item.selectionList ? (
+                    item.selectionList.items.length > 0 && (
+                      <div className="receipt-selection-list">
+                        <ul>
+                          {item.selectionList.items.map((subItem, key) => (
+                            <li key={key}>{subItem}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )
+                  ) : (
+                    <></>
+                  )}
+
+                  {/* Modifiers */}
+                  {item.modifiers ? (
+                    item.modifiers.length > 0 && (
+                      <div className="receipt-modifiers col-c-fs">
+                        <h6>{item.note} Note</h6>
+                        {/* <div className="modifier-container "> */}
+                        {item.modifiers &&
+                          item.modifiers.map((modifier, key) => (
+                            <div className="modifier-container" key={key}>
+                              <p key={key}>{modifier.name}</p>
+                              <div className="modifier-right-section row-c-c">
+                                <p className="modifier-price">+${modifier.price.toFixed(2)}</p>
+                                {editingItemIndex === itemKey && editItemOn ? (
+                                  <button
+                                    className="remove-modifier"
+                                    onClick={() => {
+                                      dispatch(setOrder(["DELETE_MODIFIER", modifier]));
+                                    }}
+                                  >
+                                    -
+                                  </button>
+                                ) : (
+                                  <button></button>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        {/* </div> */}
+                      </div>
+                    )
+                  ) : (
+                    <></>
+                  )}
                 </div>
-
-                {/* SelectionList */}
-                {item.selectionList ? (
-                  item.selectionList.items.length > 0 && (
-                    <div className="receipt-selection-list">
-                      <ul>
-                        {item.selectionList.items.map((subItem, key) => (
-                          <li key={key}>{subItem}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                ) : (
-                  <></>
-                )}
-
-                {/* Modifiers */}
-                {item.modifiers ? (
-                  item.modifiers.length > 0 && (
-                    <div className="receipt-modifiers col-c-fs">
-                      <h6>{item.note} Note</h6>
-                      {/* <div className="modifier-container "> */}
-                      {item.modifiers &&
-                        item.modifiers.map((modifier, key) => (
-                          <div className="modifier-container" key={key}>
-                            <p key={key}>{modifier}</p>
-                            {editingItemIndex === itemKey && editItemOn ? (
-                              <button
-                                className="remove-modifier"
-                                onClick={() => {
-                                  dispatch(setOrder(["DELETE_MODIFIER", modifier]));
-                                }}
-                              >
-                                -
-                              </button>
-                            ) : (
-                              <button></button>
-                            )}
-                          </div>
-                        ))}
-                      {/* </div> */}
-                    </div>
-                  )
-                ) : (
-                  <></>
-                )}
               </div>
-            </div>
-          ))}
+            ))}
         </div>
 
         {/* ----------------------------- Totals ----------------------------- */}

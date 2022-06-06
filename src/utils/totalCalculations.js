@@ -35,6 +35,11 @@ export class Totals {
     if (Totals.items.length > 0) {
       for (let i = 0; i < Totals.items.length; i++) {
         subTotal += Totals.items[i].price * Totals.items[i].quantity;
+        if (Totals.items[i].hasOwnProperty("modifiers")) {
+          for (let j = 0; j < Totals.items[i].modifiers.length; j++) {
+            subTotal += Totals.items[i].modifiers[j].price;
+          }
+        }
       }
       Totals.subTotal = subTotal;
       return Totals.subTotal;
