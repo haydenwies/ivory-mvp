@@ -4,7 +4,7 @@ import { XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
 import { setInstances } from "../../redux/functionality";
 import { db } from "../../firebase/config";
-import { collection, addDoc, collectionGroup } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc, collectionGroup } from "firebase/firestore";
 import { calculateFinishTime, getDate, getTime, getSeconds } from "../../utils/dateFormat";
 // Views or Components
 import BackgroundExit from "../../components/backgroundExit/BackgroundExit";
@@ -39,12 +39,11 @@ function CustomerInfo() {
     let printInfo = {
       time: finalizedOrder.time,
       date: finalizedOrder.date,
-      printers: finalizedOrderOptions.printers,
+      printers: finalizedOrderOptions.printers.filter((printer) => printer.name !== "No Printer"),
       id: finalizedOrder.id,
     };
-
-    await addDoc(ordersRef, finalizedOrder);
-    await addDoc(printQueRef, printInfo);
+    await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
+    await setDoc(doc(db, "printQue", finalizedOrder.id), printQueRef, printInfo);
   };
 
   return (

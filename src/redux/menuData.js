@@ -5,52 +5,62 @@ const MODIFIERS = [
     name: "No Onions",
     checked: false,
     modifyType: "No Add",
+    price: 0.00,
   },
   {
     name: "No Carrots",
     checked: false,
     modifyType: "No Add",
+    price: 0.00,
   },
   {
     name: "No Fish",
     checked: false,
     modifyType: "No Add",
+    price: 0.00,
   },
   {
     name: "No Gluten",
     checked: false,
     modifyType: "No Add",
+    price: 0.00,
   },
   {
     name: "No Soy Sauce",
     checked: false,
     modifyType: "No Add",
+    price: 0.00,
   },
   // Add
   {
     name: "Add Onions",
     checked: false,
     modifyType: "Add",
+    price: 1.0,
   },
   {
     name: "Add Carrots",
     checked: false,
     modifyType: "Add",
+    price: 1.0,
   },
   {
     name: "Add Fish",
     checked: false,
     modifyType: "Add",
+    price: 1.0,
   },
   {
     name: "Add Gluten",
     checked: false,
     modifyType: "Add",
+    price: 1.0,
   },
   {
     name: "Add Soy Sauce",
     checked: false,
     modifyType: "Add",
+    price: 1.0,
   },
 ];
 const MENU_ITEMS = [

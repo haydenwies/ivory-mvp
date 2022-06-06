@@ -134,19 +134,22 @@ function Receipt() {
                       {item.modifiers &&
                         item.modifiers.map((modifier, key) => (
                           <div className="modifier-container" key={key}>
-                            <p key={key}>{modifier}</p>
-                            {editingItemIndex === itemKey && editItemOn ? (
-                              <button
-                                className="remove-modifier"
-                                onClick={() => {
-                                  dispatch(setOrder(["DELETE_MODIFIER", modifier]));
-                                }}
-                              >
-                                -
-                              </button>
-                            ) : (
-                              <button></button>
-                            )}
+                            <p key={key}>{modifier.name}</p>
+                            <div className="modifier-right-section row-c-c">
+                              <p className="modifier-price">+${modifier.price.toFixed(2)}</p>
+                              {editingItemIndex === itemKey && editItemOn ? (
+                                <button
+                                  className="remove-modifier"
+                                  onClick={() => {
+                                    dispatch(setOrder(["DELETE_MODIFIER", modifier]));
+                                  }}
+                                >
+                                  -
+                                </button>
+                              ) : (
+                                <button></button>
+                              )}
+                            </div>
                           </div>
                         ))}
                       {/* </div> */}

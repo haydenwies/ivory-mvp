@@ -21,6 +21,7 @@
   grid-template-rows: 1fr 9fr 1fr;
   grid-template-columns: 1fr;
 }
+/* ----------------------------- Edit Tabs ----------------------------- */
 .edit-item-tabs {
   width: 100%;
 }
@@ -30,6 +31,8 @@
 .editing-tab-active {
   color: #20b98a;
 }
+
+/* ----------------------------- Selection Items ----------------------------- */
 .edit-selection-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -54,6 +57,8 @@
   grid-template-rows: 6fr 1fr;
   row-gap: 2rem;
 }
+
+/* ----------------------------- Selection Choices ----------------------------- */
 .selection-choices {
 }
 .selection-choice {
@@ -98,7 +103,7 @@
   font-size: 1.2rem;
   justify-self: center;
 }
-/* ----------------------------- Swap ----------------------------- */
+/* ----------------------------- Swap Selection ----------------------------- */
 .swap-content {
   display: grid;
   grid-template-rows: 4fr 4fr 1fr;
@@ -124,25 +129,65 @@
   background-color: #197e5f;
   cursor: pointer;
 }
+/* ----------------------------- Swap Category ----------------------------- */
 .swap-category {
   background-color: #262835;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
 }
+
+/* ----------------------------- Swap Actions----------------------------- */
 .swap-actions {
+  /* height: 100%; */
+  width: 98%;
   display: grid;
-  grid-template-columns: 1fr 4fr 1fr 4fr 1fr;
-  column-gap: 0.5rem;
+  grid-template-rows: repeat(2, 1fr);
+  margin: auto;
+  grid-gap: 1rem;
+  margin-bottom:1rem;
 }
-.swap-actions button {
-  background-color: #20b98a;
-  height: 100%;
+.top-swap-container {
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr;
+  justify-items: center;
 }
+
 .current-swap-item,
 .desired-swap-item {
   border: solid 1px white;
   height: 100%;
   width: 100%;
+  min-height: 60px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+.bottom-swap-container {
+  column-gap: 4rem;
+
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  justify-items: center;
+}
+.swap-actions button {
+  background-color: #20b98a;
+  height: 100%;
+  width: 100%;
+}
+.swap-price-container {
+  width: 100%;
+  /* grid-column: span 5; */
+}
+.swap-price-container input{
+  text-align: center;
+  font-size: 1.6rem;
+}
+.swap-price-container input {
+  width: 100%;
+  background: transparent;
+  border: solid 1px white;
+  min-height: 60px;
 }
 /* ----------------------------- Add/No Add Items ----------------------------- */
 .add-or-no-add {
@@ -154,23 +199,22 @@
   margin: auto;
   max-height: 70vh;
 }
-.no-add-items {
+.add-or-no-add-items {
   background-color: #f2d38f;
   cursor: pointer;
 }
-.checkbox-container{
-  border:solid 2px black;
-  width:40px;
-  height:40px;
+.checkbox-container {
+  border: solid 2px black;
+  width: 40px;
+  height: 40px;
 }
-.checkbox-container img{
+.checkbox-container img {
   position: relative;
-  bottom:2px;
-  
+  bottom: 2px;
 }
-.no-add-items p {
+.add-or-no-add-items p {
   color: black;
   font-size: 1.5rem;
   font-weight: 300;
-  padding:1rem 0;
+  padding: 1rem 0;
 }
