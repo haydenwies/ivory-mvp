@@ -21,17 +21,19 @@ import PrinterOptions from "./PrinterOptions";
 function CustomerInfo() {
   const dispatch = useDispatch();
   const { order, orderOptions } = useSelector(({ orderInfo }) => orderInfo);
-  const { phoneNumber } = useSelector(({ orderInfo }) => orderInfo.order);
+  const { phoneNumber, isScheduledOrder } = useSelector(({ orderInfo }) => orderInfo.order);
   /* ----------------------------- Methods ----------------------------- */
   const printOrder = async () => {
-    const ordersRef = collection(db, "orders");
-    const printQueRef = collection(db, "printQue");
+    // const ordersRef = collection(db, "orders");
+    // const printQueRef = collection(db, "printQue");
+
     let idFormat = true;
+    let isTwelveHour = true;
     let finalizedOrderOptions = Object.assign({}, orderOptions);
     let finalizedOrder = Object.assign({}, order);
-    finalizedOrder.waitTime = calculateFinishTime(order.waitTime.magnitude);
+    finalizedOrder.finishTime = isScheduledOrder ? "" : calculateFinishTime(order.waitTime.magnitude);
     finalizedOrder.date = getDate();
-    finalizedOrder.time = getTime();
+    finalizedOrder.time = [getTime(!idFormat, isTwelveHour), getTime(!idFormat, !isTwelveHour)];
     finalizedOrder.id = `${getDate(idFormat)}${getTime(idFormat)}${getSeconds(
       order.phoneNumber
     )}${numbersOnlyPhoneNum(phoneNumber)}`;
@@ -43,11 +45,15 @@ function CustomerInfo() {
       id: finalizedOrder.id,
     };
 
-    await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
-    await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
+    console.log(finalizedOrder.id);
+    console.log(getTime(!idFormat, !isTwelveHour));
+    console.log(getSeconds());
 
-    dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
-    dispatch(setOrderManagement(["RESET_ORDER"]));
+    // await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
+    // await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
+
+    // dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
+    // dispatch(setOrderManagement(["RESET_ORDER"]));
   };
 
   return (

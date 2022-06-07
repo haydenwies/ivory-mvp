@@ -290,7 +290,6 @@ export const orderInfoSlice = createSlice({
       orderType: "PICK_UP",
       deliveryAddress: "",
       deliveryFee: (6.0).toFixed(2),
-      orderTime: "",
       isScheduledOrder: false,
       scheduledTime: { date: "", time: "", hours: "", minutes: "", meridian: "PM" },
       waitTime: { displayName: "", units: "", magnitude: 0 },
