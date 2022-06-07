@@ -13,7 +13,7 @@
   border-radius: 0.2em;
   overflow-y: scroll;
   scrollbar-width: none;
-  z-index: 1;
+  z-index: 2;
   background-color: #121421;
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
 }
@@ -34,7 +34,7 @@
   position: relative;
   width: var(--receipt-width-content);
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
-  padding: 0.8rem 0;
+  /* padding: 0.8rem 0; */
   border-radius: 0.3rem;
   cursor: pointer;
 }
@@ -42,38 +42,71 @@
   width: 100%;
   padding: 0 0.6rem;
   flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 9fr 1fr;
 }
 .receipt-item-content h2 {
   font-size: 1.2rem;
 }
-.delete-icon{
-  width:30px;
-  height:30px;
+.item-name {
+  width: 100%;
+  height: 100%;
+  padding: 0.8rem 0;
+}
+.delete-icon {
+  width: 30px;
+  height: 30px;
 }
 .receipt-item img {
   width: var(--item-delete);
 }
-.receipt-components {
-  flex-basis: 100%;
+.receipt-selection-list {
+  grid-column: span 2;
 }
-.receipt-components ul {
-  margin-top:.5rem;
+.receipt-selection-list ul {
+  margin-top: 0.5rem;
   padding-left: 1.5rem;
 }
 .receipt-modifiers {
-  flex-basis: 100%;
+  grid-column: span 2;
+  row-gap: 1rem;
+}
+.modifier {
 }
 .receipt-modifiers h6 {
   font-size: 1.2rem;
   color: #20b78b;
   font-weight: 300;
-  padding: 0.8rem 0 0.5rem 0;
+  padding: 0.8rem 0 0 0;
+  grid-column: span 2;
 }
-.receipt-modifiers ul {
-  padding-left: 1.5rem;
+.modifier-container {
+  width: 100%;
+  grid-column: span 1;
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  row-gap: 1.5rem;
+  margin: 0.5rem 0;
+  column-gap: 1rem;
 }
-.receipt-modifiers li {
+.receipt-modifiers p {
   padding: 0 0 0.2rem 0;
+  font-size:1.1rem;
+}
+.modifier-right-section {
+  column-gap: 1rem;
+}
+.modifier-price{
+  font-size:1.1rem;
+}
+.remove-modifier {
+  justify-self: center;
+  width: 100%;
+  /* height: 100%; */
+  min-width: 35px;
+  max-height: 40px;
+  font-size: 1.5rem;
+  background-color: crimson;
 }
 .totals-and-options {
   width: 100%;

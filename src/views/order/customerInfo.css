@@ -14,6 +14,7 @@
   position: relative;
   background-color: #121421;
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 0px, rgba(255, 255, 255, 1) 0px 0px 3px;
+  z-index: 2;
 }
 h1 {
   font-size: var(--customer-info-h1);

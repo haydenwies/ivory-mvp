@@ -1,7 +1,7 @@
 import React from "react";
 import { setOrder } from "../../redux/orderInfo";
 import { useDispatch, useSelector } from "react-redux";
-import { numbersOnly, formatPhoneNumber } from "../../utils/formValidation";
+import { numbersOnly, formatPhoneNumber } from "../../utils/customerInfoUtils";
 import "./phoneNumber.css";
 function PhoneNumber() {
   const { phoneNumber } = useSelector(({ orderInfo }) => orderInfo.order);

@@ -25,6 +25,21 @@
 }
 .delivery-options {
   position: absolute;
-  width:70%;
-  background-color:#0c0d12;
+  width: 70%;
+  top: 110%;
+  border: solid 1px white;
+  height:550px;
+  overflow-y: scroll;
+  scrollbar-width:none;
+  background-color: #0c0d12;
+  z-index: 3;
+}
+.delivery-options button {
+  background-color: #0c0d12;
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  padding:1.3rem 0;
+  border:solid 1px rgb(154, 153, 153)
+  
 }

@@ -4,6 +4,7 @@ import { setOrder } from "../../redux/orderInfo";
 import BackgroundExit from "../../components/backgroundExit/BackgroundExit";
 import { setInstances } from "../../redux/functionality";
 import "./waitTime.css";
+import { hoursValidation, minutesValidation } from "../../utils/customerInfoUtils";
 
 function WaitTime() {
   const { waitTime, isScheduledOrder, scheduledTime } = useSelector(({ orderInfo }) => orderInfo.order);
@@ -23,9 +24,16 @@ function WaitTime() {
         >
           {!isScheduledOrder && (waitTime.displayName ? waitTime.displayName : "Select Wait Time")}
           {isScheduledOrder &&
-            (scheduledTime.hours && scheduledTime.minutes
-              ? `${scheduledTime.hours} : ${scheduledTime.minutes} ${scheduledTime.meridian}`
-              : "Select Wait Time")}
+            (scheduledTime.hours && scheduledTime.minutes ? (
+              <>
+                <p>{scheduledTime.date} </p>
+                <p>
+                  {scheduledTime.hours} : {scheduledTime.minutes} {scheduledTime.meridian}
+                </p>
+              </>
+            ) : (
+              "Select Wait Time"
+            ))}
         </button>
       </div>
       {waitTimeOn && (
@@ -84,7 +92,9 @@ function WaitTime() {
                         value={scheduledTime.hours}
                         placeholder="00"
                         onChange={(e) => {
-                          dispatch(setOrder(["setScheduledHours", e.target.value]));
+                          if (hoursValidation(e.target.value)) {
+                            dispatch(setOrder(["setScheduledHours", e.target.value]));
+                          }
                         }}
                       />
                       <div className="time-colon col-c-c">
@@ -97,7 +107,8 @@ function WaitTime() {
                         placeholder="00"
                         value={scheduledTime.minutes}
                         onChange={(e) => {
-                          dispatch(setOrder(["setScheduledMinutes", e.target.value]));
+                          if (minutesValidation(e.target.value))
+                            dispatch(setOrder(["setScheduledMinutes", e.target.value]));
                         }}
                       />
                     </div>
@@ -156,7 +167,7 @@ function WaitTime() {
                   dispatch(setInstances(["setWaitTimeOn", false]));
                 }}
               >
-                Done
+                Save
               </button>
             </div>
           </div>
