@@ -1,5 +1,3 @@
-import { Pie } from 'react-chartjs-2'
-
 function FinancialInfo({ data }) {
 
   const sumData = (key) => {

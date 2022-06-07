@@ -47,7 +47,7 @@ function CustomerInfo() {
 
     await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
     await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
-
+    
     dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
     dispatch(setOrderManagement(["RESET_ORDER"]));
   };

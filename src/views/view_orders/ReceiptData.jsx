@@ -147,12 +147,12 @@ function Receipts({ data }) {
                     )}
                   </p>
                 </div>
-                <div className="receipt-property row-sb-c">
+                {/* <div className="receipt-property row-sb-c">
                   <p>Name:</p>
                   <p>
                     <b>{doc.name}</b>
                   </p>
-                </div>
+                </div> */}
                 <div className="receipt-property row-sb-c">
                   <p>Order Type:</p>
                   <p>
@@ -162,7 +162,7 @@ function Receipts({ data }) {
                 <div className="receipt-property row-sb-c">
                   <p>Order Time:</p>
                   <p>
-                    <b>{doc.time}</b>
+                    <b>{doc.time[0]}</b>
                   </p>
                 </div>
                 <div className="receipt-property row-sb-c">
