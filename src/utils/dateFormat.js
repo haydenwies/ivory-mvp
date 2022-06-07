@@ -1,6 +1,5 @@
 const calculateFinishTime = (waitTime) => {
   // Calculates the current time
-  let finishTime;
   let today = new Date();
   let hours = today.getHours();
   let minutes = today.getMinutes();
@@ -21,19 +20,22 @@ const calculateFinishTime = (waitTime) => {
   return hours + ":" + minutes + " " + ampm;
 };
 
-const getTime = (idFormat) => {
+const getTime = (idFormat, isTwelveHour) => {
   let today = new Date();
   let hours = today.getHours();
   let minutes = today.getMinutes();
-  let ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12;
-  hours = hours ? hours : 12; // the hour '0' should be '12'
+  let ampm = "";
+  if (isTwelveHour) {
+    ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+  }
   minutes = minutes < 10 ? "0" + minutes : minutes;
   if (idFormat) {
     hours = hours >= 10 ? hours : `0${hours}`;
     return hours + minutes;
   }
-  return hours + ":" + minutes + " " + ampm;
+  return hours + ":" + minutes + (isTwelveHour ? " " + ampm : "");
 };
 
 const getDate = (idFormat) => {
@@ -45,7 +47,7 @@ const getDate = (idFormat) => {
   if (idFormat) {
     return `${today.getFullYear()}${month}${day}`; //Gets current date
   }
-  return `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`; //Gets current date
+  return `${today.getFullYear()}-${month}-${day}`; //Gets current date
 };
 export { calculateFinishTime, getDate, getTime, getSeconds };
 
