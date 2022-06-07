@@ -45,7 +45,10 @@ function CustomerInfo() {
       id: finalizedOrder.id,
     };
 
-    console.log(finalizedOrder);
+    console.log(finalizedOrder.id);
+    console.log(getTime(!idFormat, !isTwelveHour));
+    console.log(getSeconds());
+
     // await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
     // await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
 

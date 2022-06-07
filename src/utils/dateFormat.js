@@ -33,7 +33,7 @@ const getTime = (idFormat, isTwelveHour) => {
   minutes = minutes < 10 ? "0" + minutes : minutes;
   if (idFormat) {
     hours = hours >= 10 ? hours : `0${hours}`;
-    return hours + minutes;
+    return `${hours}${minutes}`;
   }
   return hours + ":" + minutes + (isTwelveHour ? " " + ampm : "");
 };
@@ -42,7 +42,7 @@ const getDate = (idFormat) => {
   let today = new Date();
   let month = today.getMonth() + 1;
   let day = today.getDate();
-  day = day >= 10 ? day : `${day}`;
+  day = day >= 10 ? day : `0${day}`;
   month = month >= 10 ? month : `0${month}`;
   if (idFormat) {
     return `${today.getFullYear()}${month}${day}`; //Gets current date
@@ -53,5 +53,7 @@ export { calculateFinishTime, getDate, getTime, getSeconds };
 
 const getSeconds = () => {
   let today = new Date();
-  return today.getSeconds();
+  let seconds = today.getSeconds().toFixed(0);
+  seconds = seconds >= 10 ? seconds : `0${seconds}`;
+  return seconds;
 };
