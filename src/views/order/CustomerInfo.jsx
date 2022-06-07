@@ -45,15 +45,11 @@ function CustomerInfo() {
       id: finalizedOrder.id,
     };
 
-    console.log(finalizedOrder.id);
-    console.log(getTime(!idFormat, !isTwelveHour));
-    console.log(getSeconds());
+    await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
+    await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
 
-    // await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
-    // await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
-
-    // dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
-    // dispatch(setOrderManagement(["RESET_ORDER"]));
+    dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
+    dispatch(setOrderManagement(["RESET_ORDER"]));
   };
 
   return (
