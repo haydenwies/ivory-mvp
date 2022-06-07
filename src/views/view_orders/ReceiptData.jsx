@@ -3,15 +3,20 @@ import { Search , XIcon } from "../../Assets/Images";
 import { db } from "../../firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import "./viewOrder.css";
-function Receipts() {
+
+function Receipts({ data }) {
   // Toggle variables
   const [showModal, setShowModal] = useState(false);
   const [showFullReceipt, setShowFullReceipt] = useState(false);
 
-  // Receipt fetch data
-  const timezone = "America/Toronto";
-  const date = new Date().toLocaleString('sv', {timeZone: timezone}).slice(0, 10);
-  const [data, setData] = useState();
+  // // Receipt fetch data
+  // const timezone = "America/Toronto";
+  // const date = new Date().toLocaleString('sv', {timeZone: timezone}).slice(0, 10);
+
+  // data will never change
+  // const [data, setData] = useState();
+  // displayData will change based on search results
+  const [displayData, setDisplayData] = useState();
 
   // Search data
   const [search, setSearch] = useState("");
@@ -27,7 +32,8 @@ function Receipts() {
     // Retrieve method of sort from innerHTML (ex. "time") and make compatible with database conventions
     const method = e.target.innerHTML.toLowerCase()
     // Sort and return data
-    setData(data.sort((a, b) => {
+    setDisplayData(displayData.sort((a, b) => {
+      console.log(method);
       return a[method].localeCompare(b[method])
     }))
     // Close modal to update view
@@ -40,32 +46,34 @@ function Receipts() {
   };
 
   const onSearch = (e) => {
-    if (search !== "") {
-
+    setSearch(e.target.value);
+    if (e.target.value === "") {
+      setDisplayData(data)
     } else {
-
+      setDisplayData(data.filter(x => x.phoneNumber.replace("-", "").indexOf(e.target.value) !== -1))
     }
   }
 
   // Fetch data when the page loads
   useEffect(() => {
+    setDisplayData(data)
+    // const getData = async () => {
+    //   // Get documents with correct date
+    //   const q = query(collection(db, "orders"), where("date", "==", date));
+    //   const snapshot = await getDocs(q);
+    //   // Loop through data and add to array
+    //   const docs = []
+    //   snapshot.forEach((doc) => {
+    //     docs.push(doc.data())
+    //   });
+    //   // Set data as array once loop finishes
+    //   setData(docs);
+    //   setDisplayData(docs)
+    // };
 
-    const getData = async () => {
-      // Get documents with correct date
-      const q = query(collection(db, "orders"), where("date", "==", date));
-      const snapshot = await getDocs(q);
-      // Loop through data and add to array
-      const docs = []
-      snapshot.forEach((doc) => {
-        docs.push(doc.data())
-      });
-      // Set data as array once loop finishes
-      setData(docs);
-    };
-
-    getData();
+    // getData();
     
-  }, [date]);
+  }, []);
 
   return (
     <div className="receipt-data">
@@ -76,7 +84,8 @@ function Receipts() {
           <input 
             type="text" 
             placeholder="Search" 
-            // value={}
+            value={search}
+            onChange={onSearch}
           />
         </div>
         <div className="display-options row-fe-c">
@@ -104,7 +113,7 @@ function Receipts() {
               <img src={XIcon} alt="Close modal" />
             </button>
             <h2>Sort Options</h2>
-            {["Time", "Name"].map((property) => (
+            {["Time"].map((property) => (
               <div key={property}>
                 <button 
                   className="display-option"
@@ -118,9 +127,9 @@ function Receipts() {
         )}
       </div>
       {/* ----------------------------- Receipts ----------------------------- */}
-      {data && <div className="receipts">
+      {displayData && <div className="receipts">
         <div className="receipts-container">
-          {data.map((doc, key) => (
+          {displayData.map((doc, key) => (
             /* ----------------------------- Receipt Full Data ----------------------------- */
             <div key={key} className="receipt-card">
               <div className="receipt-content receipt-full-content col-c-fs">
