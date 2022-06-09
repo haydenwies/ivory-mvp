@@ -97,11 +97,20 @@ export class Totals {
     Totals.getDiscount();
     Totals.getTotal();
     let { subTotal, tax, discount, total } = Totals;
+
+    const getPrecision = (strNum) => {
+      if (strNum.indexOf(".") === -1) {
+        return parseFloat(strNum).toFixed(2);
+      } else {
+        return parseFloat(`${strNum}1`).toFixed(2);
+      }
+    };
+
     return {
-      subTotal: subTotal.toFixed(2),
-      tax: tax.toFixed(2),
-      discount: discount.toFixed(2),
-      total: total.toFixed(2),
+      subTotal: getPrecision(`${subTotal}`),
+      tax: getPrecision(`${tax}`),
+      discount: getPrecision(`${discount}`),
+      total: getPrecision(`${total}`),
     };
   }
 }

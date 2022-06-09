@@ -193,19 +193,19 @@ function Receipts({ data }) {
                     <div className="receipt-property row-sb-c">
                       <p>Sub-Total:</p>
                       <p>
-                        <b>{doc.subTotal}</b>
+                        <b>${doc.subTotal.toFixed(2)}</b>
                       </p>
                     </div>
                     <div className="receipt-property row-sb-c">
                       <p>Taxes:</p>
                       <p>
-                        <b>{doc.tax}</b>
+                        <b>${doc.tax.toFixed(2)}</b>
                       </p>
                     </div>
                     <div className="receipt-property row-sb-c">
                       <p>Total:</p>
                       <p>
-                        <b>{doc.total}</b>
+                        <b>${doc.total.toFixed(2)}</b>
                       </p>
                     </div>
                   </>

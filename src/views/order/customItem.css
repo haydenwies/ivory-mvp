@@ -4,6 +4,7 @@
   left: -3%;
   bottom: 0;
   right: -3%;
+  min-height: var(--min-modal-height);
 }
 .custom-item {
   height: 80%;

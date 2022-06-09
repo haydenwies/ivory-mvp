@@ -287,9 +287,9 @@ export const orderInfoSlice = createSlice({
       phoneNumber: "",
       time: "",
       date: "", //YYYY-MM-DD
-      orderType: "PICK_UP",
+      orderType: "PICKUP",
       deliveryAddress: "",
-      deliveryFee: (6.0).toFixed(2),
+      deliveryFee: 6.0,
       isScheduledOrder: false,
       scheduledTime: { date: "", time: "", hours: "", minutes: "", meridian: "PM" },
       waitTime: { displayName: "", units: "", magnitude: 0 },
@@ -297,25 +297,25 @@ export const orderInfoSlice = createSlice({
       paid: false,
       note: "",
       items: [], //item->{name(string), price(float), selectionList:{itemLimit:int, items:[arr]},selectionCategory:str, swappable:bool, modifiable(bool), modifiers(string), selectionList:[], quantity(int)}
-      subTotal: (0.0).toFixed(2),
+      subTotal: 0.0,
       discounted: false,
-      beforeTaxDiscount: (0.0).toFixed(2),
-      tax: (0.0).toFixed(2),
-      afterTaxDiscount: (0.0).toFixed(2),
-      total: (0.0).toFixed(2),
+      beforeTaxDiscount: 0.0,
+      tax: 0.0,
+      afterTaxDiscount: 0.0,
+      total: 0.0,
       paymentMethod: "",
       printed: false,
     },
     orderOptions: {
       taxPercent: 0.13,
       discountPercent: 0.1,
-      isDiscountBeforeTax: true,
+      isDiscountBeforeTax: false,
       isDeliveryBeforeTax: true,
       printers: Array(3).fill({ name: "No Printer", ip: "192.168.0.1" }),
       printerToggles: Array(3).fill(false),
       printerOptions: [
         { name: "No Printer", ip: "192.168.0.1" },
-        { name: "Kitchen Printer", ip: "192.168.0.14" },
+        { name: "Kitchen Printer", ip: "192.168.0.45" },
         { name: "Cashier Printer", ip: "192.168.0.45" },
       ],
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
@@ -323,13 +323,14 @@ export const orderInfoSlice = createSlice({
       addressList: ADDRESS_LIST,
       filteredItems: [],
       searchedItem: "",
-      editingItemIndex: 0,
-      editingTab: "Selection List",
-      editingCategory: "Selection List",
+      editingItemIndex: -1,
+      editingTab: "Selection List", //Used for editing tabs
+      editingCategory: "", //Used for swap items
       editingSelection: [],
       currentSwapItem: { name: "", price: 0.0 },
       desiredSwapItem: { name: "", price: 0.0 },
-      swapPrice: "",
+      swapPrice: 0.0,
+      scrollDetect: false,
     },
     orderManagement: {
       backupOrder: {},
@@ -406,6 +407,7 @@ export const orderInfoSlice = createSlice({
           orderOptions.searchedItem = value;
           break;
         case "setEditingItemIndex":
+          // We find the editing item index by creating a deep copy of each item in receipt and comparing their properties
           orderOptions.editingItemIndex = items.findIndex((receiptItem) => {
             //We have to create a copy of the item with the same quantity to check if the objects are the same.
             let tempItem = JSON.parse(JSON.stringify(receiptItem));
@@ -415,12 +417,20 @@ export const orderInfoSlice = createSlice({
             return JSON.stringify(tempItem) === JSON.stringify(tempValue);
           });
           break;
+        case "resetEditingItemIndex":
+          orderOptions.editingItemIndex = -1;
+          break;
         case "setEditingSelectionList":
           orderOptions.editingSelection = value; //Sets the list of items the special order can choose from (aka combos)
           break;
+        case "setEditingTab":
+          orderOptions.editingTab = value;
+          break;
         case "setEditingCategory":
+          console.log(value);
           orderOptions.editingCategory = value;
           break;
+
         case "setSwapItem":
           if (
             orderOptions.currentSwapItem.name === "" ||
@@ -433,9 +443,11 @@ export const orderInfoSlice = createSlice({
             !orderOptions.desiredSwapItem.hasOwnProperty("name")
           ) {
             orderOptions.desiredSwapItem = value;
-            orderOptions.swapPrice = `${parseFloat(
+            let priceDiff = parseFloat(
               orderOptions.desiredSwapItem.price - orderOptions.currentSwapItem.price
-            ).toFixed(2)}`;
+            );
+            priceDiff = priceDiff < 0 ? 0 : priceDiff; //Makes sure the price difference is always >= 0
+            orderOptions.swapPrice = priceDiff;
           }
           break;
         case "setCurrentSwapItem":
@@ -459,14 +471,19 @@ export const orderInfoSlice = createSlice({
           state.orderManagement.defaultOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
           break;
         case "RESTORE_BACKUP_ORDER":
-          if (Object.entries(orderManagement.backupOrder) === 0) {
-            break;
+          try {
+            if (Object.entries(orderManagement.backupOrder).length === 0) {
+              alert("No backup order saved.");
+              break;
+            }
+            if (order.items.length > 0) {
+              break;
+            }
+            state.order = JSON.parse(JSON.stringify(state.orderManagement.backupOrder));
+            state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.backupOrderOptions));
+          } catch (e) {
+            alert("Failed to restore backup order.");
           }
-          if (order.items.length > 0) {
-            break;
-          }
-          state.order = JSON.parse(JSON.stringify(state.orderManagement.backupOrder));
-          state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.backupOrderOptions));
           break;
 
         case "RESET_ORDER":
@@ -495,11 +512,15 @@ export const orderInfoSlice = createSlice({
             tempValue.quantity = 1;
             return JSON.stringify(tempItem) === JSON.stringify(tempValue);
           });
-          if (index === -1 || value.modifiable) {
+
+          //Adds the item to the receipt or increments the quantity of an item if it already exists
+          if (index === -1) {
             order.items = [...items, value];
           } else {
             order.items[index].quantity++;
           }
+
+          orderOptions.scrollDetect = !orderOptions.scrollDetect; //Triggers the scroll animation on receipt
           break;
         // ---------------- Setting the selection Items  --------------- //
         case "setSelectionItems":
@@ -605,10 +626,6 @@ export const orderInfoSlice = createSlice({
         case "setScheduledDate":
           order.scheduledTime.date = value;
           break;
-        // ---------------- Set Scheduled Time---------------- //
-        case "setScheduledTime":
-          order.scheduledTime.time = value;
-          break;
         // ---------------- Set Scheduled Hours---------------- //
         case "setScheduledHours":
           order.scheduledTime.hours = value;
@@ -635,10 +652,15 @@ export const orderInfoSlice = createSlice({
           break;
         // ---------------- Set Payment Method---------------- //
         case "setPaymentMethod":
+          //Checks if they've unchecked the payment method
           if (order.paymentMethod === value) {
             order.paymentMethod = "";
-          } else {
+            order.paid = false;
+          }
+          //Assigns a payment method and sets paid to true
+          else {
             order.paymentMethod = value;
+            order.paid = true;
           }
           break;
         // ---------------- Set Notes---------------- //
@@ -647,23 +669,23 @@ export const orderInfoSlice = createSlice({
           break;
         // ---------------- Set Subtotal ---------------- //
         case "setSubTotal":
-          order.subTotal = value;
+          order.subTotal = parseFloat(value);
           break;
         // ---------------- Set Before Tax Discount ---------------- //
         case "setBeforeTaxDiscount":
-          order.beforeTaxDiscount = value;
+          order.beforeTaxDiscount = parseFloat(value);
           break;
         // ---------------- Set Tax ---------------- //
         case "setTax":
-          order.tax = value;
+          order.tax = parseFloat(value);
           break;
         // ---------------- Set After Tax Discount ---------------- //
         case "setAfterTaxDiscount":
-          order.afterTaxDiscount = value;
+          order.afterTaxDiscount = parseFloat(value);
           break;
         // ---------------- Set Total---------------- //
         case "setTotal":
-          order.total = value;
+          order.total = parseFloat(value);
           break;
         // ---------------- Set Discounted---------------- //
         case "setDiscounted":

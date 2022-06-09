@@ -4,7 +4,7 @@ import { XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
 import { setInstances, setInstancesDefaultSettings } from "../../redux/functionality";
 import { db } from "../../firebase/config";
-import { collection, addDoc, doc, setDoc, collectionGroup } from "firebase/firestore";
+import { doc, setDoc, collectionGroup } from "firebase/firestore";
 import { calculateFinishTime, getDate, getTime, getSeconds } from "../../utils/dateFormat";
 // Views or Components
 import BackgroundExit from "../../components/backgroundExit/BackgroundExit";
@@ -24,13 +24,11 @@ function CustomerInfo() {
   const { phoneNumber, isScheduledOrder } = useSelector(({ orderInfo }) => orderInfo.order);
   /* ----------------------------- Methods ----------------------------- */
   const printOrder = async () => {
-    // const ordersRef = collection(db, "orders");
-    // const printQueRef = collection(db, "printQue");
-
     let idFormat = true;
     let isTwelveHour = true;
-    let finalizedOrderOptions = Object.assign({}, orderOptions);
-    let finalizedOrder = Object.assign({}, order);
+    let finalizedOrderOptions = JSON.parse(JSON.stringify(orderOptions));
+    let finalizedOrder = JSON.parse(JSON.stringify(order));
+    console.table(finalizedOrder);
     finalizedOrder.finishTime = isScheduledOrder ? "" : calculateFinishTime(order.waitTime.magnitude);
     finalizedOrder.date = getDate();
     finalizedOrder.time = [getTime(!idFormat, isTwelveHour), getTime(!idFormat, !isTwelveHour)];

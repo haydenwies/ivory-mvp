@@ -34,9 +34,11 @@
 .selection-item p {
   color: black;
   font-weight: 300;
+  text-align: center;
 }
-.modifiable-item{
-  background-color: #78ce7a
+.choose-item {
+  background-color: #d0e2b0;
+  text-align: center;
 }
 /* ----------------------------- Category ----------------------------- */
 .category {
@@ -52,7 +54,8 @@
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
-  font-weight: 300
+  font-weight: 300;
+  text-align: center;
 }
 /* ----------------------------- Item Options ----------------------------- */
 .item-options {

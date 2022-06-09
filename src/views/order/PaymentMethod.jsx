@@ -11,7 +11,7 @@ function PaymentMethod() {
     <div className="payment input-info row-se-c">
       <label
         className="col-c-c"
-        onClick={() => {
+        onChange={() => {
           dispatch(setOrder(["setPaymentMethod", "CASH"]));
         }}
       >
@@ -20,7 +20,7 @@ function PaymentMethod() {
       </label>
       <label
         className="col-c-c"
-        onClick={() => {
+        onChange={() => {
           dispatch(setOrder(["setPaymentMethod", "DEBIT"]));
         }}
       >
@@ -29,7 +29,7 @@ function PaymentMethod() {
       </label>
       <label
         className="col-c-c"
-        onClick={() => {
+        onChange={() => {
           dispatch(setOrder(["setPaymentMethod", "CREDIT"]));
         }}
       >

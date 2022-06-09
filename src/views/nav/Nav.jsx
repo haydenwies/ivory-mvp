@@ -72,7 +72,7 @@ function Nav() {
         <div className="blur"></div>
         <div className="background-blur"></div>
         <div className="company-name col-c-c">
-          <h1>Flipping Mikes</h1>
+          <h1>Ivory</h1>
           <h4>Order Management System</h4>
         </div>
       </div>
