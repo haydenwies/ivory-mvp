@@ -75,7 +75,7 @@ const formatAddress = (addressEntry, streetName) => {
 const priceInputCheck = (priceEntry) => {
   const validPrice = new RegExp(/\d\.*$/);
   if (validPrice.test(priceEntry)) {
-    return priceEntry;
+    return parseFloat(priceEntry);
   } else {
     return priceEntry.slice(0, -1);
   }

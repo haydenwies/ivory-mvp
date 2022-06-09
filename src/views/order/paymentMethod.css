@@ -1,9 +1,14 @@
 /* ----------------------------- Payment ----------------------------- */
 .payment {
 }
+.payment label{
+  padding: 0 .5rem;
+  cursor: pointer;
+}
 .payment span {
   font-size: 1.2rem;
   margin-bottom: .5rem;
+  font-weight: 300;
 }
 .payment input {
   width:25px;

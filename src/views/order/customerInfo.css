@@ -15,6 +15,7 @@
   background-color: #121421;
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 0px, rgba(255, 255, 255, 1) 0px 0px 3px;
   z-index: 2;
+  min-height: var(--min-modal-height);
 }
 h1 {
   font-size: var(--customer-info-h1);
@@ -51,7 +52,7 @@ h1 {
 .print {
   background-color: #20b68a;
   width: var(--customer-info-content-width);
-  padding:1rem 0;
-  border-radius: .5rem;
+  padding: 1rem 0;
+  border-radius: 0.5rem;
   font-size: 1.2rem;
 }

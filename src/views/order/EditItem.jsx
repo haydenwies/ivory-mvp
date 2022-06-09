@@ -15,11 +15,18 @@ function EditItem() {
   );
 
   // Menu Data State
-  const { swapCategories, menuItems } = useSelector(({ menuData }) => menuData);
+  const { nonSwappable, menuItems, menuCategories } = useSelector(({ menuData }) => menuData);
 
   // Order Options State
-  const { swapPrice, editingItemIndex, editingSelection, editingCategory, desiredSwapItem, currentSwapItem } =
-    useSelector(({ orderInfo }) => orderInfo.orderOptions);
+  const {
+    swapPrice,
+    editingItemIndex,
+    editingSelection,
+    editingTab,
+    editingCategory,
+    desiredSwapItem,
+    currentSwapItem,
+  } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
 
   //Order Info State
   const { items } = useSelector(({ orderInfo }) => orderInfo.order);
@@ -57,18 +64,30 @@ function EditItem() {
         { name: `${currentSwapItem.name} --> ${desiredSwapItem.name}`, price: parseFloat(swapPrice) },
       ])
     );
-    dispatch(setOrderOptions(["setCurrentSwapItem", {}]));
-    dispatch(setOrderOptions(["setDesiredSwapItem", {}]));
-    dispatch(setOrderOptions(["setSwapPrice", ""]));
+    dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
+    dispatch(setOrderOptions(["setDesiredSwapItem", { name: "", price: 0 }]));
+    dispatch(setOrderOptions(["setSwapPrice", 0.0]));
   };
 
   useEffect(() => {
-    console.log(
-      item.modifierList.filter((modifier) =>
-        editingCategory === "No Add" ? modifier.modifyType === "No Add" : modifier.modifyType === "Add"
-      )
-    );
-  }, [editingCategory]);
+    if (item.selectionList.itemLimit > 0) {
+      console.log("first")
+      dispatch(setOrderOptions(["setEditingTab", "Selection List"]));
+    } else {
+      console.log("second")
+      dispatch(setOrderOptions(["setEditingTab", "No Add"]));
+    }
+  }, [editingItemIndex]);
+  useEffect(() => {
+    return () => {
+      console.log("CLEAN UP")
+      dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
+      dispatch(setOrderOptions(["setDesiredSwapItem", { name: "", price: 0 }]));
+      dispatch(setOrderOptions(["setSwapPrice", 0.0]));
+      dispatch(setOrderOptions(["setEditingTab", "Selection List"]));
+      dispatch(setOrderOptions(["resetEditingItemIndex", item]))
+    };
+  }, []);
   return (
     <>
       {/* ----------------------------- Close Tab ----------------------------- */}
@@ -83,36 +102,36 @@ function EditItem() {
         <div className="edit-item-content col-c-c">
           <div className="edit-item-tabs row-se-c">
             {/* ----------------------------- Edit Tabs ----------------------------- */}
-            {item.modifiable && (
+            {item.selectionList.itemLimit > 0 && (
               <button
-                className={editingCategory === "Selection List" ? "editing-tab-active" : undefined}
+                className={editingTab === "Selection List" ? "editing-tab-active" : undefined}
                 onClick={(e) => {
-                  dispatch(setOrderOptions(["setEditingCategory", e.target.innerText]));
+                  dispatch(setOrderOptions(["setEditingTab", e.target.innerText]));
                 }}
               >
                 Selection List
               </button>
             )}
             <button
-              className={editingCategory === "Swap" ? "editing-tab-active" : undefined}
+              className={editingTab === "Swap" ? "editing-tab-active" : undefined}
               onClick={(e) => {
-                dispatch(setOrderOptions(["setEditingCategory", e.target.innerText]));
+                dispatch(setOrderOptions(["setEditingTab", e.target.innerText]));
               }}
             >
               Swap
             </button>
             <button
-              className={editingCategory === "No Add" ? "editing-tab-active" : undefined}
+              className={editingTab === "No Add" ? "editing-tab-active" : undefined}
               onClick={(e) => {
-                dispatch(setOrderOptions(["setEditingCategory", e.target.innerText]));
+                dispatch(setOrderOptions(["setEditingTab", e.target.innerText]));
               }}
             >
               No Add
             </button>
             <button
-              className={editingCategory === "Add" ? "editing-tab-active" : undefined}
+              className={editingTab === "Add" ? "editing-tab-active" : undefined}
               onClick={(e) => {
-                dispatch(setOrderOptions(["setEditingCategory", e.target.innerText]));
+                dispatch(setOrderOptions(["setEditingTab", e.target.innerText]));
               }}
             >
               Add
@@ -120,13 +139,16 @@ function EditItem() {
           </div>
 
           {/* ----------------------------- Selection Items ----------------------------- */}
-          {editingCategory === "Selection List" && (
+          {editingTab === "Selection List" && (
             <div className="selection-content">
               <div className="edit-selection-list">
                 {editingSelection.map((selectionItem, key) => (
                   <button
                     key={key}
                     className="edit-selection-item row-c-c"
+                    style={{
+                      backgroundColor: item.selectionList.items.indexOf("/") === -1 ? "#f2d38f84" : "#f2d38f",
+                    }}
                     onClick={() => {
                       dispatch(setOrder(["ADD_SELECTION_ITEM", selectionItem]));
                     }}
@@ -154,16 +176,22 @@ function EditItem() {
           )}
 
           {/* ----------------------------- Swap Selection ----------------------------- */}
-          {editingCategory === "Swap" && (
+          {editingTab === "Swap" && (
             <>
               <div className="swap-content">
                 {/* Swap Selection Items */}
                 <div className="swap-selection-list">
                   {menuItems
-                    .filter((item) => item.category[0] === categoryType)
+                    .filter((item) => item.category === editingCategory)
                     .map((item, key) => (
                       <div
                         className="swap-selection row-c-c"
+                        style={{
+                          backgroundColor:
+                            currentSwapItem.name !== "" && desiredSwapItem.name !== ""
+                              ? "#197e602d"
+                              : "#197e5f",
+                        }}
                         key={key}
                         onClick={() => dispatch(setOrderOptions(["setSwapItem", item]))}
                       >
@@ -174,17 +202,26 @@ function EditItem() {
 
                 {/* ----------------------------- Swap Category ----------------------------- */}
                 <div className="swap-category-list ">
-                  {swapCategories.map((category, key) => (
-                    <div
-                      key={key}
-                      className="swap-category row-c-c"
-                      onClick={(e) => {
-                        dispatch(setInstances(["setCategoryType", e.target.innerText]));
-                      }}
-                    >
-                      {category}
-                    </div>
-                  ))}
+                  {menuCategories
+                    .filter((category) => {
+                      for (let i = 0; i < nonSwappable.length; i++) {
+                        if (category === nonSwappable[i]) {
+                          return false;
+                        }
+                      }
+                      return true;
+                    })
+                    .map((category, key) => (
+                      <div
+                        key={key}
+                        className="swap-category row-c-c"
+                        onClick={(e) => {
+                          dispatch(setOrderOptions(["setEditingCategory", e.target.innerText]));
+                        }}
+                      >
+                        {category}
+                      </div>
+                    ))}
                 </div>
               </div>
 
@@ -195,7 +232,7 @@ function EditItem() {
                   <div
                     className="current-swap-item row-c-c"
                     onClick={() => {
-                      dispatch(setOrderOptions(["setCurrentSwapItem", ""]));
+                      dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
                     }}
                   >
                     {currentSwapItem.name}
@@ -204,7 +241,7 @@ function EditItem() {
                   <div
                     className="desired-swap-item row-c-c"
                     onClick={() => {
-                      dispatch(setOrderOptions(["setDesiredSwapItem", ""]));
+                      dispatch(setOrderOptions(["setDesiredSwapItem", { name: "", price: 0 }]));
                     }}
                   >
                     {desiredSwapItem.name}
@@ -215,10 +252,11 @@ function EditItem() {
                 <div className="bottom-swap-container ">
                   {/* Clear Swap */}
                   <button
+                    className="clear-swap"
                     onClick={() => {
-                      dispatch(setOrderOptions(["setCurrentSwapItem", {}]));
-                      dispatch(setOrderOptions(["setDesiredSwapItem", {}]));
-                      dispatch(setOrderOptions(["setSwapPrice", ""]));
+                      dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
+                      dispatch(setOrderOptions(["setDesiredSwapItem", { name: "", price: 0 }]));
+                      dispatch(setOrderOptions(["setSwapPrice", 0.0]));
                     }}
                   >
                     Clear Swap
@@ -229,7 +267,7 @@ function EditItem() {
                     <input
                       type="text"
                       placeholder="$0.00"
-                      value={swapPrice}
+                      value={swapPrice.toFixed(2)}
                       onChange={(e) => {
                         dispatch(setOrderOptions(["setSwapPrice", priceInputCheck(e.target.value)]));
                       }}
@@ -237,6 +275,7 @@ function EditItem() {
                   </div>
                   {/* Add Swap */}
                   <button
+                    className="add-swap"
                     onClick={() => {
                       handleSwap();
                     }}
@@ -249,18 +288,17 @@ function EditItem() {
           )}
 
           {/* ----------------------------- Add/No Add Items ----------------------------- */}
-          {(editingCategory === "No Add" || editingCategory === "Add") && (
+          {(editingTab === "No Add" || editingTab === "Add") && (
             <div className="add-or-no-add">
               {item.modifierList
                 .filter((modifier) =>
-                  editingCategory === "No Add"
-                    ? modifier.modifyType === "No Add"
-                    : modifier.modifyType === "Add"
+                  editingTab === "No Add" ? modifier.modifyType === "No Add" : modifier.modifyType === "Add"
                 )
                 .map((modifier, key) => (
                   <div
                     key={key}
                     className="add-or-no-add-items col-c-c"
+                    style={{ backgroundColor: modifier.checked ? "#20b98a" : "#f2d38f" }}
                     onClick={() => {
                       dispatch(setOrder(["TOGGLE_MODIFIER", modifier]));
                     }}
@@ -271,31 +309,36 @@ function EditItem() {
                     </div>
                   </div>
                 ))}
+                {/* <div className="one-time-fee">
+                  input
+                </div> */}
             </div>
           )}
 
           {/* ----------------------------- Edit Item Buttons ----------------------------- */}
-          {editingCategory !== "Swap" && (
+          {editingTab !== "Swap" && (
             <div className="edit-item-btns row-se-c">
-              <div className="edit-modfiy-quantity row-c-c">
+              <div className="edit-modfiy-quantity col-c-c">
                 <h4>Item Quantity</h4>
-                <button
-                  className="edit-increment-item"
-                  onClick={() => {
-                    dispatch(setOrder(["setItemQuantity", item.quantity + 1]));
-                  }}
-                >
-                  +
-                </button>
-                <div className="edit-quantity row-c-c">{item.quantity}</div>
-                <button
-                  className="edit-decrement-item"
-                  onClick={() => {
-                    dispatch(setOrder(["setItemQuantity", item.quantity - 1]));
-                  }}
-                >
-                  -
-                </button>
+                <div className="edit-modify-actions row-c-c">
+                  <button
+                    className="edit-increment-item"
+                    onClick={() => {
+                      dispatch(setOrder(["setItemQuantity", item.quantity + 1]));
+                    }}
+                  >
+                    +
+                  </button>
+                  <div className="edit-quantity row-c-c">{item.quantity}</div>
+                  <button
+                    className="edit-decrement-item"
+                    onClick={() => {
+                      dispatch(setOrder(["setItemQuantity", item.quantity - 1]));
+                    }}
+                  >
+                    -
+                  </button>
+                </div>
               </div>
               <button
                 className="done-edit"

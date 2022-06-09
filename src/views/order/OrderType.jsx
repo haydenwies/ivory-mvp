@@ -14,9 +14,9 @@ function OrderType() {
       <div className="order-type row-sb-c">
         {/* PICKUP */}
         <button
-          className={orderType === "PICK_UP" ? "order-type-active" : undefined}
+          className={orderType === "PICKUP" ? "order-type-active" : undefined}
           onClick={() => {
-            dispatch(setOrder(["setOrderType", "PICK_UP"]));
+            dispatch(setOrder(["setOrderType", "PICKUP"]));
           }}
         >
           Pick-Up
