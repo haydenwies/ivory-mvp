@@ -133,6 +133,8 @@ function Receipts({ data }) {
             /* ----------------------------- Receipt Full Data ----------------------------- */
             <div key={key} className="receipt-card">
               <div className="receipt-content receipt-full-content col-c-fs">
+                {/*  */}
+                <button>Edit</button>
                 <div className="receipt-title row-c-c">
                   <h2>{doc.phoneNumber}</h2>
                 </div>

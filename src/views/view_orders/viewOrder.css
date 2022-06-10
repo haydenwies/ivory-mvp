@@ -215,6 +215,14 @@
 }
 
 /* ---------------------------- Receipt Full Data ---------------------------- */
+.receipt-content button {
+  margin: 0 auto;
+  padding: 1px 5px;
+  border: 1px solid white;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
 .receipt-full-content {
   row-gap: 0.4rem;
 }
