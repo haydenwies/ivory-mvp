@@ -91,7 +91,7 @@ function Receipts({ data }) {
         <div className="display-options row-fe-c">
           <div className="row-sb-c full-receipt">
             <h5>Full Receipt</h5>
-            <button 
+            <button
               className={showFullReceipt ? "full-receipt-btn full-receipt-on" : "full-receipt-btn"}
               onClick={onToggleFullReceipt}
             />
@@ -127,96 +127,98 @@ function Receipts({ data }) {
         )}
       </div>
       {/* ----------------------------- Receipts ----------------------------- */}
-      {displayData && <div className="receipts">
-        <div className="receipts-container">
-          {displayData.map((doc, key) => (
-            /* ----------------------------- Receipt Full Data ----------------------------- */
-            <div key={key} className="receipt-card">
-              <div className="receipt-content receipt-full-content col-c-fs">
-                {/*  */}
-                <button>Edit</button>
-                <div className="receipt-title row-c-c">
-                  <h2>{doc.phoneNumber}</h2>
-                </div>
-                <div className="receipt-property row-sb-c">
-                  <p>Paid:</p>
-                  <p>
-                    {doc.paid && (
-                      <b>TRUE</b>
-                    )}
-                    {!doc.paid && (
-                      <b>FALSE</b>
-                    )}
-                  </p>
-                </div>
-                {/* <div className="receipt-property row-sb-c">
-                  <p>Name:</p>
-                  <p>
-                    <b>{doc.name}</b>
-                  </p>
-                </div> */}
-                <div className="receipt-property row-sb-c">
-                  <p>Order Type:</p>
-                  <p>
-                    <b>{doc.orderType}</b>
-                  </p>
-                </div>
-                <div className="receipt-property row-sb-c">
-                  <p>Order Time:</p>
-                  <p>
-                    <b>{doc.time[0]}</b>
-                  </p>
-                </div>
-                <div className="receipt-property row-sb-c">
-                  <p>Wait Time:</p>
-                  <p>
-                    <b>{doc.waitTime.displayName}</b>
-                  </p>
-                </div>
-                
-                {showFullReceipt && (
-                  <>
-                    <div className="items-property receipt-property col-c-fs">
-                      <p>Items:</p>
-                      <div className="items-container col-c-fe">
-                        {doc.items
-                          .map((item, key) => (
-                            <div key={key} className="item-container row-sb-c">
-                              <p>
-                                <b>{item.name}</b>
-                              </p>
-                              <p>
-                                <b>${item.price}</b>
-                              </p>
-                            </div>
-                          ))}
+      {displayData && ( 
+        <div className="receipts">
+          <div className="receipts-container">
+            {displayData.map((doc, key) => (
+              /* ----------------------------- Receipt Full Data ----------------------------- */
+              <div key={key} className="receipt-card">
+                <div className="receipt-content receipt-full-content col-c-fs">
+                  {/*  */}
+                  <button>Edit</button>
+                  <div className="receipt-title row-c-c">
+                    <h2>{doc.phoneNumber}</h2>
+                  </div>
+                  <div className="receipt-property row-sb-c">
+                    <p>Paid:</p>
+                    <p>
+                      {doc.paid && (
+                        <b>TRUE</b>
+                      )}
+                      {!doc.paid && (
+                        <b>FALSE</b>
+                      )}
+                    </p>
+                  </div>
+                  {/* <div className="receipt-property row-sb-c">
+                    <p>Name:</p>
+                    <p>
+                      <b>{doc.name}</b>
+                    </p>
+                  </div> */}
+                  <div className="receipt-property row-sb-c">
+                    <p>Order Type:</p>
+                    <p>
+                      <b>{doc.orderType}</b>
+                    </p>
+                  </div>
+                  <div className="receipt-property row-sb-c">
+                    <p>Order Time:</p>
+                    <p>
+                      <b>{doc.time[0]}</b>
+                    </p>
+                  </div>
+                  <div className="receipt-property row-sb-c">
+                    <p>Wait Time:</p>
+                    <p>
+                      <b>{doc.waitTime.displayName}</b>
+                    </p>
+                  </div>
+                  
+                  {showFullReceipt && (
+                    <>
+                      <div className="items-property receipt-property col-c-fs">
+                        <p>Items:</p>
+                        <div className="items-container col-c-fe">
+                          {doc.items
+                            .map((item, key) => (
+                              <div key={key} className="item-container row-sb-c">
+                                <p>
+                                  <b>{item.name}</b>
+                                </p>
+                                <p>
+                                  <b>${item.price}</b>
+                                </p>
+                              </div>
+                            ))}
+                        </div>
                       </div>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Sub-Total:</p>
-                      <p>
-                        <b>${doc.subTotal.toFixed(2)}</b>
-                      </p>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Taxes:</p>
-                      <p>
-                        <b>${doc.tax.toFixed(2)}</b>
-                      </p>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Total:</p>
-                      <p>
-                        <b>${doc.total.toFixed(2)}</b>
-                      </p>
-                    </div>
-                  </>
-                )}
+                      <div className="receipt-property row-sb-c">
+                        <p>Sub-Total:</p>
+                        <p>
+                          <b>${doc.subTotal.toFixed(2)}</b>
+                        </p>
+                      </div>
+                      <div className="receipt-property row-sb-c">
+                        <p>Taxes:</p>
+                        <p>
+                          <b>${doc.tax.toFixed(2)}</b>
+                        </p>
+                      </div>
+                      <div className="receipt-property row-sb-c">
+                        <p>Total:</p>
+                        <p>
+                          <b>${doc.total.toFixed(2)}</b>
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 }
