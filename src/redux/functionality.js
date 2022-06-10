@@ -51,6 +51,9 @@ export const functionalitySlice = createSlice({
         case "RESET_DEFAULT_FUNCTIONALITY":
           instances[indexInstance] = state.instancesDefaultSettings[indexInstance];
           break;
+        case "setPausePrinting":
+          instance.pausePrinting = value;
+          break;
       }
     },
     setInstancesDefaultSettings: (state, { payload }) => {

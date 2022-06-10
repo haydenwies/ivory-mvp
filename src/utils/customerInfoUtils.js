@@ -69,7 +69,7 @@ const formatAddress = (addressEntry, streetName) => {
       break;
     }
   }
-  return `${streetNum === undefined? "": streetNum}${streetName}`;
+  return `${streetNum === undefined ? "" : streetNum}${streetName}`;
 };
 
 const priceInputCheck = (priceEntry) => {
@@ -83,9 +83,7 @@ const priceInputCheck = (priceEntry) => {
 
 const getSimilarItems = (entry, menuItems) => {
   let filteredItems = [];
-
   const entrySimilarities = new RegExp(entry, "i"); //Will check if anything is similar to the entry
-
   if (entry === "") {
     return [];
   }
@@ -99,7 +97,34 @@ const getSimilarItems = (entry, menuItems) => {
 
   return filteredItems;
 };
+
+const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTime, getSeconds }) => {
+  let idFormat = true;
+  let isTwelveHour = true;
+  let finalizedOrderOptions = JSON.parse(JSON.stringify(orderOptions));
+  let finalizedOrder = JSON.parse(JSON.stringify(order));
+  finalizedOrder.finishTime = orderOptions.isScheduledOrder
+    ? ""
+    : calculateFinishTime(order.waitTime.magnitude);
+  finalizedOrder.date = getDate();
+  finalizedOrder.time = [getTime(!idFormat, isTwelveHour), getTime(!idFormat, !isTwelveHour)];
+  finalizedOrder.id = `${getDate(idFormat)}${getTime(idFormat)}${getSeconds(
+    order.phoneNumber
+  )}${numbersOnlyPhoneNum(order.phoneNumber)}`;
+
+  const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.name !== "No Printer");
+
+  let printInfo = {
+    time: finalizedOrder.time,
+    date: finalizedOrder.date,
+    printers: activePrinters,
+    id: finalizedOrder.id,
+  };
+
+  return { finalizedOrder, printInfo };
+};
 export {
+  formatOrder,
   getSimilarItems,
   priceInputCheck,
   formatAddress,

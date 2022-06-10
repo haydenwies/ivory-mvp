@@ -245,3 +245,12 @@
   width: 95%;
   /* padding-left: 1rem; */
 }
+/* ---------------------------- Receipt Actions ---------------------------- */
+.receipt-actions{
+  width:100%;
+  margin:1rem 0;
+}
+.receipt-actions button{
+  border:solid 1px white;
+  padding:.8rem 2rem;
+}

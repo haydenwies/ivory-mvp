@@ -29,6 +29,7 @@ function Receipt() {
     discountPercent,
     taxPercent,
     editingItemIndex,
+    outOfTownDeliveryOn,
   } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
   const { editItemOn, categoryType } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
@@ -97,7 +98,11 @@ function Receipt() {
           
           {items &&
             items.map((item, itemKey) => (
-              <div key={itemKey} className="receipt-item row-sb-c" style={{border: editingItemIndex === itemKey? "#20b98a solid 2px": ""}}>
+              <div
+                key={itemKey}
+                className="receipt-item row-sb-c"
+                style={{ border: editingItemIndex === itemKey ? "#20b98a solid 2px" : "" }}
+              >
                 <div className="receipt-item-content ">
                   {/* Item Name */}
                   <div
@@ -241,16 +246,12 @@ function Receipt() {
             <label
               className="col-c-c"
               onChange={() => {
-                dispatch(setOrder(["setDiscounted", !discounted]));
+                dispatch(setOrderOptions(["setOutOfTownDeliveryOn", !outOfTownDeliveryOn]));
               }}
             >
               <span>Out of Town Delivery</span>
-              <input type="checkbox" checked={discounted} onChange={() => {}} />
+              <input type="checkbox" checked={outOfTownDeliveryOn} onChange={() => {}} />
             </label>
-            {/* <label className="col-c-c">
-              <span>Delivery</span>
-              <input type="checkbox" />
-            </label> */}
           </div>
         </div>
       </div>

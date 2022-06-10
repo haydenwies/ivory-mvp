@@ -43,11 +43,11 @@ function SearchItem() {
             value={searchedItem}
             ref={searchItemRef}
             onChange={(e) => {
-              dispatch(setOrder(["setSearchedItem", e.target.value]));
+              dispatch(setOrderOptions(["setSearchedItem", e.target.value]));
               dispatch(setOrderOptions(["setFilteredItems", getSimilarItems(e.target.value, menuItems)]));
             }}
           />
-          <div className="search-list col-fs-c">
+          <div className="search-list col-fs-c" tabIndex={-1}>
             {filteredItems.length > 0 &&
               filteredItems.map((item, key) => (
                 <button

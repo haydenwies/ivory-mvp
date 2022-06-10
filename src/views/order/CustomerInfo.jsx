@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./customerInfo.css";
 import { XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
-import { setInstances, setInstancesDefaultSettings } from "../../redux/functionality";
+import { setInstances } from "../../redux/functionality";
 import { db } from "../../firebase/config";
-import { doc, setDoc, collectionGroup } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { calculateFinishTime, getDate, getTime, getSeconds } from "../../utils/dateFormat";
 // Views or Components
 import BackgroundExit from "../../components/backgroundExit/BackgroundExit";
@@ -13,42 +13,37 @@ import PaymentMethod from "./PaymentMethod";
 import PhoneNumber from "./PhoneNumber";
 import OrderType from "./OrderType";
 import Notes from "./Notes";
-import { numbersOnlyPhoneNum } from "../../utils/customerInfoUtils";
+import { formatOrder, numbersOnlyPhoneNum } from "../../utils/customerInfoUtils";
 import { setOrderOptions, setOrderManagement } from "../../redux/orderInfo";
+import { useCheckPrinted } from "../../hooks/useCheckPrinted";
+import { useFailedPrinting } from "../../hooks/useFailedPrinting";
 import PrinterOptions from "./PrinterOptions";
-// import {firestore} from "./firebaseInit";
-// import {addDoc, setDoc, doc, collectio} from "firebase/firestore";
 function CustomerInfo() {
   const dispatch = useDispatch();
   const { order, orderOptions } = useSelector(({ orderInfo }) => orderInfo);
-  const { phoneNumber, isScheduledOrder } = useSelector(({ orderInfo }) => orderInfo.order);
+  const {} = useSelector(({ orderInfo }) => orderInfo.order);
+  const { pausePrinting } = useSelector(
+    ({ functionality }) => functionality.instances[functionality.indexInstance]
+  );
+  const [resolvedPrinting] = useCheckPrinted();
+  const [failedPrinting] = useFailedPrinting();
   /* ----------------------------- Methods ----------------------------- */
   const printOrder = async () => {
-    let idFormat = true;
-    let isTwelveHour = true;
-    let finalizedOrderOptions = JSON.parse(JSON.stringify(orderOptions));
-    let finalizedOrder = JSON.parse(JSON.stringify(order));
-    console.table(finalizedOrder);
-    finalizedOrder.finishTime = isScheduledOrder ? "" : calculateFinishTime(order.waitTime.magnitude);
-    finalizedOrder.date = getDate();
-    finalizedOrder.time = [getTime(!idFormat, isTwelveHour), getTime(!idFormat, !isTwelveHour)];
-    finalizedOrder.id = `${getDate(idFormat)}${getTime(idFormat)}${getSeconds(
-      order.phoneNumber
-    )}${numbersOnlyPhoneNum(phoneNumber)}`;
+    const { finalizedOrder, printInfo } = formatOrder(order, orderOptions, {
+      calculateFinishTime,
+      getDate,
+      getTime,
+      getSeconds,
+    });
 
-    let printInfo = {
-      time: finalizedOrder.time,
-      date: finalizedOrder.date,
-      printers: finalizedOrderOptions.printers.filter((printer) => printer.name !== "No Printer"),
-      id: finalizedOrder.id,
-    };
+    dispatch(setInstances(["setPausePrinting", !pausePrinting])); //Disables the print button
 
     await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
     await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
     
     dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
     dispatch(setOrderManagement(["RESET_ORDER"]));
-  };
+    };
 
   return (
     <>
@@ -78,7 +73,12 @@ function CustomerInfo() {
           {/* Notes*/}
           <Notes />
           {/* PRINT RECEIPT */}
-          <button className="print" onClick={printOrder}>
+          <button
+            className="print"
+            onClick={printOrder}
+            disabled={pausePrinting}
+            style={{ backgroundColor: pausePrinting ? "#20b68983" : "#20b68a" }}
+          >
             Print Receipt
           </button>
         </div>
