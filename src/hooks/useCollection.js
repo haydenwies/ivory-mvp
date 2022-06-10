@@ -15,7 +15,6 @@ export const useCollection = (c, _q) => {
     }
 
     const unsub = onSnapshot(ref, (snapshot) => { //snapshot function is run eachtime the collection is updated
-      
         let results = [];
       snapshot.forEach((doc) => {
         //Snapshot is the array of documents in firestore
@@ -24,6 +23,7 @@ export const useCollection = (c, _q) => {
       
       setDocuments(results);
     });
+
     return () => unsub(); //Clean up function when the component unmounts
   }, [c]);
 

@@ -304,7 +304,7 @@ export const orderInfoSlice = createSlice({
       afterTaxDiscount: 0.0,
       total: 0.0,
       paymentMethod: "",
-      printed: false,
+      printed:false,
     },
     orderOptions: {
       taxPercent: 0.13,
@@ -316,7 +316,7 @@ export const orderInfoSlice = createSlice({
       printerOptions: [
         { name: "No Printer", ip: "192.168.0.1" },
         { name: "Kitchen Printer", ip: "192.168.0.45" },
-        { name: "Cashier Printer", ip: "192.168.0.45" },
+        { name: "Cashier Printer", ip: "192.168.0.69" },
       ],
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
       filteredAddresses: [],
@@ -331,6 +331,8 @@ export const orderInfoSlice = createSlice({
       desiredSwapItem: { name: "", price: 0.0 },
       swapPrice: 0.0,
       scrollDetect: false,
+      outOfTownDeliveryFee: 6.0,
+      outOfTownDeliveryOn: false,
     },
     orderManagement: {
       backupOrder: {},
@@ -340,7 +342,7 @@ export const orderInfoSlice = createSlice({
     },
   },
   reducers: {
-    setOrderOptions: ({ orderOptions, order }, { payload }) => {
+    setOrderOptions: ({ orderOptions, order, orderManagement }, { payload }) => {
       const [actionType, value] = payload;
       let { items } = order;
       let { customItem } = orderOptions;
@@ -404,6 +406,7 @@ export const orderInfoSlice = createSlice({
           orderOptions.filteredItems = value;
           break;
         case "setSearchedItem":
+          console.log(value);
           orderOptions.searchedItem = value;
           break;
         case "setEditingItemIndex":
@@ -458,6 +461,16 @@ export const orderInfoSlice = createSlice({
           break;
         case "setSwapPrice":
           orderOptions.swapPrice = value;
+          break;
+        case "setOutOfTownDeliveryOn":
+          orderOptions.outOfTownDeliveryOn = value;
+          if (orderOptions.outOfTownDeliveryOn) {
+            order.deliveryFee += 6.0;
+            order.orderType = "DELIVERY";
+          } else {
+            order.deliveryFee = orderManagement.defaultOrder.deliveryFee;
+            // console.log(orderManagement.defaultOrder.deliveryFee);
+          }
           break;
       }
     },

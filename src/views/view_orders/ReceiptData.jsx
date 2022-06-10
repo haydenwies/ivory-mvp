@@ -13,16 +13,16 @@ function Receipts() {
 
   // Receipt fetch data
   const timezone = "America/Toronto";
-  const date = new Date().toLocaleString('sv', {timeZone: timezone}).slice(0, 10);
+  const date = new Date().toLocaleString("sv", { timeZone: timezone }).slice(0, 10);
   const [data, setData] = useState();
 
   const onToggleModal = (e) => {
-      if (modalType === e.target.innerHTML && showModal === true) {
-        setShowModal(false)
-      } else {
-        setModalType(e.target.innerHTML);
-        setShowModal(true)
-      };
+    if (modalType === e.target.innerHTML && showModal === true) {
+      setShowModal(false);
+    } else {
+      setModalType(e.target.innerHTML);
+      setShowModal(true);
+    }
   };
 
   const onToggleFullReceipt = (e) => {
@@ -32,22 +32,20 @@ function Receipts() {
 
   // Fetch data when the page loads
   useEffect(() => {
-
     const getData = async () => {
       // Get documents with correct date
       const q = query(collection(db, "orders"), where("date", "==", date));
       const snapshot = await getDocs(q);
       // Loop through data and add to array
-      const docs = []
+      const docs = [];
       snapshot.forEach((doc) => {
-        docs.push(doc.data())
+        docs.push(doc.data());
       });
       // Set data as array once loop finishes
       setData(docs);
     };
 
     getData();
-    
   }, []);
 
   return (
@@ -60,7 +58,7 @@ function Receipts() {
         <div className="display-options row-fe-c">
           <div className="row-sb-c full-receipt">
             <h5>Full Receipt</h5>
-            <button 
+            <button
               className={showFullReceipt ? "full-receipt-btn full-receipt-on" : "full-receipt-btn"}
               onClick={onToggleFullReceipt}
             />
@@ -85,10 +83,10 @@ function Receipts() {
         )}
       </div>
       {/* ----------------------------- Receipts ----------------------------- */}
-      {data && <div className="receipts">
-        <div className="receipts-container">
-          {data
-            .map((doc, key) => (
+      {data && (
+        <div className="receipts">
+          <div className="receipts-container">
+            {data.map((doc, key) => (
               /* ----------------------------- Receipt Meta Data ----------------------------- */
               <div key={key} className="receipt-card">
                 {false && (
@@ -108,12 +106,8 @@ function Receipts() {
                     <div className="receipt-property row-sb-c">
                       <p>Paid:</p>
                       <p>
-                        {doc.paid && (
-                          <b>TRUE</b>
-                        )}
-                        {!doc.paid && (
-                          <b>FALSE</b>
-                        )}
+                        {doc.paid && <b>TRUE</b>}
+                        {!doc.paid && <b>FALSE</b>}
                       </p>
                     </div>
                     <div className="receipt-property row-sb-c">
@@ -131,7 +125,7 @@ function Receipts() {
                     <div className="receipt-property row-sb-c">
                       <p>Order Time:</p>
                       <p>
-                        <b>{doc.time}</b>
+                        <b>{doc.time[0]}</b>
                       </p>
                     </div>
                     <div className="receipt-property row-sb-c">
@@ -140,42 +134,44 @@ function Receipts() {
                         <b>{doc.waitTime.displayName}</b>
                       </p>
                     </div>
-                    
+
                     {showFullReceipt && (
                       <>
                         <div className="items-property receipt-property col-c-fs">
                           <p>Items:</p>
                           <div className="items-container col-c-fe">
-                            {doc.items
-                              .map((item, key) => (
-                                <div key={key} className="item-container row-sb-c">
-                                  <p>
-                                    <b>{item.name}</b>
-                                  </p>
-                                  <p>
-                                    <b>${item.price}</b>
-                                  </p>
-                                </div>
-                              ))}
+                            {doc.items.map((item, key) => (
+                              <div key={key} className="item-container row-sb-c">
+                                <p>
+                                  <b>{item.name}</b>
+                                </p>
+                                <p>
+                                  <b>${item.price}</b>
+                                </p>
+                              </div>
+                            ))}
                           </div>
                         </div>
                         <div className="receipt-property row-sb-c">
                           <p>Sub-Total:</p>
                           <p>
-                            <b>{doc.subTotal}</b>
+                            <b>${doc.subTotal.toFixed(2)}</b>
                           </p>
                         </div>
                         <div className="receipt-property row-sb-c">
                           <p>Taxes:</p>
                           <p>
-                            <b>{doc.tax}</b>
+                            <b>${doc.tax.toFixed(2)}</b>
                           </p>
                         </div>
                         <div className="receipt-property row-sb-c">
                           <p>Total:</p>
                           <p>
-                            <b>{doc.total}</b>
+                            <b>${doc.total.toFixed(2)}</b>
                           </p>
+                        </div>
+                        <div className="receipt-actions row-c-c">
+                          <button>Reprint Bill</button>
                         </div>
                       </>
                     )}
@@ -183,8 +179,9 @@ function Receipts() {
                 )}
               </div>
             ))}
+          </div>
         </div>
-      </div>}
+      )}
     </div>
   );
 }

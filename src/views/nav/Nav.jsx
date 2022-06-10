@@ -33,15 +33,33 @@ function Nav() {
           <h1>KY</h1>
         </div>
         <div className="nav-links col-c-fs">
-          <div className="nav-link row-fs-c" onClick={() => navigate("/order")}>
+          <div
+            className="nav-link row-fs-c"
+            onClick={() => {
+              navigate("/order");
+              dispatch(setInstances(["setNavOn", false]));
+            }}
+          >
             <img src={Order} alt="" />
             <p>Order</p>
           </div>
-          <div className="nav-link row-fs-c" onClick={() => navigate("/view-orders")}>
+          <div
+            className="nav-link row-fs-c"
+            onClick={() => {
+              navigate("/view-orders");
+              dispatch(setInstances(["setNavOn", false]));
+            }}
+          >
             <img src={Saved} alt="Saved Receipts" className="saved" />
             <p>View Orders</p>
           </div>
-          <div className="nav-link row-fs-c" onClick={() => navigate("/settings")}>
+          <div
+            className="nav-link row-fs-c"
+            onClick={() => {
+              navigate("/settings");
+              dispatch(setInstances(["setNavOn", false]));
+            }}
+          >
             <img src={Settings} alt="Settings" className="settings-icon" />
             <p>Settings</p>
           </div>
