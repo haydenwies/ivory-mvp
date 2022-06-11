@@ -72,10 +72,15 @@ const formatAddress = (addressEntry, streetName) => {
   return `${streetNum === undefined ? "" : streetNum}${streetName}`;
 };
 
+/**
+ * Allkows only number and decimal entries
+ * @param {string} priceEntry 
+ * @returns the string interpretation of the price
+ */
 const priceInputCheck = (priceEntry) => {
   const validPrice = new RegExp(/\d\.*$/);
   if (validPrice.test(priceEntry)) {
-    return parseFloat(priceEntry);
+    return priceEntry;
   } else {
     return priceEntry.slice(0, -1);
   }
@@ -112,7 +117,8 @@ const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTim
     order.phoneNumber
   )}${numbersOnlyPhoneNum(order.phoneNumber)}`;
 
-  const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.name !== "No Printer");
+  console.table(finalizedOrder.items[0].modifiers)
+  const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.activated);
 
   let printInfo = {
     time: finalizedOrder.time,

@@ -4,7 +4,6 @@ import { Trash, Info, Swap, Draw, Undo, Search, Elipse, Custom } from "../../Ass
 import { setInstances, setInstancesDefaultSettings } from "../../redux/functionality";
 import { useDispatch, useSelector } from "react-redux";
 import { setOrder, setOrderManagement, setOrderOptions } from "../../redux/orderInfo";
-import { getDefaultState } from "../../utils/managementUtils";
 import CustomItem from "../order/CustomItem";
 import SearchItem from "../order/SearchItem";
 import EditItem from "../order/EditItem";

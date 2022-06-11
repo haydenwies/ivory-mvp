@@ -6,6 +6,8 @@ import "./settings.css";
 import PrinterSetup from "./PrinterSetup";
 import MenuCustomization from "./MenuCustomization";
 import SecuritySettings from "./SecuritySettings";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
 function Settings() {
   return (
     <div className="settings row-c-fs">
@@ -19,6 +21,7 @@ function Settings() {
         </div>
       </div>
       <div className="settings-features row-c-c">
+        <Route path=""/>
         {false && <MyAccount />}
         {false && <PrinterSetup />}
         {false && <MenuCustomization />}

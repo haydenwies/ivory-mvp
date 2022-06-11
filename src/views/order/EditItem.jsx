@@ -26,6 +26,7 @@ function EditItem() {
     editingCategory,
     desiredSwapItem,
     currentSwapItem,
+    tempFlatFee,
   } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
 
   //Order Info State
@@ -66,26 +67,40 @@ function EditItem() {
     );
     dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
     dispatch(setOrderOptions(["setDesiredSwapItem", { name: "", price: 0 }]));
-    dispatch(setOrderOptions(["setSwapPrice", 0.0]));
+    dispatch(setOrderOptions(["setSwapPrice", ""]));
+  };
+
+  const verifyFlatFeeModifier = () => {
+    let decimalCount = 0;
+    for (let i = 0; i < tempFlatFee.length; i++) {
+      if (tempFlatFee[i] === ".") decimalCount++;
+    }
+
+    if (decimalCount > 1) {
+      alert("Please enter a valid flat fee price");
+      return;
+    }
+
+    dispatch(setOrder(["setFlatFeeModifier", tempFlatFee]));
   };
 
   useEffect(() => {
     if (item.selectionList.itemLimit > 0) {
-      console.log("first")
+      console.log("first");
       dispatch(setOrderOptions(["setEditingTab", "Selection List"]));
     } else {
-      console.log("second")
+      console.log("second");
       dispatch(setOrderOptions(["setEditingTab", "No Add"]));
     }
   }, [editingItemIndex]);
   useEffect(() => {
     return () => {
-      console.log("CLEAN UP")
+      console.log("CLEAN UP");
       dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
       dispatch(setOrderOptions(["setDesiredSwapItem", { name: "", price: 0 }]));
-      dispatch(setOrderOptions(["setSwapPrice", 0.0]));
+      dispatch(setOrderOptions(["setSwapPrice", ""]));
       dispatch(setOrderOptions(["setEditingTab", "Selection List"]));
-      dispatch(setOrderOptions(["resetEditingItemIndex", item]))
+      dispatch(setOrderOptions(["resetEditingItemIndex", item]));
     };
   }, []);
   return (
@@ -267,7 +282,7 @@ function EditItem() {
                     <input
                       type="text"
                       placeholder="$0.00"
-                      value={swapPrice.toFixed(2)}
+                      value={swapPrice}
                       onChange={(e) => {
                         dispatch(setOrderOptions(["setSwapPrice", priceInputCheck(e.target.value)]));
                       }}
@@ -309,47 +324,64 @@ function EditItem() {
                     </div>
                   </div>
                 ))}
-                {/* <div className="one-time-fee">
+              {/* <div className="one-time-fee">
                   input
                 </div> */}
             </div>
           )}
 
           {/* ----------------------------- Edit Item Buttons ----------------------------- */}
-          {editingTab !== "Swap" && (
-            <div className="edit-item-btns row-se-c">
-              <div className="edit-modfiy-quantity col-c-c">
-                <h4>Item Quantity</h4>
-                <div className="edit-modify-actions row-c-c">
-                  <button
-                    className="edit-increment-item"
-                    onClick={() => {
-                      dispatch(setOrder(["setItemQuantity", item.quantity + 1]));
-                    }}
-                  >
-                    +
-                  </button>
-                  <div className="edit-quantity row-c-c">{item.quantity}</div>
-                  <button
-                    className="edit-decrement-item"
-                    onClick={() => {
-                      dispatch(setOrder(["setItemQuantity", item.quantity - 1]));
-                    }}
-                  >
-                    -
-                  </button>
-                </div>
+          <div className="flat-fee-modifier row-c-c">
+            <button className="flat-fee-clear">Clear</button>
+            <input
+              type="text"
+              className="flat-fee-price"
+              placeholder="Flat Fee"
+              onChange={(e) => {
+                dispatch(setOrderOptions(["setTempFlatFee", priceInputCheck(e.target.value)]));
+              }}
+            />
+            <button
+              className="flat-fee-add"
+              onClick={() => {
+                verifyFlatFeeModifier();
+              }}
+            >
+              Set
+            </button>
+          </div>
+          <div className="edit-item-btns row-se-c">
+            <div className="edit-modfiy-quantity col-c-c">
+              <h4>Item Quantity</h4>
+              <div className="edit-modify-actions row-c-c">
+                <button
+                  className="edit-increment-item"
+                  onClick={() => {
+                    dispatch(setOrder(["setItemQuantity", item.quantity + 1]));
+                  }}
+                >
+                  +
+                </button>
+                <div className="edit-quantity row-c-c">{item.quantity}</div>
+                <button
+                  className="edit-decrement-item"
+                  onClick={() => {
+                    dispatch(setOrder(["setItemQuantity", item.quantity - 1]));
+                  }}
+                >
+                  -
+                </button>
               </div>
-              <button
-                className="done-edit"
-                onClick={() => {
-                  dispatch(setInstances(["setEditItemOn", false]));
-                }}
-              >
-                Done
-              </button>
             </div>
-          )}
+            <button
+              className="done-edit"
+              onClick={() => {
+                dispatch(setInstances(["setEditItemOn", false]));
+              }}
+            >
+              Done
+            </button>
+          </div>
         </div>
       </div>
     </>
