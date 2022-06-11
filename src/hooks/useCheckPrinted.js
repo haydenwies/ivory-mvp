@@ -12,7 +12,7 @@ export const useCheckPrinted = () => {
    * @param {string} c Collection name
    * @param {[query]} _q Query
    */
-  function resolvedPrinting(c, q) {
+  function resolvedPrinting(c, q, timeoutId) {
     let ref = collection(db, c); //Gets a reference to a collection based on the param "c"
 
     //If a query is passed in we get a new ref with the query params else it will just get the entire collection
@@ -28,6 +28,7 @@ export const useCheckPrinted = () => {
           if (change.doc.data().printed === true) {
             dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
             dispatch(setOrderManagement(["RESET_ORDER"]));
+            clearTimeout(timeoutId);
           }
         }
       });
