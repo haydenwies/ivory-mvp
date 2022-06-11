@@ -242,7 +242,7 @@ function Receipt() {
           {/* ----------------------------- Options ----------------------------- */}
           <div className="receipt-options row-sa-c">
             <label
-              className="col-c-c"
+              className="col-sb-c"
               onChange={() => {
                 dispatch(setOrder(["setDiscounted", !discounted]));
               }}

@@ -23,13 +23,8 @@ export const useCheckPrinted = () => {
     onSnapshot(ref, (snapshot) => {
       //snapshot function is run eachtime the collection is updated
       snapshot.docChanges().forEach((change) => {
-        console.log(change.type);
-        console.log("Status of printed", change.doc.data().printed);
 
         if (change.type === "modified"|| change.type === "added") {
-          console.log("AN ORDER HAS BEEN MODIFIED");
-          // console.table(change.doc.data());
-          console.log("THE CHANGED DOC IS: ", change.doc.data().printed === true);
           if (change.doc.data().printed) {
             dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
             dispatch(setOrderManagement(["RESET_ORDER"]));

@@ -1,9 +1,11 @@
 /* Custom CSS Variables */
 :root {
   --options-gap: clamp(2vw, 10vw, 10vw);
-  --options-padding: clamp(1vw, 2vw, 3vw);
+  --options-padding: clamp(0.5rem, 50vw + 1rem, 1rem);
   --options-height: clamp(30px, 10vw, 50px);
   --main-option-WH: clamp(30px, 10vw + 40px, 50px);
+  --category-item-font-size: clamp(0.8rem, 20% + 0.7rem, 0.9rem);
+  --selection-item-font-size: clamp(0.8rem, 20% + 0.7rem, 0.9rem);
 }
 
 /* ----------------------------- Items ----------------------------- */
@@ -35,6 +37,8 @@
   color: black;
   font-weight: 300;
   text-align: center;
+  font-size: var(--category-item-font-size);
+  padding: 0 0.1rem;
 }
 .choose-item {
   background-color: #d0e2b0;
@@ -56,6 +60,8 @@
   cursor: pointer;
   font-weight: 300;
   text-align: center;
+  font-size: var(--category-item-font-size);
+  padding: 0 0.1rem;
 }
 /* ----------------------------- Item Options ----------------------------- */
 .item-options {
@@ -89,7 +95,7 @@
   height: var(--main-option-WH);
 }
 .item-options img {
-  transform: scale(1.1);
+  width: clamp(20px, 10vw, 23px);
 }
 .elipse,
 .trash {
@@ -102,5 +108,6 @@
 .elipse img,
 .trash img {
   transform: scale(1);
-  padding: 0 1.5em;
+  padding: 0 1em;
+  width: clamp(20px, 10vw, 23px);
 }

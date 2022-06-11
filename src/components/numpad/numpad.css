@@ -3,6 +3,7 @@
   right: 15em;
   border: solid 1px white;
   height: 100%;
+  width: 100%;
   display: grid;
   background-color: rgba(131, 131, 131, 0.548);
   border-radius: 0.2em;

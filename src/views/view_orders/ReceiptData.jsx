@@ -2,7 +2,11 @@ import { useEffect, useState } from "react";
 import { Info, Search } from "../../Assets/Images";
 import { db } from "../../firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { useDispatch } from "react-redux";
 import "./viewOrder.css";
+import { setOrderManagement } from "../../redux/orderInfo";
+import { useNavigate } from "react-router-dom";
+
 function Receipts() {
   // Modal data
   const [showModal, setShowModal] = useState(false);
@@ -15,6 +19,11 @@ function Receipts() {
   const timezone = "America/Toronto";
   const date = new Date().toLocaleString("sv", { timeZone: timezone }).slice(0, 10);
   const [data, setData] = useState();
+
+  //Redux
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const onToggleModal = (e) => {
     if (modalType === e.target.innerHTML && showModal === true) {
@@ -94,6 +103,7 @@ function Receipts() {
                     <h2>{doc.phoneNumber}</h2>
                     <h3>{doc.name}</h3>
                     <h4>{doc.orderType}</h4>
+                    <h4>{doc.deliveryAddress}</h4>
                   </div>
                 )}
 
@@ -146,7 +156,7 @@ function Receipts() {
                                   <b>{item.name}</b>
                                 </p>
                                 <p>
-                                  <b>${item.price}</b>
+                                  <b>${item.price.toFixed(2)}</b>
                                 </p>
                               </div>
                             ))}
@@ -170,7 +180,13 @@ function Receipts() {
                             <b>${doc.total.toFixed(2)}</b>
                           </p>
                         </div>
-                        <div className="receipt-actions row-c-c">
+                        <div
+                          className="receipt-actions row-c-c"
+                          onClick={() => {
+                            dispatch(setOrderManagement(["setReprintOrder", doc]));
+                            navigate("/orders");
+                          }}
+                        >
                           <button>Reprint Bill</button>
                         </div>
                       </>

@@ -6,13 +6,13 @@
   padding: 0.5rem 3rem;
   font-size: var(--customer-info-btn);
   border-radius: 0.7rem;
-  margin: 0 1rem;
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
 }
 .order-type-active {
   /* background-color: #3968ff; */
   border: 3px solid #20b68a;
   box-shadow: none !important;
+
 }
 .customer-info-input {
   width: 100%;
@@ -28,7 +28,7 @@
   width: 70%;
   top: 110%;
   border: solid 1px white;
-  height:550px;
+  height:400px;
   overflow-y: scroll;
   scrollbar-width:none;
   background-color: #0c0d12;

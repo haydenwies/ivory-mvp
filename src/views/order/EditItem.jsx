@@ -86,16 +86,13 @@ function EditItem() {
 
   useEffect(() => {
     if (item.selectionList.itemLimit > 0) {
-      console.log("first");
       dispatch(setOrderOptions(["setEditingTab", "Selection List"]));
     } else {
-      console.log("second");
       dispatch(setOrderOptions(["setEditingTab", "No Add"]));
     }
   }, [editingItemIndex]);
   useEffect(() => {
     return () => {
-      console.log("CLEAN UP");
       dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
       dispatch(setOrderOptions(["setDesiredSwapItem", { name: "", price: 0 }]));
       dispatch(setOrderOptions(["setSwapPrice", ""]));
@@ -331,72 +328,76 @@ function EditItem() {
           )}
 
           {/* ----------------------------- Edit Item Buttons ----------------------------- */}
-          <div className="flat-fee-modifier row-c-c">
-            <label
-              className="col-c-c"
-              onChange={() => {
-                dispatch(setOrder(["setFlatFeeModifierOn", !item.flatFeeModifierOn]));
-              }}
-            >
-              <span>Flat Fee</span>
-              <input
-                type="checkbox"
-                checked={item.flatFeeModifierOn}
+          {(editingTab === "No Add" || editingTab === "Add") && (
+            <div className="flat-fee-modifier row-c-c">
+              <label
+                className="col-c-c"
                 onChange={() => {
-                  // dispatch(setOrder(["setFlatFeeModifierOn", !item.flatFeeModifierOn]));
+                  dispatch(setOrder(["setFlatFeeModifierOn", !item.flatFeeModifierOn]));
+                }}
+              >
+                <span>Flat Fee</span>
+                <input
+                  type="checkbox"
+                  checked={item.flatFeeModifierOn}
+                  onChange={() => {
+                    // dispatch(setOrder(["setFlatFeeModifierOn", !item.flatFeeModifierOn]));
+                  }}
+                />
+              </label>
+              <input
+                type="text"
+                className="flat-fee-price"
+                placeholder="$0.00"
+                value={tempFlatFee}
+                onChange={(e) => {
+                  dispatch(setOrderOptions(["setTempFlatFee", priceInputCheck(e.target.value)]));
                 }}
               />
-            </label>
-            <input
-              type="text"
-              className="flat-fee-price"
-              placeholder="Flat Fee"
-              value={tempFlatFee}
-              onChange={(e) => {
-                dispatch(setOrderOptions(["setTempFlatFee", priceInputCheck(e.target.value)]));
-              }}
-            />
-            <button
-              className="flat-fee-add"
-              onClick={() => {
-                verifyFlatFeeModifier();
-              }}
-            >
-              Set
-            </button>
-          </div>
-          <div className="edit-item-btns row-se-c">
-            <div className="edit-modfiy-quantity col-c-c">
-              <h4>Item Quantity</h4>
-              <div className="edit-modify-actions row-c-c">
-                <button
-                  className="edit-increment-item"
-                  onClick={() => {
-                    dispatch(setOrder(["setItemQuantity", item.quantity + 1]));
-                  }}
-                >
-                  +
-                </button>
-                <div className="edit-quantity row-c-c">{item.quantity}</div>
-                <button
-                  className="edit-decrement-item"
-                  onClick={() => {
-                    dispatch(setOrder(["setItemQuantity", item.quantity - 1]));
-                  }}
-                >
-                  -
-                </button>
-              </div>
+              <button
+                className="flat-fee-add"
+                onClick={() => {
+                  verifyFlatFeeModifier();
+                }}
+              >
+                Set
+              </button>
             </div>
-            <button
-              className="done-edit"
-              onClick={() => {
-                dispatch(setInstances(["setEditItemOn", false]));
-              }}
-            >
-              Done
-            </button>
-          </div>
+          )}
+          {editingTab !== "Swap" && (
+            <div className="edit-item-btns row-se-c">
+              <div className="edit-modfiy-quantity col-c-c">
+                <h4>Item Quantity</h4>
+                <div className="edit-modify-actions row-c-c">
+                  <button
+                    className="edit-increment-item"
+                    onClick={() => {
+                      dispatch(setOrder(["setItemQuantity", item.quantity + 1]));
+                    }}
+                  >
+                    +
+                  </button>
+                  <div className="edit-quantity row-c-c">{item.quantity}</div>
+                  <button
+                    className="edit-decrement-item"
+                    onClick={() => {
+                      dispatch(setOrder(["setItemQuantity", item.quantity - 1]));
+                    }}
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+              <button
+                className="done-edit"
+                onClick={() => {
+                  dispatch(setInstances(["setEditItemOn", false]));
+                }}
+              >
+                Done
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

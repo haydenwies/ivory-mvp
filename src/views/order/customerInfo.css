@@ -1,5 +1,5 @@
 :root {
-  --customer-info-h1: clamp(1rem, 50% + 20px, 2rem);
+  --customer-info-h1: clamp(1rem, 50% + 20px, 1.5rem);
   --customer-info-btn: clamp(1rem, 30vw + 1rem, 1.5rem);
   --customer-info-content-width: 70%;
 }
@@ -52,7 +52,26 @@ h1 {
 .print {
   background-color: #20b68a;
   width: var(--customer-info-content-width);
-  padding: 1rem 0;
+  padding: 0.8rem 0;
   border-radius: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+}
+
+@media only screen and (max-width: 1050px) {
+  .input-info input {
+    font-size: 1.1rem;
+  }
+  .order-type button {
+    font-size: 1.1rem !important;
+  }
+  .wait-time button {
+    font-size: 1.1rem;
+  }
+  .notes textarea{
+    font-size: 1.1rem !important;
+  }
+  .printer-options{
+    position: relative;
+    right: 1rem;
+  }
 }

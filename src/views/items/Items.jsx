@@ -81,7 +81,7 @@ function Items() {
               dispatch(setInstances(["setCategoryType", e.target.innerText]));
             }}
           >
-            <p>{category}</p>
+            {category}
           </div>
         ))}
       </div>

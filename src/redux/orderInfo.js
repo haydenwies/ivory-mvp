@@ -87,7 +87,6 @@ export const orderInfoSlice = createSlice({
         case "setPrinterChoice":
           let kitchenIndex = orderOptions.printers.findIndex((printer) => printer.name === "Kitchen Printer");
           let cashierIndex = orderOptions.printers.findIndex((printer) => printer.name === "Cashier Printer");
-          console.log(cashierIndex);
           switch (value) {
             case "No Printers":
               orderOptions.printers[kitchenIndex].activated = false;
@@ -157,7 +156,6 @@ export const orderInfoSlice = createSlice({
           orderOptions.filteredItems = value;
           break;
         case "setSearchedItem":
-          console.log(value);
           orderOptions.searchedItem = value;
           break;
         case "setEditingItemIndex":
@@ -181,7 +179,6 @@ export const orderInfoSlice = createSlice({
           orderOptions.editingTab = value;
           break;
         case "setEditingCategory":
-          console.log(value);
           orderOptions.editingCategory = value;
           break;
 
@@ -220,7 +217,6 @@ export const orderInfoSlice = createSlice({
             order.orderType = "DELIVERY";
           } else {
             order.deliveryFee = orderManagement.defaultOrder.deliveryFee;
-            // console.log(orderManagement.defaultOrder.deliveryFee);
           }
           break;
         case "setTempFlatFee":
@@ -305,13 +301,11 @@ export const orderInfoSlice = createSlice({
             let modifyIndex = items[editingItemIndex].modifiers.findIndex(
               () => items[editingItemIndex].modifiers.name !== "Modify Flat Fee"
             );
-            console.log(modifyIndex);
             items[editingItemIndex].modifiers[modifyIndex].price = value === "" ? 0 : parseFloat(value);
           }
           break;
         // ---------------- Setting the flat fee modifier Checkbox  --------------- //
         case "setFlatFeeModifierOn":
-          console.log("Flat fee On?", value);
           items[editingItemIndex].flatFeeModifierOn = value;
 
           if (value) {
@@ -402,11 +396,6 @@ export const orderInfoSlice = createSlice({
             items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value];
           } else {
             //If not checked remove it to the modifiers list
-            console.log(
-              items[editingItemIndex].modifiers.filter(
-                (modifierItem) => JSON.stringify(modifierItem) !== JSON.stringify(value)
-              )[0]
-            );
             items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter(
               (modifierItem) => modifierItem.name !== value.name
             );

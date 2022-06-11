@@ -26,7 +26,6 @@ export const functionalitySlice = createSlice({
 
       switch (actionType) {
         case "setNavOn":
-          console.log(value);
           instance.navOn = value;
           break;
         case "setCustomerInfoOn":

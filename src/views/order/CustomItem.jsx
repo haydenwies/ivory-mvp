@@ -56,27 +56,29 @@ function CustomItem() {
                 X
               </button>
             </div>
-            <div className="custom-item-price row-c-fe">
-              <input
-                type="text"
-                placeholder="$0.00"
-                value={customItem.price}
-                onChange={(e) => {
-                  dispatch(setOrderOptions(["setCustomItemPrice", priceInputCheck(e.target.value)]));
-                }}
-              />
-              <button
-                className="clear-custom-price"
-                onClick={() => {
-                  dispatch(setOrderOptions(["setCustomItemPrice", ""]));
-                }}
-                tabIndex={-1}
-              >
-                X
-              </button>
-            </div>
-            <div className="custom-item-num-pad">
-              <Numpad />
+            <div className="custom-item-middle-section row-sb-c">
+              <div className="custom-item-price row-c-fe">
+                <input
+                  type="text"
+                  placeholder="$0.00"
+                  value={customItem.price}
+                  onChange={(e) => {
+                    dispatch(setOrderOptions(["setCustomItemPrice", priceInputCheck(e.target.value)]));
+                  }}
+                />
+                <button
+                  className="clear-custom-price"
+                  onClick={() => {
+                    dispatch(setOrderOptions(["setCustomItemPrice", ""]));
+                  }}
+                  tabIndex={-1}
+                >
+                  X
+                </button>
+              </div>
+              <div className="custom-item-num-pad">
+                <Numpad />
+              </div>
             </div>
             <div
               className="add-custom-item row-c-c"

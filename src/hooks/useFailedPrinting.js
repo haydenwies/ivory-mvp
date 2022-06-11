@@ -25,7 +25,6 @@ export const useFailedPrinting = () => {
         if (change.type === "added") {
           let failedPrinters = "";
           for (let printer of change.doc.data().failedPrinters) {
-            console.log(printer.printerName);
             failedPrinters = failedPrinters.concat("- ", printer.printerName, "\n");
           }
           alert("Printing Failed: \n" + failedPrinters);

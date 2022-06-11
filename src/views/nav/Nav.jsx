@@ -55,7 +55,7 @@ function Nav() {
             <p>View Orders</p>
           </div>
           <div className="nav-link row-fs-c" onClick={() => {
-              navigate("/settings") 
+              // navigate("/settings") 
               dispatch(setInstances(["setNavOn", false]));
             }}>
             <img src={Settings} alt="Settings" className="settings-icon" />
