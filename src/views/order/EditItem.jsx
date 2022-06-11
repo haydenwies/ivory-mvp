@@ -332,7 +332,21 @@ function EditItem() {
 
           {/* ----------------------------- Edit Item Buttons ----------------------------- */}
           <div className="flat-fee-modifier row-c-c">
-            <button className="flat-fee-clear">Clear</button>
+            <label
+              className="col-c-c"
+              onChange={() => {
+                dispatch(setOrder(["setFlatFeeModifierOn", !item.flatFeeModifierOn]));
+              }}
+            >
+              <span>Flat Fee</span>
+              <input
+                type="checkbox"
+                checked={item.flatFeeModifierOn}
+                onChange={() => {
+                  // dispatch(setOrder(["setFlatFeeModifierOn", !item.flatFeeModifierOn]));
+                }}
+              />
+            </label>
             <input
               type="text"
               className="flat-fee-price"

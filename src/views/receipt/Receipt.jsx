@@ -20,7 +20,6 @@ function Receipt() {
     paymentMethod,
     orderType,
     deliveryFee,
-    flatFeeModifier,
   } = useSelector(({ orderInfo }) => orderInfo.order);
   const { order } = useSelector(({ orderInfo }) => orderInfo);
   const {
@@ -46,8 +45,7 @@ function Receipt() {
       isDeliveryBeforeTax ? "BEFORE_TAX" : "AFTER_TAX",
       discountPercent,
       deliveryFee,
-      taxPercent,
-      flatFeeModifier
+      taxPercent
     );
     const { subTotal, tax, total, discount } = Totals.getTotals();
 
@@ -169,7 +167,12 @@ function Receipt() {
                             <div className="modifier-container" key={key}>
                               <p key={key}>{modifier.name}</p>
                               <div className="modifier-right-section row-c-c">
-                                <p className="modifier-price">+${modifier.price.toFixed(2)}</p>
+                                <p className="modifier-price">
+                                  +$
+                                  {(item.flatFeeModifierOn && modifier.name !== "Modify Flat Fee")
+                                    ? "0.00"
+                                    : modifier.price.toFixed(2)}
+                                </p>
                                 {editingItemIndex === itemKey && editItemOn ? (
                                   <button
                                     className="remove-modifier"

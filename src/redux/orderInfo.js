@@ -299,8 +299,39 @@ export const orderInfoSlice = createSlice({
           break;
         // ---------------- Setting the flat fee modifier  --------------- //
         case "setFlatFeeModifier":
-          console.log("FLAT FEE");
-          items[editingItemIndex].flatFeeModifier = value;
+          if (items[editingItemIndex].flatFeeModifierOn) {
+            items[editingItemIndex].flatFeeModifier = value;
+
+            let modifyIndex = items[editingItemIndex].modifiers.findIndex(
+              () => items[editingItemIndex].modifiers.name !== "Modify Flat Fee"
+            );
+            console.log(modifyIndex);
+            items[editingItemIndex].modifiers[modifyIndex].price = value === "" ? 0 : parseFloat(value);
+          }
+          break;
+        // ---------------- Setting the flat fee modifier Checkbox  --------------- //
+        case "setFlatFeeModifierOn":
+          console.log("Flat fee On?", value);
+          items[editingItemIndex].flatFeeModifierOn = value;
+
+          if (value) {
+            items[editingItemIndex].modifiers = [
+              {
+                name: "Modify Flat Fee",
+                checked: false,
+                modifyType: "No Add",
+                price:
+                  items[editingItemIndex].flatFeeModifier === ""
+                    ? 0
+                    : parseFloat(items[editingItemIndex].flatFeeModifier),
+              },
+              ...items[editingItemIndex].modifiers,
+            ];
+          } else {
+            items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter((modifier) => {
+              return modifier.name !== "Modify Flat Fee";
+            });
+          }
           break;
         // ---------------- Adding a Selection Item --------------- //
         case "ADD_SELECTION_ITEM":

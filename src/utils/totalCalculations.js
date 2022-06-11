@@ -29,24 +29,20 @@ export class Totals {
     Totals.discountPercent = parseFloat(discountPercent);
     Totals.deliveryFee = parseFloat(deliveryFee);
     Totals.taxPercent = parseFloat(taxPercent);
-    Totals.flatFeeModifier = flatFeeModifier;
   }
 
   static getSubTotal() {
-    console.log("RAN SUB TOTAL")
-
     let subTotal = 0.0;
     if (Totals.items.length > 0) {
       for (let i = 0; i < Totals.items.length; i++) {
         subTotal += Totals.items[i].price * Totals.items[i].quantity;
 
-        // Checks for a flat fee
-        console.log(Totals.flatFeeModifier);
-        if (Totals.flatFeeModifier > 0) {
-          console.log("ADDED FLAT FEE")
-          subTotal += Totals.flatFeeModifier;
-        } else {
-          if (Totals.items[i].hasOwnProperty("modifiers")) {
+        if (Totals.items[i].hasOwnProperty("modifiers")) {
+          if (Totals.items[i].flatFeeModifierOn) {
+            if (Totals.items[i].flatFeeModifier > 0) {
+              subTotal += parseFloat(Totals.items[i].flatFeeModifier);
+            }
+          } else {
             for (let j = 0; j < Totals.items[i].modifiers.length; j++) {
               subTotal += Totals.items[i].modifiers[j].price;
             }
@@ -77,7 +73,6 @@ export class Totals {
     } else if (discountOn && discountType === "BEFORE_TAX") {
       return (Totals.tax = subTotal * (1 - discountPercent) * taxPercent);
     } else if (deliveryOn && deliveryType === "BEFORE_TAX") {
-      console.log(deliveryFee);
       return (Totals.tax = (subTotal + deliveryFee) * taxPercent);
     } else {
       return (Totals.tax = subTotal * taxPercent);
@@ -119,10 +114,10 @@ export class Totals {
     };
 
     return {
-      subTotal: getPrecision(`${subTotal}`),
-      tax: getPrecision(`${tax}`),
-      discount: getPrecision(`${discount}`),
-      total: getPrecision(`${total}`),
+      subTotal: getPrecision(`${subTotal.toFixed(2)}`),
+      tax: getPrecision(`${tax.toFixed(2)}`),
+      discount: getPrecision(`${discount.toFixed(2)}`),
+      total: getPrecision(`${total.toFixed(2)}`),
     };
   }
 }
