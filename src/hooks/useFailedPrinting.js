@@ -11,7 +11,7 @@ export const useFailedPrinting = () => {
    * @param {string} c Collection name
    * @param {[query]} q Query
    */
-  function failedPrinting(c, q) {
+  function failedPrinting(c, q, timeoutId) {
     let ref = collection(db, c); //Gets a reference to a collection based on the param "c"
 
     //If a query is passed in we get a new ref with the query params else it will just get the entire collection
@@ -26,14 +26,19 @@ export const useFailedPrinting = () => {
           let failedPrinters = "";
           for (let printer of change.doc.data().failedPrinters) {
             console.log(printer.printerName);
-            failedPrinters = failedPrinters.concat("- ",printer.printerName, "\n");
+            failedPrinters = failedPrinters.concat("- ", printer.printerName, "\n");
           }
-          alert("Printing Failed: \n" + failedPrinters );
+          alert("Printing Failed: \n" + failedPrinters);
           dispatch(setInstances(["setPausePrinting", false]));
+          clearTimeout(timeoutId);
           return true;
         }
       });
     });
+    // let timeoutId = setTimeout(() => {
+    //   alert("The central printing computer is down.");
+    //   dispatch(setInstances(["setPausePrinting", false]));
+    // }, 30000);
   }
   return [failedPrinting];
 };
