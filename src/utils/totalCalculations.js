@@ -18,7 +18,8 @@ export class Totals {
     deliveryType,
     discountPercent,
     deliveryFee,
-    taxPercent
+    taxPercent,
+    flatFeeModifier
   ) {
     Totals.items = items;
     Totals.discountOn = discountOn;
@@ -28,16 +29,27 @@ export class Totals {
     Totals.discountPercent = parseFloat(discountPercent);
     Totals.deliveryFee = parseFloat(deliveryFee);
     Totals.taxPercent = parseFloat(taxPercent);
+    Totals.flatFeeModifier = flatFeeModifier;
   }
 
   static getSubTotal() {
+    console.log("RAN SUB TOTAL")
+
     let subTotal = 0.0;
     if (Totals.items.length > 0) {
       for (let i = 0; i < Totals.items.length; i++) {
         subTotal += Totals.items[i].price * Totals.items[i].quantity;
-        if (Totals.items[i].hasOwnProperty("modifiers")) {
-          for (let j = 0; j < Totals.items[i].modifiers.length; j++) {
-            subTotal += Totals.items[i].modifiers[j].price;
+
+        // Checks for a flat fee
+        console.log(Totals.flatFeeModifier);
+        if (Totals.flatFeeModifier > 0) {
+          console.log("ADDED FLAT FEE")
+          subTotal += Totals.flatFeeModifier;
+        } else {
+          if (Totals.items[i].hasOwnProperty("modifiers")) {
+            for (let j = 0; j < Totals.items[i].modifiers.length; j++) {
+              subTotal += Totals.items[i].modifiers[j].price;
+            }
           }
         }
       }

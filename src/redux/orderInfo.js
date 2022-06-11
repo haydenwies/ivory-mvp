@@ -223,7 +223,7 @@ export const orderInfoSlice = createSlice({
             // console.log(orderManagement.defaultOrder.deliveryFee);
           }
           break;
-        case "setOutOfTownDeliveryOn":
+        case "setTempFlatFee":
           orderOptions.tempFlatFee = value;
           break;
       }
@@ -299,8 +299,8 @@ export const orderInfoSlice = createSlice({
           break;
         // ---------------- Setting the flat fee modifier  --------------- //
         case "setFlatFeeModifier":
+          console.log("FLAT FEE");
           items[editingItemIndex].flatFeeModifier = value;
-          console.log(items[editingItemIndex].flatFeeModifier);
           break;
         // ---------------- Adding a Selection Item --------------- //
         case "ADD_SELECTION_ITEM":

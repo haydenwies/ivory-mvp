@@ -271,7 +271,7 @@ function EditItem() {
                     onClick={() => {
                       dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
                       dispatch(setOrderOptions(["setDesiredSwapItem", { name: "", price: 0 }]));
-                      dispatch(setOrderOptions(["setSwapPrice", 0.0]));
+                      dispatch(setOrderOptions(["setSwapPrice", ""]));
                     }}
                   >
                     Clear Swap
@@ -337,6 +337,7 @@ function EditItem() {
               type="text"
               className="flat-fee-price"
               placeholder="Flat Fee"
+              value={tempFlatFee}
               onChange={(e) => {
                 dispatch(setOrderOptions(["setTempFlatFee", priceInputCheck(e.target.value)]));
               }}

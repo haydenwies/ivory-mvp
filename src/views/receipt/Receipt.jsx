@@ -20,6 +20,7 @@ function Receipt() {
     paymentMethod,
     orderType,
     deliveryFee,
+    flatFeeModifier,
   } = useSelector(({ orderInfo }) => orderInfo.order);
   const { order } = useSelector(({ orderInfo }) => orderInfo);
   const {
@@ -45,7 +46,8 @@ function Receipt() {
       isDeliveryBeforeTax ? "BEFORE_TAX" : "AFTER_TAX",
       discountPercent,
       deliveryFee,
-      taxPercent
+      taxPercent,
+      flatFeeModifier
     );
     const { subTotal, tax, total, discount } = Totals.getTotals();
 
@@ -83,6 +85,9 @@ function Receipt() {
   // Moves receipt scroll position to the bottom of the page.
   useEffect(() => {
     getTotal();
+    return () => {
+      getTotal();
+    };
   }, [items, discounted]);
 
   //Triggers the scroll animation when item is added to receipt
@@ -95,7 +100,6 @@ function Receipt() {
       <div className="receipt-container col-sb-c">
         {/* ----------------------------- Receipt Items ----------------------------- */}
         <div className="receipt-items col-c-c">
-          
           {items &&
             items.map((item, itemKey) => (
               <div
