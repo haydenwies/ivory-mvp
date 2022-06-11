@@ -36,26 +36,26 @@ function CustomerInfo() {
       getSeconds,
     });
 
-    // dispatch(setInstances(["setPausePrinting", true])); //Disables the print button
+    dispatch(setInstances(["setPausePrinting", true])); //Disables the print button
 
-    // await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
+    await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
 
-    // // Check if there are any printers we need to print to.
-    // if (printInfo.printers.length !== 0) {
-    //   await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
+    // Check if there are any printers we need to print to.
+    if (printInfo.printers.length !== 0) {
+      await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
 
-    //   let timeoutId = setTimeout(() => {
-    //     alert("The central printing computer is down.");
-    //     dispatch(setInstances(["setPausePrinting", false]));
-    //   }, 40000);
-    //   failedPrinting("errLog", ["id", "==", finalizedOrder.id], timeoutId);
-    //   resolvedPrinting("orders", ["id", "==", finalizedOrder.id], timeoutId);
-    // } else {
-    //   //No printers disable the paused printing
-    //   dispatch(setInstances(["setPausePrinting", false]));
-    //   dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
-    //   dispatch(setOrderManagement(["RESET_ORDER"]));
-    // }
+      let timeoutId = setTimeout(() => {
+        alert("The central printing computer is down.");
+        dispatch(setInstances(["setPausePrinting", false]));
+      }, 40000);
+      failedPrinting("errLog", ["id", "==", finalizedOrder.id], timeoutId);
+      resolvedPrinting("orders", ["id", "==", finalizedOrder.id], timeoutId);
+    } else {
+      //No printers disable the paused printing
+      dispatch(setInstances(["setPausePrinting", false]));
+      dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
+      dispatch(setOrderManagement(["RESET_ORDER"]));
+    }
   };
 
   return (

@@ -74,7 +74,7 @@ const formatAddress = (addressEntry, streetName) => {
 
 /**
  * Allkows only number and decimal entries
- * @param {string} priceEntry 
+ * @param {string} priceEntry
  * @returns the string interpretation of the price
  */
 const priceInputCheck = (priceEntry) => {
@@ -117,7 +117,7 @@ const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTim
     order.phoneNumber
   )}${numbersOnlyPhoneNum(order.phoneNumber)}`;
 
-  console.table(finalizedOrder.items[0].modifiers)
+  // console.table(finalizedOrder.items[0].modifiers)
   const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.activated);
 
   let printInfo = {

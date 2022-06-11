@@ -95,7 +95,7 @@ function Receipt() {
       <div className="receipt-container col-sb-c">
         {/* ----------------------------- Receipt Items ----------------------------- */}
         <div className="receipt-items col-c-c">
-          <h3>Name</h3>
+          
           {items &&
             items.map((item, itemKey) => (
               <div

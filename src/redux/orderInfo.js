@@ -35,8 +35,8 @@ export const orderInfoSlice = createSlice({
       isDiscountBeforeTax: false,
       isDeliveryBeforeTax: true,
       printers: [
-        { name: "Kitchen Printer", ip: "192.168.0.34", activated: false },
-        { name: "Cashier Printer", ip: "192.168.0.94", activated: false },
+        { name: "Kitchen Printer", ip: "192.168.0.34", activated: false, copies: 2 },
+        { name: "Cashier Printer", ip: "192.168.0.94", activated: false, copies: 1 },
       ],
       printerChoice: "Both Printers",
       printerOptionsOn: false,

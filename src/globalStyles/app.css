@@ -24,7 +24,7 @@ html{
   --content-border-radius: 5rem;
   --button-border-radius: 0.5rem;
   --green-btn: #20c090;
-  --min-modal-height: 850px;
+  --min-modal-height: 700px;
 }
 body {
   background-color: var(--backgroundTheme);

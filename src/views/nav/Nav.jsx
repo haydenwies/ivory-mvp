@@ -3,9 +3,16 @@ import "./nav.css";
 import { useNavigate } from "react-router-dom";
 import { Order, Saved, Settings, Logout, XIcon } from "../../Assets/Images";
 import { useLogout } from "../../hooks/useLogout";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setInstances } from "../../redux/functionality";
+
+
 function Nav() {
+
+  const { navOn } = useSelector(
+    ({ functionality }) => functionality.instances[functionality.indexInstance]
+  );
+  
   /* ----------------------------- Nav Panel ----------------------------- */
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,33 +40,24 @@ function Nav() {
           <h1>KY</h1>
         </div>
         <div className="nav-links col-c-fs">
-          <div
-            className="nav-link row-fs-c"
-            onClick={() => {
-              navigate("/order");
-              dispatch(setInstances(["setNavOn", false]));
-            }}
-          >
+          <div className="nav-link row-fs-c" onClick={() => {
+            navigate("/order")
+            dispatch(setInstances(["setNavOn", false]));
+           }}>
             <img src={Order} alt="" />
             <p>Order</p>
           </div>
-          <div
-            className="nav-link row-fs-c"
-            onClick={() => {
-              navigate("/view-orders");
+          <div className="nav-link row-fs-c" onClick={() => {
+              navigate("/view-orders")
               dispatch(setInstances(["setNavOn", false]));
-            }}
-          >
+            }}>
             <img src={Saved} alt="Saved Receipts" className="saved" />
             <p>View Orders</p>
           </div>
-          <div
-            className="nav-link row-fs-c"
-            onClick={() => {
-              navigate("/settings");
+          <div className="nav-link row-fs-c" onClick={() => {
+              navigate("/settings") 
               dispatch(setInstances(["setNavOn", false]));
-            }}
-          >
+            }}>
             <img src={Settings} alt="Settings" className="settings-icon" />
             <p>Settings</p>
           </div>

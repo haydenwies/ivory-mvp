@@ -1,6 +1,7 @@
 /* Custom CSS Variables */
 :root {
-  --options-gap: clamp(4rem, 10vw + 5rem, 8rem);
+  --options-gap: clamp(2vw, 10vw, 10vw);
+  --options-padding: clamp(1vw, 2vw, 3vw);
   --options-height: clamp(30px, 10vw, 50px);
   --main-option-WH: clamp(30px, 10vw + 40px, 50px);
 }
@@ -58,7 +59,7 @@
 }
 /* ----------------------------- Item Options ----------------------------- */
 .item-options {
-  padding: 0 3rem;
+  /* padding: 0 3rem; */
   align-self: center;
 }
 .trash,
@@ -74,7 +75,7 @@
 .main-options {
   column-gap: var(--options-gap);
   background-color: #1e202c;
-  padding: 0 var(--options-gap);
+  padding: 0 var(--options-padding);
   border-radius: 1rem;
   height: var(--options-height);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;

@@ -2,9 +2,6 @@ import { useEffect, useState } from "react";
 import { Info, Search } from "../../Assets/Images";
 import { db } from "../../firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { setOrderManagement } from "../../redux/orderInfo";
 import "./viewOrder.css";
 function Receipts() {
   // Modal data
@@ -18,12 +15,6 @@ function Receipts() {
   const timezone = "America/Toronto";
   const date = new Date().toLocaleString("sv", { timeZone: timezone }).slice(0, 10);
   const [data, setData] = useState();
-
-  // Redux
-  const dispatch = useDispatch();
-
-  // React Router
-  const navigate = useNavigate();
 
   const onToggleModal = (e) => {
     if (modalType === e.target.innerHTML && showModal === true) {
@@ -110,7 +101,7 @@ function Receipts() {
                 {true && (
                   <div className="receipt-content receipt-full-content col-c-fs">
                     <div className="receipt-title row-c-c">
-                      <h2>{doc.phoneNumber? doc.phoneNumber: "No Number"}</h2>
+                      <h2>{doc.phoneNumber}</h2>
                     </div>
                     <div className="receipt-property row-sb-c">
                       <p>Paid:</p>
@@ -146,12 +137,6 @@ function Receipts() {
 
                     {showFullReceipt && (
                       <>
-                        <div className="receipt-property row-sb-c">
-                          <p>Note:</p>
-                          <p>
-                            <b>{doc.note}</b>
-                          </p>
-                        </div>
                         <div className="items-property receipt-property col-c-fs">
                           <p>Items:</p>
                           <div className="items-container col-c-fe">
@@ -185,13 +170,7 @@ function Receipts() {
                             <b>${doc.total.toFixed(2)}</b>
                           </p>
                         </div>
-                        <div
-                          className="receipt-actions row-c-c"
-                          onClick={() => {
-                            dispatch(setOrderManagement(["setReprintOrder", doc]));
-                            navigate("/order");
-                          }}
-                        >
+                        <div className="receipt-actions row-c-c">
                           <button>Reprint Bill</button>
                         </div>
                       </>

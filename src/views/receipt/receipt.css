@@ -26,7 +26,7 @@
 }
 /* ----------------------------- Receipt Items ----------------------------- */
 .receipt-items {
-  margin-top: 2rem;
+  margin-top: 5rem;
   width: 100%;
   row-gap: 1.5rem;
 }
