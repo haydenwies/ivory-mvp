@@ -28,7 +28,7 @@
   top: 1rem;
   bottom: 1rem;
   right: 1rem;
-  width: 350px;
+  width: 300px;
   border: solid 1px white;
   /* height:400px; */
   overflow-y: scroll;
@@ -47,7 +47,7 @@
 
 @media only screen and (max-width: 1050px) {
   .delivery-options{
-    width:150px;
+    width:180px;
   }
   .delivery-options button{
     font-size: 1.1rem;
