@@ -51,7 +51,7 @@ function CustomerInfo() {
       failedPrinting("errLog", ["id", "==", finalizedOrder.id], timeoutId);
       resolvedPrinting("orders", ["id", "==", finalizedOrder.id], timeoutId);
     } else {
-      //No printers disable the paused printing
+      //Save Receipts disable the paused printing
       dispatch(setInstances(["setPausePrinting", false]));
       dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
       dispatch(setOrderManagement(["RESET_ORDER"]));
