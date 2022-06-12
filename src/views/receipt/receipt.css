@@ -30,7 +30,7 @@
 .receipt-items {
   margin-top: 5rem;
   width: 100%;
-  row-gap: 1.5rem;
+  /* row-gap: 1.5; */
 }
 .receipt-item {
   position: relative;
@@ -39,6 +39,7 @@
   /* padding: 0.8rem 0; */
   border-radius: 0.3rem;
   cursor: pointer;
+  margin:.5rem 0;
 }
 .receipt-item-content {
   width: 100%;
