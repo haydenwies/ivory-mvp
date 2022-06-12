@@ -47,7 +47,7 @@
 
 @media only screen and (max-width: 1050px) {
   .delivery-options{
-    width:180px;
+    width:150px;
   }
   .delivery-options button{
     font-size: 1.1rem;
