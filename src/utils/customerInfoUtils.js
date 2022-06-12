@@ -39,6 +39,8 @@ const minutesValidation = (minutes) => {
 const getSimilarAddresses = (entry, addressList) => {
   const firstChar = new RegExp(/[a-zA-Z]/);
   let filteredAddresses = [];
+  
+  if (entry === "") return [];
 
   //Need to slice out the numbers and only get the name
   for (let j = 0; j < entry.length; j++) {

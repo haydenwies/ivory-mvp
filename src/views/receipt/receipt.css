@@ -159,8 +159,14 @@
 .receipt-options span {
   padding: 0 .5rem 0.5rem 0.5rem;
   text-align: center;
+
 }
 .receipt-options input {
   width: 25px;
   height: 25px;
+}
+@media only screen and (max-width: 1050px) {
+  .receipt-options{
+    font-size: .8rem;
+  }
 }

@@ -32,6 +32,7 @@
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
+  padding:0 .5rem;
 }
 .selection-item p {
   color: black;
@@ -61,7 +62,8 @@
   font-weight: 300;
   text-align: center;
   font-size: var(--category-item-font-size);
-  padding: 0 0.1rem;
+  padding:0 .5rem;
+
 }
 /* ----------------------------- Item Options ----------------------------- */
 .item-options {

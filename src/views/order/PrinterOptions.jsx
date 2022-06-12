@@ -5,7 +5,7 @@ import "./printerOptions.css";
 function PrinterOptions() {
   const dispatch = useDispatch();
   const { printerOptions, printerChoice, printerOptionsOn } = useSelector(
-  ({ orderInfo }) => orderInfo.orderOptions
+    ({ orderInfo }) => orderInfo.orderOptions
   );
   useEffect(() => {
     dispatch(setOrderOptions(["setPrinterChoice", printerChoice]));
@@ -16,7 +16,6 @@ function PrinterOptions() {
         <div className="printer-options-content col-fs-c">
           <h4>Printer Options</h4>
           <div className="printer-option col-c-c">
-            <h5>Option</h5>
             {/* ----------------------------- Printer Choice ----------------------------- */}
             <button
               className="printer-choice"
