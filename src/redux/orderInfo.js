@@ -40,7 +40,11 @@ export const orderInfoSlice = createSlice({
       ],
       printerChoice: "Both Printers",
       printerOptionsOn: false,
+Save ReceiptSave Receipt< HEAD
       printerOptions: ["Save Receipt", "Kitchen Printer", "Cashier Printer", "Both Printers"],
+=======
+      printerOptions: ["Save Order", "Kitchen Printer", "Cashier Printer", "Both Printers"],
+>>>>>>> 72396effe3307c02073bb377903335721cb3c239
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
       filteredAddresses: [],
       addressList: ADDRESS_LIST,
@@ -88,7 +92,7 @@ export const orderInfoSlice = createSlice({
           let kitchenIndex = orderOptions.printers.findIndex((printer) => printer.name === "Kitchen Printer");
           let cashierIndex = orderOptions.printers.findIndex((printer) => printer.name === "Cashier Printer");
           switch (value) {
-            case "Save Receipts":
+            case "Save Orders":
               orderOptions.printers[kitchenIndex].activated = false;
               orderOptions.printers[cashierIndex].activated = false;
               break;

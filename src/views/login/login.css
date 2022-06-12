@@ -16,7 +16,7 @@
 .login {
   color: var(--textTheme);
   background-color: var(--backgroundTheme);
-  height: clamp(100px, 100vh, 100vh);
+  height: clamp(700px, 100vh, 100vh);
   width: var(--login-width);
 }
 
