@@ -40,7 +40,7 @@ export const orderInfoSlice = createSlice({
       ],
       printerChoice: "Both Printers",
       printerOptionsOn: false,
-Save ReceiptSave Receipt< HEAD
+<<<<<<< HEAD
       printerOptions: ["Save Receipt", "Kitchen Printer", "Cashier Printer", "Both Printers"],
 =======
       printerOptions: ["Save Order", "Kitchen Printer", "Cashier Printer", "Both Printers"],
