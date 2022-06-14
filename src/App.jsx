@@ -56,7 +56,7 @@ function App() {
             }
           />
           <Route
-            path="/settings"
+            path="/settings/*"
             element={
               <PrivateRoute>
                 {navOn && <Nav />}

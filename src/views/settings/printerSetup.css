@@ -1,11 +1,53 @@
 .printer-setup {
   width: 90%;
-  height:75%;
+  height:80%;
+  margin-top: 4%;
 }
 .printer-setup h1{
-    text-align: left;
-    width:100%;
+  text-align: left;
+  width:100%;
 
+}
+.printer-setup input {
+  border-radius: 0.5rem;
+  font-family: "Montserrat", sans-serif;
+  text-align: center;
+  font-size: 1.5rem;
+  
+}
+.printer-actions {
+  margin-top: 2rem;
+  margin-right: 60%;
+  display: flex;
+  flex-direction: row;
+}
+.printer-actions button {
+  margin: 0 1rem;
+}
+.printer-actions .add {
+  font-size: 1.2rem;
+  padding: 0.5rem 2rem;
+  border-radius: 0.5rem;
+  background-color: blue;
+}
+.printer-actions .save {
+  font-size: 1.2rem;
+  padding: 0.5rem 2rem;
+  border-radius: 0.5rem;
+  background-color: #EDBB51;
+  color: #121421;
+}
+.printer-actions .disabled {
+  opacity: 0.5;
+}
+.printer-actions .disabled {
+  cursor: default;
+}
+.printer-list {
+  margin-top: 1em;
+  overflow-y: scroll;
+  width: 100%;
+  height: 100%;
 }
 .printer-info {
   position: relative;
@@ -13,23 +55,38 @@
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
   padding:3rem 0;
   margin-top:2rem;
-}
-.edit-printer-info {
-  padding: .7rem;
-  box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
-  position: absolute;
-  top: .5rem;
-  right: .5rem;
-  cursor:pointer;
+  border-radius: 0.5rem;
 }
 .printer-info h2 {
   font-size: 1.5rem;
   color:#EDBB51;
   padding-bottom: 2rem;
 }
-.printer-ip{
-    background-color: #1e202c;
-    width:30%;
-    padding:1rem 0;
-    font-size: 1.5rem;
+.delete-printer {
+  padding: 0.75rem 1rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: rgba(255, 0, 0, 0.8);
+  border-radius: 0 0.5rem 0 0.5rem;
+}
+.printer-name {
+  
+  font-weight:500;
+  color: black;
+  background-color: white;
+  width:50%;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+}
+.printer-name:hover {
+  background-color: white;
+}
+.printer-ip {
+  margin-top: 1.2rem;
+  background-color: #1e202c;
+  font-weight: 300;
+  width:30%;
+  padding:1rem;
+  font-size: 1.5rem;
 }
