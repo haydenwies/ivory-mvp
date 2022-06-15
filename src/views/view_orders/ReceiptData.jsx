@@ -7,7 +7,7 @@ import "./viewOrder.css";
 import { setOrderManagement } from "../../redux/orderInfo";
 import { useNavigate } from "react-router-dom";
 
-function Receipts() {
+function Receipts({ data }) {
   // Modal data
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("");
@@ -18,7 +18,7 @@ function Receipts() {
   // Receipt fetch data
   const timezone = "America/Toronto";
   const date = new Date().toLocaleString("sv", { timeZone: timezone }).slice(0, 10);
-  const [data, setData] = useState();
+  // const [data, setData] = useState();
 
   //Redux
   const dispatch = useDispatch();
@@ -40,22 +40,22 @@ function Receipts() {
   };
 
   // Fetch data when the page loads
-  useEffect(() => {
-    const getData = async () => {
-      // Get documents with correct date
-      const q = query(collection(db, "orders"), where("date", "==", date));
-      const snapshot = await getDocs(q);
-      // Loop through data and add to array
-      const docs = [];
-      snapshot.forEach((doc) => {
-        docs.push(doc.data());
-      });
-      // Set data as array once loop finishes
-      setData(docs);
-    };
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     // Get documents with correct date
+  //     const q = query(collection(db, "orders"), where("date", "==", date));
+  //     const snapshot = await getDocs(q);
+  //     // Loop through data and add to array
+  //     const docs = [];
+  //     snapshot.forEach((doc) => {
+  //       docs.push(doc.data());
+  //     });
+  //     // Set data as array once loop finishes
+  //     setData(docs);
+  //   };
 
-    getData();
-  }, []);
+  //   getData();
+  // }, []);
 
   return (
     <div className="receipt-data">
@@ -108,91 +108,106 @@ function Receipts() {
                 )}
 
                 {/* ----------------------------- Receipt Full Data ----------------------------- */}
-                {true && (
-                  <div className="receipt-content receipt-full-content col-c-fs">
-                    <div className="receipt-title row-c-c">
-                      <h2>{doc.phoneNumber}</h2>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Paid:</p>
-                      <p>
-                        {doc.paid && <b>TRUE</b>}
-                        {!doc.paid && <b>FALSE</b>}
-                      </p>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Name:</p>
-                      <p>
-                        <b>{doc.name}</b>
-                      </p>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Order Type:</p>
-                      <p>
-                        <b>{doc.orderType}</b>
-                      </p>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Order Time:</p>
-                      <p>
-                        <b>{doc.time[0]}</b>
-                      </p>
-                    </div>
-                    <div className="receipt-property row-sb-c">
-                      <p>Wait Time:</p>
-                      <p>
-                        <b>{doc.waitTime.displayName}</b>
-                      </p>
-                    </div>
-
-                    {showFullReceipt && (
-                      <>
-                        <div className="items-property receipt-property col-c-fs">
-                          <p>Items:</p>
-                          <div className="items-container col-c-fe">
-                            {doc.items.map((item, key) => (
-                              <div key={key} className="item-container row-sb-c">
-                                <p>
-                                  <b>{item.name}</b>
-                                </p>
-                                <p>
-                                  <b>${item.price.toFixed(2)}</b>
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="receipt-property row-sb-c">
-                          <p>Sub-Total:</p>
-                          <p>
-                            <b>${doc.subTotal.toFixed(2)}</b>
-                          </p>
-                        </div>
-                        <div className="receipt-property row-sb-c">
-                          <p>Taxes:</p>
-                          <p>
-                            <b>${doc.tax.toFixed(2)}</b>
-                          </p>
-                        </div>
-                        <div className="receipt-property row-sb-c">
-                          <p>Total:</p>
-                          <p>
-                            <b>${doc.total.toFixed(2)}</b>
-                          </p>
-                        </div>
-                        <div
-                          className="receipt-actions row-c-c"
-                          onClick={() => {
-                            dispatch(setOrderManagement(["setReprintOrder", doc]));
-                            navigate("/orders");
-                          }}
-                        >
-                          <button>Reprint Bill</button>
-                        </div>
-                      </>
-                    )}
+                <div className="receipt-content receipt-full-content col-c-fs">
+                  <div className="receipt-title row-c-c">
+                    <h2>{doc.phoneNumber}</h2>
                   </div>
-                )}
+                  <div className="receipt-actions">
+                    <button
+                    className="receipt-actions"
+                      onClick={() => {
+                        dispatch(setOrderManagement(["setReprintOrder", doc]));
+                        navigate("/orders");
+                      }}
+                    >
+                      Edit + print
+                    </button>
+                  </div>
+                  <div className="receipt-property row-sb-c">
+                    <p>Paid:</p>
+                    <p>
+                      {doc.paid && <b>TRUE</b>}
+                      {!doc.paid && <b>FALSE</b>}
+                    </p>
+                  </div>
+                  <div className="receipt-property row-sb-c">
+                    <p>Name:</p>
+                    <p>
+                      <b>{doc.name}</b>
+                    </p>
+                  </div>
+                  <div className="receipt-property row-sb-c">
+                    <p>Order Type:</p>
+                    <p>
+                      <b>{doc.orderType}</b>
+                    </p>
+                  </div>
+                  {doc.orderType === "DELIVERY" && (
+                    <div className="receipt-property row-sb-c">
+                      <p>Delivery address:</p>
+                      <p>
+                        <b>{doc.deliveryAddress}</b>
+                      </p>
+                    </div>
+                  )}
+                  <div className="receipt-property row-sb-c">
+                    <p>Order Time:</p>
+                    <p>
+                      <b>{doc.time[0]}</b>
+                    </p>
+                  </div>
+                  <div className="receipt-property row-sb-c">
+                    <p>Wait Time:</p>
+                    <p>
+                      <b>{doc.waitTime.displayName}</b>
+                    </p>
+                  </div>
+
+                  {showFullReceipt && (
+                    <>
+                      <div className="items-property receipt-property col-c-fs">
+                        <p>Items:</p>
+                        <div className="items-container col-c-fe">
+                          {doc.items.map((item, key) => (
+                            <div key={key} className="item-container row-sb-c">
+                              <p>
+                                <b>{item.name}</b>
+                              </p>
+                              <p>
+                                <b>${item.price.toFixed(2)}</b>
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="receipt-property row-sb-c">
+                        <p>Sub-Total:</p>
+                        <p>
+                          <b>${doc.subTotal.toFixed(2)}</b>
+                        </p>
+                      </div>
+                      <div className="receipt-property row-sb-c">
+                        <p>Taxes:</p>
+                        <p>
+                          <b>${doc.tax.toFixed(2)}</b>
+                        </p>
+                      </div>
+                      <div className="receipt-property row-sb-c">
+                        <p>Total:</p>
+                        <p>
+                          <b>${doc.total.toFixed(2)}</b>
+                        </p>
+                      </div>
+                      <div className="receipt-delete row-c-c">
+                        <button
+                          className="receipt-actions"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             ))}
           </div>

@@ -247,10 +247,16 @@
 }
 /* ---------------------------- Receipt Actions ---------------------------- */
 .receipt-actions{
-  width:100%;
-  margin:1rem 0;
+  padding: 1rem 0;
+  width: 100%;
+  height: 2rem;
 }
-.receipt-actions button{
+.receipt-delete {
+  padding-top: 1rem;
+  width: 100%;
+}
+
+/* .receipt-actions button{
   border:solid 1px white;
-  padding:.8rem 2rem;
-}
+  padding:.8rem 2rem; 
+} */
