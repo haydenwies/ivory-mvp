@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useRef, useEffect} from "react";
 import { setOrder } from "../../redux/orderInfo";
 import { useDispatch, useSelector } from "react-redux";
 import { numbersOnly, formatPhoneNumber } from "../../utils/customerInfoUtils";
+
 import "./phoneNumber.css";
 function PhoneNumber() {
   const { phoneNumber } = useSelector(({ orderInfo }) => orderInfo.order);
   const dispatch = useDispatch();
+  const phoneNumRef = useRef();
   const handlePhoneNumber = (e) => {
     let word = e.target.value;
     let charInput = e.nativeEvent.data;
@@ -29,10 +31,14 @@ function PhoneNumber() {
       dispatch(setOrder(["setPhoneNumber", formatPhoneNumber(word)]));
     }
   };
+  useEffect(() => {
+    phoneNumRef.current.focus();
+  }, []);
   return (
     <div className="phone-number input-info row-c-c">
       <input
         type="tel"
+        ref={phoneNumRef}
         placeholder="Phone Number"
         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
         onChange={handlePhoneNumber}

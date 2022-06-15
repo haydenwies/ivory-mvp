@@ -15,7 +15,7 @@ export const orderInfoSlice = createSlice({
       deliveryFee: 6.0,
       isScheduledOrder: false,
       scheduledTime: { date: "", time: "", hours: "", minutes: "", meridian: "PM" },
-      waitTime: { displayName: "", units: "", magnitude: 0 },
+      waitTime: { displayName: "15 Minutes", units: "MM", magnitude: 15 },
       finishTime: "",
       paid: false,
       note: "",
@@ -35,23 +35,19 @@ export const orderInfoSlice = createSlice({
       isDiscountBeforeTax: false,
       isDeliveryBeforeTax: true,
       printers: [
-        { name: "Kitchen Printer", ip: "192.168.1.108", activated: false, copies: 2 },
-        { name: "Cashier Printer", ip: "192.168.0.34", activated: false, copies: 1 },
+        { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
+        { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
       ],
-      printerChoice: "Both Printers",
+      printerChoice: "Cashier Printer",
       printerOptionsOn: false,
-<<<<<<< HEAD
-      printerOptions: ["Save Receipt", "Kitchen Printer", "Cashier Printer", "Both Printers"],
-=======
       printerOptions: ["Save Order", "Kitchen Printer", "Cashier Printer", "Both Printers"],
->>>>>>> 72396effe3307c02073bb377903335721cb3c239
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
       filteredAddresses: [],
       addressList: ADDRESS_LIST,
       filteredItems: [],
       searchedItem: "",
       editingItemIndex: -1,
-      editingTab: "Selection List", //Used for editing tabs
+      editingTab: "Kitchen Printer", //Used for editing tabs
       editingCategory: "", //Used for swap items
       editingSelection: [],
       currentSwapItem: { name: "", price: 0.0 },

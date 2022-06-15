@@ -4,7 +4,7 @@
   --options-padding: clamp(0.5rem, 50vw + 1rem, 1rem);
   --options-height: clamp(30px, 10vw, 50px);
   --main-option-WH: clamp(30px, 10vw + 40px, 50px);
-  --category-item-font-size: clamp(0.8rem, 20% + 0.7rem, 0.9rem);
+  --category-item-font-size: clamp(0.8rem, 20% + 1.2rem, 1.2rem);
   --selection-item-font-size: clamp(0.8rem, 20% + 0.7rem, 0.9rem);
 }
 
@@ -33,10 +33,11 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
   padding:0 .5rem;
+  max-height: 80px;
 }
 .selection-item p {
   color: black;
-  font-weight: 300;
+  font-weight: 400;
   text-align: center;
   font-size: var(--category-item-font-size);
   padding: 0 0.1rem;
@@ -59,11 +60,11 @@
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
-  font-weight: 300;
+  font-weight: 400;
   text-align: center;
   font-size: var(--category-item-font-size);
   padding:0 .5rem;
-
+  max-height: 80px;
 }
 /* ----------------------------- Item Options ----------------------------- */
 .item-options {
@@ -112,4 +113,17 @@
   transform: scale(1);
   padding: 0 1em;
   width: clamp(20px, 10vw, 23px);
+}
+
+@media (max-height: 1100px){
+  :root {
+    --category-item-font-size: clamp(0.8rem, 20% + 0.7rem, 1rem);
+    --selection-item-font-size: clamp(0.8rem, 20% + 0.7rem, 1rem);
+  }
+  /* .selection-item p{
+    font-size:1rem;
+  }
+  .category-item{
+    font-size: .5rem !important;
+  } */
 }

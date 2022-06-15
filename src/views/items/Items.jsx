@@ -7,6 +7,7 @@ import { setOrder, setOrderManagement, setOrderOptions } from "../../redux/order
 import CustomItem from "../order/CustomItem";
 import SearchItem from "../order/SearchItem";
 import EditItem from "../order/EditItem";
+import { SPECIAL_COMBO } from "../../redux/menuData";
 function Items() {
   /* ----------------------------- State Variables ----------------------------- */
   const dispatch = useDispatch();
@@ -48,6 +49,13 @@ function Items() {
       }
     }
   };
+  const handleSpecialCombos = (category, e) => {
+    if (category === "Special Combo") {
+      handleAddItem(SPECIAL_COMBO);
+    } else {
+      dispatch(setInstances(["setCategoryType", e.target.innerText]));
+    }
+  };
   return (
     <div className="items">
       {/* ----------------------------- Selection Items ----------------------------- */}
@@ -78,7 +86,7 @@ function Items() {
             key={key}
             className="category-item row-c-c"
             onClick={(e) => {
-              dispatch(setInstances(["setCategoryType", e.target.innerText]));
+              handleSpecialCombos(category, e);
             }}
           >
             {category}

@@ -71,7 +71,9 @@
   border-radius: 0.2rem;
   color: white;
   padding: 0 0.5rem;
-  font-weight: 300;
+  font-weight: 400;
+  font-size: 1.4rem;
+
 }
 /* ----------------------------- Edit Item Buttons ----------------------------- */
 .flat-fee-modifier {
@@ -144,7 +146,6 @@
 }
 .swap-selection-list {
   padding: 0 0.5rem;
-
 }
 .swap-category-list {
   display: grid;
@@ -167,7 +168,7 @@
   cursor: pointer;
   font-weight: 300;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: var(--category-item-font-size - 8px);
   padding: 0 0.5rem;
 }
 /* ----------------------------- Swap Category ----------------------------- */
@@ -175,8 +176,10 @@
   background-color: #262835;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
-  font-weight: 300;
+  font-weight: 400;
+  font-size: var(--category-item-font-size - 8px);
   text-align: center;
+  padding: 0 .5rem;
 }
 
 /* ----------------------------- Swap Actions----------------------------- */
@@ -270,8 +273,10 @@
 }
 .add-or-no-add-items p {
   color: black;
-  font-size: clamp(1rem, 10% + 0.5rem, 1.5rem);
-  font-weight: 300;
+  font-size: clamp(1rem, 10% + 1rem, 1.2rem);
+  font-weight: 400;
   padding: 0.5rem 0;
   text-align: center;
+  font-size: var(--category-item-font-size - 8px);
+
 }

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./customerInfo.css";
 import { XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,7 +21,7 @@ import PrinterOptions from "./PrinterOptions";
 function CustomerInfo() {
   const dispatch = useDispatch();
   const { order, orderOptions } = useSelector(({ orderInfo }) => orderInfo);
-  const {} = useSelector(({ orderInfo }) => orderInfo.order);
+  // const {} = useSelector(({ orderInfo }) => orderInfo.order);
   const { pausePrinting } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
@@ -58,6 +58,8 @@ function CustomerInfo() {
     }
   };
 
+
+
   return (
     <>
       <BackgroundExit exitPage={() => dispatch(setInstances(["setCustomerInfoOn", false]))} />
@@ -88,9 +90,9 @@ function CustomerInfo() {
           {/* PRINT RECEIPT */}
           <button
             className="print"
-            onClick={printOrder}
+            onClick={()=>{printOrder()}}
             disabled={pausePrinting}
-            style={{ backgroundColor: pausePrinting ? "#20b68983" : "#20b68a" }}
+            style={{ backgroundColor: pausePrinting ? "#1d675083" : "#20b68a", color:pausePrinting ?"darkgrey":"white"}}
           >
             Print Receipt
           </button>
