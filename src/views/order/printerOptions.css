@@ -3,15 +3,26 @@
   height: 100%;
 }
 .printer-options-content {
-  height: 88%;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+}
+.printer-choices {
   display: grid;
-  align-items: flex-start;
-  align-content: flex-start;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 2rem;
   row-gap: 4rem;
 }
 .printer-options h4 {
   font-size: 1.3rem;
-  margin: 0.5rem 0;
+  margin: 3rem 0;
+}
+.print {
+  background-color: #20b68a;
+  padding: 0.8rem 0;
+  border-radius: 0.5rem;
+  font-size: 1.3rem;
+  padding: 1rem;
 }
 .printer-option {
   position: relative;
@@ -19,23 +30,11 @@
 .printer-option h5 {
   font-size: 1.2rem;
 }
-.printer-choice {
-  background-color: #121421;
-  padding: 0.5rem 1rem;
-  border: solid 1px white;
-  border-radius: 0.3rem;
-  text-align: center;
-  width: 100%;
-}
 .printer-options {
-}
-.printer-choice {
-  background-color: #0d0f18;
-  font-size: 1.2rem;
 }
 .printer-selection {
   position: absolute;
-  bottom:-50%;
+  bottom: -50%;
   transform: translateY(100%);
   background-color: #0d0f18;
   border: solid 1px white;
@@ -57,4 +56,18 @@
 .printer-name:hover {
   background-color: antiquewhite;
   color: #0d0f18;
+}
+@media only screen and (max-width: 1050px) {
+  .printer-options-content{
+
+    right:0rem;
+  }
+  .printer-choices{
+    grid-template-columns: 1fr;
+    row-gap: 3rem;
+  }
+  .print{
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
 }

@@ -1,3 +1,6 @@
+:root {
+  --serach-receipt-width: clamp(400px, 35vw, 700px);
+}
 .view-orders {
   height: 100vh;
   overflow: hidden;
@@ -98,14 +101,15 @@
 }
 .search-receipt {
   border: solid 1px white;
-  padding: 0.5rem;
+  padding: 1rem 0.5rem;
   border-radius: 0.5rem;
 }
 .search-receipt input {
   background: none;
   color: white;
   padding-left: 0.5rem;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  width: var(--serach-receipt-width);
 }
 .display-options {
   column-gap: 3rem;
@@ -159,15 +163,15 @@
   width: clamp(300px, 30vw, 350px);
   height: auto;
   background-color: #121421;
-  border:solid 1px white;
+  border: solid 1px white;
   row-gap: 2rem;
 }
 .display-options-modal h2 {
-    padding-left:3.5rem;
+  padding-left: 3.5rem;
 }
-.display-option{
-    padding-left:4rem;
-    text-align: left;
+.display-option {
+  padding-left: 4rem;
+  text-align: left;
 }
 .display-close {
   position: absolute;
@@ -181,7 +185,7 @@
 }
 .receipts-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   justify-items: center;
   grid-gap: 2rem;
   margin-bottom: 10rem;
@@ -200,20 +204,21 @@
 .receipt-content {
   padding: 1rem;
 }
+.receipt-main-content {
+  row-gap: 0.8rem;
+}
 .receipt-content h2 {
   font-size: 2rem;
-}
-.receipt-content h3 {
-  padding-top: 2rem;
-  font-size: 1.5rem;
-  font-weight: 300;
+  padding: 0.9rem 0;
 }
 .receipt-content h4 {
   padding-top: 0.5rem;
   font-size: 1rem;
   font-weight: 200;
 }
-
+.sub-total {
+  margin-top: 1rem;
+}
 /* ---------------------------- Receipt Full Data ---------------------------- */
 .receipt-content button {
   margin: 0 auto;
@@ -223,15 +228,13 @@
   font-size: 0.9rem;
 }
 
-.receipt-full-content {
-  row-gap: 0.4rem;
-}
 .receipt-title {
   width: 100%;
   text-align: center;
 }
 .receipt-property {
   width: 100%;
+  font-size: 1.3rem;
 }
 .items-property {
   margin: 1rem 0;
@@ -246,11 +249,11 @@
   /* padding-left: 1rem; */
 }
 /* ---------------------------- Receipt Actions ---------------------------- */
-.receipt-actions{
-  width:100%;
-  margin:1rem 0;
+.receipt-actions {
+  width: 100%;
+  margin: 1rem 0;
 }
-.receipt-actions button{
-  border:solid 1px white;
-  padding:.8rem 2rem;
+.receipt-actions button {
+  border: solid 1px white;
+  padding: 0.8rem 2rem;
 }

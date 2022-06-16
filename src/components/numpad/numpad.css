@@ -16,7 +16,7 @@
   justify-content: center;
   align-items: center;
   padding: 1em 0;
-  background-color: #121421;
+  background-color: #1e202c;
 }
 .delete-numpad-key {
   display: flex;
@@ -25,12 +25,12 @@
   grid-column: 1/3;
   padding: 0.5em 0;
   font-size: 1rem;
-  background-color: #121421;
+  background-color: #1e202c;
 }
 .clear-numpad-key {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5em 0;
-  background-color: #121421;
+  background-color: #1e202c;
 }

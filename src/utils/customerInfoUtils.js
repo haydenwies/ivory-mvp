@@ -39,7 +39,7 @@ const minutesValidation = (minutes) => {
 const getSimilarAddresses = (entry, addressList) => {
   const firstChar = new RegExp(/[a-zA-Z]/);
   let filteredAddresses = [];
-  
+
   if (entry === "") return [];
 
   //Need to slice out the numbers and only get the name
@@ -105,10 +105,16 @@ const getSimilarItems = (entry, menuItems) => {
   return filteredItems;
 };
 
-const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTime, getSeconds }) => {
+const formatOrder = (
+  printerChoice,
+  order,
+  orderOptions,
+  { calculateFinishTime, getDate, getTime, getSeconds }
+) => {
   let idFormat = true;
   let isTwelveHour = true;
   let finalizedOrderOptions = JSON.parse(JSON.stringify(orderOptions));
+
   let finalizedOrder = JSON.parse(JSON.stringify(order));
   finalizedOrder.finishTime = orderOptions.isScheduledOrder
     ? ""
@@ -119,8 +125,45 @@ const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTim
     order.phoneNumber
   )}${numbersOnlyPhoneNum(order.phoneNumber)}`;
 
-  // console.table(finalizedOrder.items[0].modifiers)
+  // Selects which printer to print from
+  switch (printerChoice) {
+    case "Save Only":
+      finalizedOrderOptions.printers = [
+        { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
+        { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
+      ];
+      break;
+    case "Kitchen":
+      console.log("KITCHEN HERE")
+      finalizedOrderOptions.printers = [
+        { name: "Kitchen Printer", ip: "192.168.1.116", activated: true, copies: 2 },
+        { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
+      ];
+      break;
+    case "Cashier":
+      finalizedOrderOptions.printers = [
+        { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
+        { name: "Cashier Printer", ip: "192.168.0.197", activated: true, copies: 1 },
+      ];
+      break;
+    case "Both":
+      finalizedOrderOptions.printers = [
+        { name: "Kitchen Printer", ip: "192.168.1.116", activated: true, copies: 2 },
+        { name: "Cashier Printer", ip: "192.168.0.197", activated: true, copies: 1 },
+      ];
+      break;
+    default:
+      finalizedOrderOptions.printers = [
+        { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
+        { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
+      ];
+      break;
+  }
+  
   const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.activated);
+  console.log("HERE ARE THE PRINTERS")
+  console.table(activePrinters);
+
 
   let printInfo = {
     time: finalizedOrder.time,
@@ -131,6 +174,7 @@ const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTim
 
   return { finalizedOrder, printInfo };
 };
+
 export {
   formatOrder,
   getSimilarItems,

@@ -169,7 +169,7 @@ function Receipt() {
                               <div className="modifier-right-section row-c-c">
                                 <p className="modifier-price">
                                   +$
-                                  {(item.flatFeeModifierOn && modifier.name !== "Modify Flat Fee")
+                                  {item.flatFeeModifierOn && (modifier.type === "No Add" || modifier.type === "Add")
                                     ? "0.00"
                                     : modifier.price.toFixed(2)}
                                 </p>
@@ -251,7 +251,7 @@ function Receipt() {
               <input type="checkbox" checked={discounted} onChange={() => {}} />
             </label>
             <label
-              className="col-c-c"
+              className="col-sb-c"
               onChange={() => {
                 dispatch(setOrderOptions(["setOutOfTownDeliveryOn", !outOfTownDeliveryOn]));
               }}

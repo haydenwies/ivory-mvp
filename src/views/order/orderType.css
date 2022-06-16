@@ -1,11 +1,14 @@
 /* ----------------------------- Order Type ----------------------------- */
 .order-type {
   width: var(--customer-info-content-width);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 2rem;
 }
 .order-type button {
-  padding: 0.5rem 3rem;
   font-size: var(--customer-info-btn);
   border-radius: 0.7rem;
+  padding:1rem 0;
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
 }
 .order-type-active {
@@ -46,11 +49,10 @@
 }
 
 @media only screen and (max-width: 1050px) {
-  .delivery-options{
-    width:180px;
+  .delivery-options {
+    width: 180px;
   }
-  .delivery-options button{
+  .delivery-options button {
     font-size: 1.1rem;
-    
   }
 }

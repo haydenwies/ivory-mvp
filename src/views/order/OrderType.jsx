@@ -11,7 +11,7 @@ function OrderType() {
 
   return (
     <>
-      <div className="order-type row-sb-c">
+      <div className="order-type ">
         {/* PICKUP */}
         <button
           className={orderType === "PICKUP" ? "order-type-active" : undefined}
@@ -20,6 +20,15 @@ function OrderType() {
           }}
         >
           Pick-Up
+        </button>
+        {/* DINEINN */}
+        <button
+          className={orderType === "DINE_INN" ? "order-type-active" : undefined}
+          onClick={() => {
+            dispatch(setOrder(["setOrderType", "DINE_INN"]));
+          }}
+        >
+          Dine Inn
         </button>
         {/* DELIVERY */}
         <button

@@ -35,12 +35,12 @@ export const orderInfoSlice = createSlice({
       isDiscountBeforeTax: false,
       isDeliveryBeforeTax: true,
       printers: [
-        { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
-        { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
+        // { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
+        // { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
       ],
       printerChoice: "Cashier Printer",
       printerOptionsOn: false,
-      printerOptions: ["Save Order", "Kitchen Printer", "Cashier Printer", "Both Printers"],
+      printerOptions: ["Save Only", "Kitchen Printer", "Cashier Printer", "Both Printers"],
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
       filteredAddresses: [],
       addressList: ADDRESS_LIST,
@@ -88,7 +88,7 @@ export const orderInfoSlice = createSlice({
           let kitchenIndex = orderOptions.printers.findIndex((printer) => printer.name === "Kitchen Printer");
           let cashierIndex = orderOptions.printers.findIndex((printer) => printer.name === "Cashier Printer");
           switch (value) {
-            case "Save Orders":
+            case "Save Onlys":
               orderOptions.printers[kitchenIndex].activated = false;
               orderOptions.printers[cashierIndex].activated = false;
               break;
@@ -194,11 +194,11 @@ export const orderInfoSlice = createSlice({
             !orderOptions.desiredSwapItem.hasOwnProperty("name")
           ) {
             orderOptions.desiredSwapItem = value;
-            let priceDiff = parseFloat(
-              orderOptions.desiredSwapItem.price - orderOptions.currentSwapItem.price
-            );
-            priceDiff = priceDiff < 0 ? 0 : priceDiff; //Makes sure the price difference is always >= 0
-            orderOptions.swapPrice = priceDiff;
+            let priceDiff = orderOptions.desiredSwapItem.price - orderOptions.currentSwapItem.price;
+
+            priceDiff = priceDiff < 0 ? 0 : (priceDiff += 1); //Makes sure the price difference is always >= 0 and charges additional 1$ for swap fee.
+
+            orderOptions.swapPrice = priceDiff.toFixed(2); //Converts the swap price diff to a string rounded to two decimals
           }
           break;
         case "setCurrentSwapItem":
@@ -313,7 +313,7 @@ export const orderInfoSlice = createSlice({
               {
                 name: "Modify Flat Fee",
                 checked: false,
-                modifyType: "No Add",
+                type: "Modify Flat Fee",
                 price:
                   items[editingItemIndex].flatFeeModifier === ""
                     ? 0
