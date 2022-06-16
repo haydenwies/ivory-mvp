@@ -34,13 +34,9 @@ export const orderInfoSlice = createSlice({
       discountPercent: 0.1,
       isDiscountBeforeTax: false,
       isDeliveryBeforeTax: true,
-      printers: [
-        // { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
-        // { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
-      ],
+      printers: [],
       printerChoice: "Cashier Printer",
-      printerOptionsOn: false,
-      printerOptions: ["Save Only", "Kitchen Printer", "Cashier Printer", "Both Printers"],
+      printerOptions: [],
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
       filteredAddresses: [],
       addressList: ADDRESS_LIST,
@@ -81,35 +77,8 @@ export const orderInfoSlice = createSlice({
         case "setPrinter":
           orderOptions.printers[value.index] = { name: value.name, ip: value.ip };
           break;
-        case "setPrinterOptionsOn":
-          orderOptions.printerOptionsOn = value;
-          break;
-        case "setPrinterChoice":
-          let kitchenIndex = orderOptions.printers.findIndex((printer) => printer.name === "Kitchen Printer");
-          let cashierIndex = orderOptions.printers.findIndex((printer) => printer.name === "Cashier Printer");
-          switch (value) {
-            case "Save Onlys":
-              orderOptions.printers[kitchenIndex].activated = false;
-              orderOptions.printers[cashierIndex].activated = false;
-              break;
-            case "Kitchen Printer":
-              orderOptions.printers[kitchenIndex].activated = true;
-              orderOptions.printers[cashierIndex].activated = false;
-              break;
-            case "Cashier Printer":
-              orderOptions.printers[kitchenIndex].activated = false;
-              orderOptions.printers[cashierIndex].activated = true;
-              break;
-            case "Both Printers":
-              orderOptions.printers[kitchenIndex].activated = true;
-              orderOptions.printers[cashierIndex].activated = true;
-              break;
-            default:
-              orderOptions.printers[kitchenIndex].activated = false;
-              orderOptions.printers[cashierIndex].activated = false;
-              break;
-          }
-          orderOptions.printerChoice = value;
+        case "setPrinterOptions":
+          orderOptions.printerOptions = value;
           break;
         case "setFilteredAddresses":
           orderOptions.filteredAddresses = value;

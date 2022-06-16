@@ -1,6 +1,5 @@
 const numbersOnly = (charInput) => {
   let validNum = new RegExp(/[0-9\b]/);
-
   return validNum.test(charInput);
 };
 
@@ -107,6 +106,7 @@ const getSimilarItems = (entry, menuItems) => {
 
 const formatOrder = (
   printerChoice,
+  printerOptions,
   order,
   orderOptions,
   { calculateFinishTime, getDate, getTime, getSeconds }
@@ -128,42 +128,31 @@ const formatOrder = (
   // Selects which printer to print from
   switch (printerChoice) {
     case "Save Only":
-      finalizedOrderOptions.printers = [
-        { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
-        { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
-      ];
+      finalizedOrderOptions.printers = [];
       break;
     case "Kitchen":
-      console.log("KITCHEN HERE")
-      finalizedOrderOptions.printers = [
-        { name: "Kitchen Printer", ip: "192.168.1.116", activated: true, copies: 2 },
-        { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
-      ];
+      finalizedOrderOptions.printers = printerOptions.filter((printer) => printer.name === printerChoice);
       break;
     case "Cashier":
-      finalizedOrderOptions.printers = [
-        { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
-        { name: "Cashier Printer", ip: "192.168.0.197", activated: true, copies: 1 },
-      ];
+      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
+        (printer) => printer.name === printerChoice
+      );
       break;
     case "Both":
-      finalizedOrderOptions.printers = [
-        { name: "Kitchen Printer", ip: "192.168.1.116", activated: true, copies: 2 },
-        { name: "Cashier Printer", ip: "192.168.0.197", activated: true, copies: 1 },
-      ];
+      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
+        (printer) => printer.name === printerChoice
+      );
       break;
     default:
-      finalizedOrderOptions.printers = [
-        { name: "Kitchen Printer", ip: "192.168.1.116", activated: false, copies: 2 },
-        { name: "Cashier Printer", ip: "192.168.0.197", activated: false, copies: 1 },
-      ];
+      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
+        (printer) => printer.name === printerChoice
+      );
       break;
   }
-  
-  const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.activated);
-  console.log("HERE ARE THE PRINTERS")
-  console.table(activePrinters);
 
+  const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.activated);
+  console.log("HERE ARE THE PRINTERS");
+  console.table(activePrinters);
 
   let printInfo = {
     time: finalizedOrder.time,

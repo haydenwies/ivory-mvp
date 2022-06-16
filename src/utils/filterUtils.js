@@ -3,7 +3,7 @@ const filterPhoneNum = (entry, orders) => {
   
   let filteredList = [];
   for (let i = 0; i < orders.length; i++) { //Loops through all of the orders
-    let formattedNum = orders[i].phoneNumber.replace("-", "");
+    let formattedNum = orders[i].phoneNumber.replace(/-/g, "");
     if (commonPhoneNum.test(formattedNum)) {
       filteredList.push(orders[i]);
     }

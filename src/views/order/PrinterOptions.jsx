@@ -12,9 +12,7 @@ import { useFailedPrinting } from "../../hooks/useFailedPrinting";
 import "./printerOptions.css";
 function PrinterOptions() {
   const dispatch = useDispatch();
-  const { printerOptions, printerChoice, printerOptionsOn } = useSelector(
-    ({ orderInfo }) => orderInfo.orderOptions
-  );
+  const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
   const { order, orderOptions } = useSelector(({ orderInfo }) => orderInfo);
 
   const [resolvedPrinting] = useCheckPrinted();
@@ -24,12 +22,13 @@ function PrinterOptions() {
   );
 
   const printOrder = async (printerChoice) => {
-    const { finalizedOrder, printInfo } = formatOrder(printerChoice, order, orderOptions, {
+    const { finalizedOrder, printInfo } = formatOrder(printerChoice, printerOptions, order, orderOptions, {
       calculateFinishTime,
       getDate,
       getTime,
       getSeconds,
     });
+    console.log(finalizedOrder);
 
     dispatch(setInstances(["setPausePrinting", true])); //Disables the print button
 
@@ -64,11 +63,12 @@ function PrinterOptions() {
           <h4>Printer Options</h4>
           <div className="printer-option col-c-c">
             <div className="printer-choices">
-              {["Cashier", "Kitchen", "Save Only", "Both"].map((printerName) => (
+              {printerOptions.map((printer, key) => (
                 <button
+                  key={key}
                   className="print"
                   onClick={() => {
-                    printOrder(printerName);
+                    printOrder(printer.name);
                   }}
                   disabled={pausePrinting}
                   style={{
@@ -76,9 +76,35 @@ function PrinterOptions() {
                     color: pausePrinting ? "darkgrey" : "white",
                   }}
                 >
-                  {printerName}
+                  {printer.name}
                 </button>
               ))}
+              <button
+                className="print"
+                onClick={() => {
+                  printOrder("Save Only");
+                }}
+                disabled={pausePrinting}
+                style={{
+                  backgroundColor: pausePrinting ? "#1d675083" : "#20b68a",
+                  color: pausePrinting ? "darkgrey" : "white",
+                }}
+              >
+                Save Only
+              </button>
+              <button
+                className="print"
+                onClick={() => {
+                  printOrder("Both");
+                }}
+                disabled={pausePrinting}
+                style={{
+                  backgroundColor: pausePrinting ? "#1d675083" : "#20b68a",
+                  color: pausePrinting ? "darkgrey" : "white",
+                }}
+              >
+                Both
+              </button>
             </div>
           </div>
         </div>
