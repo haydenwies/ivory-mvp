@@ -6,7 +6,10 @@
   z-index: 3;
   background-color: transparent !important;
 }
-.nav-tab img{
+.nav-tab img {
   width: clamp(20px, 10vw, 30px);
-  
+}
+.nav-link p,
+.logout-link p {
+  font-weight: 400;
 }

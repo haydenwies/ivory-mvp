@@ -4,6 +4,7 @@
   --receipt-width-content: 95%;
   --price-label-font-size: clamp(0.5rem, 10vw + 0.5rem, 1rem);
   --price-amount-font-size: clamp(0.5rem, 10vw + 0.5rem, 1rem);
+  --receipt-options-font-size:.9rem;
 }
 
 /* ----------------------------- Receipt ----------------------------- */
@@ -156,11 +157,13 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 .receipt-options label {
+  width:50%;
+  height: 100%;
 }
 .receipt-options span {
   padding: 0 .5rem 0.5rem 0.5rem;
   text-align: center;
-
+  font-size: var(--receipt-options-font-size);
 }
 .receipt-options input {
   width: 25px;

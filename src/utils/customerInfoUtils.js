@@ -1,6 +1,5 @@
 const numbersOnly = (charInput) => {
   let validNum = new RegExp(/[0-9\b]/);
-
   return validNum.test(charInput);
 };
 
@@ -39,7 +38,7 @@ const minutesValidation = (minutes) => {
 const getSimilarAddresses = (entry, addressList) => {
   const firstChar = new RegExp(/[a-zA-Z]/);
   let filteredAddresses = [];
-  
+
   if (entry === "") return [];
 
   //Need to slice out the numbers and only get the name
@@ -105,10 +104,17 @@ const getSimilarItems = (entry, menuItems) => {
   return filteredItems;
 };
 
-const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTime, getSeconds }) => {
+const formatOrder = (
+  printerChoice,
+  printerOptions,
+  order,
+  orderOptions,
+  { calculateFinishTime, getDate, getTime, getSeconds }
+) => {
   let idFormat = true;
   let isTwelveHour = true;
   let finalizedOrderOptions = JSON.parse(JSON.stringify(orderOptions));
+
   let finalizedOrder = JSON.parse(JSON.stringify(order));
   finalizedOrder.finishTime = orderOptions.isScheduledOrder
     ? ""
@@ -119,8 +125,34 @@ const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTim
     order.phoneNumber
   )}${numbersOnlyPhoneNum(order.phoneNumber)}`;
 
-  // console.table(finalizedOrder.items[0].modifiers)
+  // Selects which printer to print from
+  switch (printerChoice) {
+    case "Save Only":
+      finalizedOrderOptions.printers = [];
+      break;
+    case "Kitchen":
+      finalizedOrderOptions.printers = printerOptions.filter((printer) => printer.name === printerChoice);
+      break;
+    case "Cashier":
+      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
+        (printer) => printer.name === printerChoice
+      );
+      break;
+    case "Both":
+      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
+        (printer) => printer.name === printerChoice
+      );
+      break;
+    default:
+      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
+        (printer) => printer.name === printerChoice
+      );
+      break;
+  }
+
   const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.activated);
+  console.log("HERE ARE THE PRINTERS");
+  console.table(activePrinters);
 
   let printInfo = {
     time: finalizedOrder.time,
@@ -131,6 +163,7 @@ const formatOrder = (order, orderOptions, { calculateFinishTime, getDate, getTim
 
   return { finalizedOrder, printInfo };
 };
+
 export {
   formatOrder,
   getSimilarItems,

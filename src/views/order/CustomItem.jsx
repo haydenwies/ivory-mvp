@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import BackgroundExit from "../../components/backgroundExit/BackgroundExit";
 import Numpad from "../../components/numpad/Numpad";
 import "./customItem.css";
@@ -11,6 +11,8 @@ import { setInstances } from "../../redux/functionality";
 function CustomItem() {
   const { customItem } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
   const dispatch = useDispatch();
+  const customNameRef = useRef();
+
   const validPrice = () => {
     let decimalCount = 0;
     for (let i = 0; i < customItem.price.length; i++) {
@@ -22,6 +24,10 @@ function CustomItem() {
     }
     dispatch(setOrderOptions(["ADD_CUSTOM_ITEM"]));
   };
+
+  useEffect(() => {
+    customNameRef.current.focus();
+  }, []);
   return (
     <>
       <div className="custom-item">
@@ -42,6 +48,7 @@ function CustomItem() {
                 type="text"
                 placeholder="Custom Item Name"
                 value={customItem.name}
+                ref={customNameRef}
                 onChange={(e) => {
                   dispatch(setOrderOptions(["setCustomItemName", e.target.value]));
                 }}

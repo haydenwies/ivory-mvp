@@ -4,8 +4,11 @@
   --options-padding: clamp(0.5rem, 50vw + 1rem, 1rem);
   --options-height: clamp(30px, 10vw, 50px);
   --main-option-WH: clamp(30px, 10vw + 40px, 50px);
-  --category-item-font-size: clamp(0.8rem, 20% + 1.2rem, 1.2rem);
-  --selection-item-font-size: clamp(0.8rem, 20% + 0.7rem, 0.9rem);
+  --selection-box-height: 100%;
+  --selection-min-height: 70px;
+  --item-name-font-size: 1.3rem;
+  --items-section-height: clamp(230px, 30vw, 400px);
+  /* --items-section-height: 100%; */
 }
 
 /* ----------------------------- Items ----------------------------- */
@@ -17,6 +20,8 @@
   grid-template-rows: 4fr 4fr 1fr;
   margin: auto;
   position: relative;
+  align-items: flex-start;
+  /* row-gap: 2.5rem; */
 }
 /* ----------------------------- Selection ----------------------------- */
 .selection {
@@ -25,6 +30,8 @@
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 0.3em;
   margin: 1em 0;
+  height: var(--items-section-height);
+  overflow-y: scroll;
 }
 .selection-item {
   background-color: #f2d38f;
@@ -32,14 +39,14 @@
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
-  padding:0 .5rem;
-  max-height: 80px;
+  padding: 0 0.5rem;
+  height: var(--selection-box-height);
 }
 .selection-item p {
   color: black;
   font-weight: 400;
   text-align: center;
-  font-size: var(--category-item-font-size);
+  font-size: var(--item-name-font-size);
   padding: 0 0.1rem;
 }
 .choose-item {
@@ -53,6 +60,9 @@
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 0.3em;
   margin-top: 1em;
+  align-items: center;
+  height: var(--items-section-height);
+  overflow-y: scroll;
 }
 .category-item {
   background-color: #262835;
@@ -62,14 +72,18 @@
   cursor: pointer;
   font-weight: 400;
   text-align: center;
-  font-size: var(--category-item-font-size);
-  padding:0 .5rem;
-  max-height: 80px;
+  font-size: var(--item-name-font-size);
+  height: var(--selection-box-height);
+  min-height: var(--selection-min-height);
+  padding: 0 0.5rem;
+  /* position: relative;
+  top: var(--selection-min-height); */
 }
 /* ----------------------------- Item Options ----------------------------- */
 .item-options {
   /* padding: 0 3rem; */
   align-self: center;
+  height: 100%;
 }
 .trash,
 .info,
@@ -115,15 +129,22 @@
   width: clamp(20px, 10vw, 23px);
 }
 
-@media (max-height: 1100px){
+/* ----------------------------- MEDIA QUERIES ----------------------------- */
+
+/* Tablets */
+@media only screen and (max-width: 1100px) {
   :root {
-    --category-item-font-size: clamp(0.8rem, 20% + 0.7rem, 1rem);
-    --selection-item-font-size: clamp(0.8rem, 20% + 0.7rem, 1rem);
+    --item-name-font-size: 1.1rem;
+    --items-section-height: clamp(200px, 30vw, 400px);
   }
-  /* .selection-item p{
-    font-size:1rem;
+}
+/* Laptop Screens */
+@media only screen and (max-width: 1550px) {
+  :root {
+    --item-name-font-size: 1.1rem;
+    --items-section-height: clamp(200px, 30vw, 300px);
   }
-  .category-item{
-    font-size: .5rem !important;
-  } */
+  .category {
+    /* background-color: yellow; */
+  }
 }

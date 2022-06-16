@@ -1,13 +1,19 @@
+/* Global Variables */
+:root {
+  --edit-selection-list-height: clamp(400px, 45vh, 600px);
+  --edit-selection-items-height: 100%;
+  --add-or-no-add-height: clamp(400px, 40vh, 600px);
+}
+/* ----------------------------- Edit Item Container ----------------------------- */
 .edit-item-container {
   position: absolute;
-  top: 0;
+  top: 1%;
   left: 0;
   right: 0;
-  bottom: 0;
-  background-color: #121421;
+  bottom: 1%;
+  background-color: #1e202c;
   /* border: solid 1px white; */
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
-
   z-index: 2;
 }
 .edit-item {
@@ -18,12 +24,16 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-rows: 1fr 8fr 1fr;
+  grid-template-rows: 1fr 6fr 1fr;
   grid-template-columns: 1fr;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 /* ----------------------------- Edit Tabs ----------------------------- */
 .edit-item-tabs {
   width: 100%;
+  height: 85px;
 }
 .edit-item-tabs button {
   font-size: 1.2rem;
@@ -40,7 +50,8 @@
   width: 98%;
   height: 100%;
   margin: auto;
-  height: 60vh;
+  /* height: 60vh; */
+  height: var(--edit-selection-list-height);
   overflow-y: scroll;
   scrollbar-width: none;
 }
@@ -53,6 +64,7 @@
   cursor: pointer;
   font-size: 1.3rem;
   font-weight: 300;
+  height: var(--edit-selection-items-height);
 }
 .selection-content {
   display: grid;
@@ -73,11 +85,14 @@
   padding: 0 0.5rem;
   font-weight: 400;
   font-size: 1.4rem;
-
 }
 /* ----------------------------- Edit Item Buttons ----------------------------- */
 .flat-fee-modifier {
   column-gap: 1rem;
+}
+.flat-fee-modifier label input {
+  width: 25px;
+  height: 25px;
 }
 .flat-fee-clear {
   background-color: crimson;
@@ -168,7 +183,7 @@
   cursor: pointer;
   font-weight: 300;
   text-align: center;
-  font-size: var(--category-item-font-size - 8px);
+  font-size: var(--item-name-font-size - 8px);
   padding: 0 0.5rem;
 }
 /* ----------------------------- Swap Category ----------------------------- */
@@ -177,15 +192,15 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
   font-weight: 400;
-  font-size: var(--category-item-font-size - 8px);
+  font-size: var(--item-name-font-size - 8px);
   text-align: center;
-  padding: 0 .5rem;
+  padding: 0 0.5rem;
 }
 
 /* ----------------------------- Swap Actions----------------------------- */
 .swap-actions {
-  /* height: 100%; */
-  width: 68%;
+  height: 100%;
+  width: 90%;
   display: grid;
   grid-template-rows: repeat(2, 1fr);
   grid-gap: 0.3rem;
@@ -195,13 +210,15 @@
 }
 .top-swap-container {
   display: grid;
-  grid-template-columns: 3fr 1fr 3fr;
+  grid-template-columns: 1fr 3fr 1fr 3fr 1fr;
   justify-items: center;
+  column-gap: 1rem;
 }
 
 .current-swap-item,
 .desired-swap-item {
   border: solid 1px white;
+  background-color: transparent;
   height: 100%;
   width: 100%;
   max-height: 45px;
@@ -209,13 +226,14 @@
   text-align: center;
   font-size: 1.2rem;
   font-weight: 300;
+  color: white;
 }
-.bottom-swap-container {
+/* .bottom-swap-container {
   column-gap: 4rem;
   display: grid;
   grid-template-columns: 1fr 3fr 1fr;
   justify-items: center;
-}
+} */
 
 .swap-actions button {
   height: 100%;
@@ -250,9 +268,10 @@
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(4, 1fr);
   height: 100%;
+  margin: 0 auto;
   grid-gap: 0.2rem;
   width: 95%;
-  margin: auto;
+  height: var(--add-or-no-add-height);
   max-height: 70vh;
 }
 .add-or-no-add-items {
@@ -277,6 +296,13 @@
   font-weight: 400;
   padding: 0.5rem 0;
   text-align: center;
-  font-size: var(--category-item-font-size - 8px);
-
+  font-size: var(--item-name-font-size - 8px);
 }
+
+@media only screen and (max-width: 1100px) {
+    .edit-item-content{
+    }
+    .swap-actions{
+        padding:0;
+    }
+  }

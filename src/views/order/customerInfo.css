@@ -27,7 +27,6 @@ h1 {
 .input-info button {
   background: none;
   border: 2px solid rgba(255, 255, 255, 0.5);
-
   /* box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px; */
   padding: 0.8rem 0;
   width: var(--customer-info-content-width);
@@ -49,14 +48,8 @@ h1 {
   background-color: crimson;
   z-index: 0;
 }
-.print {
-  background-color: #20b68a;
-  width: var(--customer-info-content-width);
-  padding: 0.8rem 0;
-  border-radius: 0.5rem;
-  font-size: 1.3rem;
-}
 
+/* Tablet */
 @media only screen and (max-width: 1050px) {
   .input-info input {
     font-size: 1.1rem;
@@ -67,15 +60,14 @@ h1 {
   .wait-time button {
     font-size: 1.1rem;
   }
-  .notes textarea{
+  .notes textarea {
     font-size: 1.1rem !important;
   }
-  .printer-options{
+  .printer-options {
     position: relative;
     right: 1rem;
   }
   .print {
-
     font-size: 1.1rem;
   }
 }

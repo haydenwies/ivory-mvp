@@ -11,16 +11,37 @@ import ViewOrders from "./views/view_orders/ViewOrders";
 import { useDispatch, useSelector } from "react-redux";
 import NavTab from "./components/navTab/NavTab";
 import { useEffect } from "react";
-import {setOrderManagement} from "./redux/orderInfo"
+import { setOrderManagement, setOrderOptions } from "./redux/orderInfo";
 import { setInstancesDefaultSettings } from "./redux/functionality";
+import { doc, collection, getDoc, onSnapshot } from "firebase/firestore";
+import { db } from "./firebase/config";
 function App() {
   // const { auth, user } = useAuthContext();
-  const { navOn } = useSelector(({functionality}) => functionality.instances[functionality.indexInstance]);
+  const { navOn } = useSelector(({ functionality }) => functionality.instances[functionality.indexInstance]);
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]))
-    dispatch(setInstancesDefaultSettings(["SAVE_DEFAULT_FUNCTIONALITY"]))
-  },[])
+
+  const getPrinterInfo = async () => {
+    // Get documents with correct date
+    const printInfoRef = doc(db, "general", "printerInfo");
+    onSnapshot(printInfoRef, (printerDoc) => {
+      let printersInfo = [];
+      if (printerDoc.exists()) {
+        let printerData = printerDoc.data().printers;
+        for (let i = 0; i < printerData.length; i++) {
+          printersInfo.push(printerData[i]);
+        }
+      }
+      console.log(printersInfo);
+      dispatch(setOrderOptions(["setPrinterOptions", printersInfo])); //Stores the printer options in redux
+    });
+  };
+
+  useEffect(() => {
+    dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]));
+    dispatch(setInstancesDefaultSettings(["SAVE_DEFAULT_FUNCTIONALITY"]));
+    getPrinterInfo();
+  }, []);
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -56,7 +77,7 @@ function App() {
             }
           />
           <Route
-            path="/settings"
+            path="/settings/*"
             element={
               <PrivateRoute>
                 {navOn && <Nav />}

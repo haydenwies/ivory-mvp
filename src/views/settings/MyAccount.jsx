@@ -11,11 +11,11 @@ function MyAccount() {
       <div className="account-info col-c-fs">
           <div className="account-property row-sb-c">
               <h5>Name:</h5>
-              <h4>Kevin Yu</h4>
+              <h4>Employee Name</h4>
           </div>
           <div className="account-property row-sb-c">
               <h5>Email:</h5>
-              <h4>yu.kevin2002@gmail.com</h4>
+              <h4>example@gmail.com</h4>
           </div>
           <div className="account-property row-sb-c">
               <h5>Account Type:</h5>

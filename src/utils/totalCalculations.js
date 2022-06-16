@@ -37,10 +37,19 @@ export class Totals {
       for (let i = 0; i < Totals.items.length; i++) {
         subTotal += Totals.items[i].price * Totals.items[i].quantity;
 
+        // Sums up the modifier costs
         if (Totals.items[i].hasOwnProperty("modifiers")) {
+          //Checks if there is a modifiers property
           if (Totals.items[i].flatFeeModifierOn) {
+            //Check if there is a one time flat fee
+            // If the flat fee is greater than zero add the sum of the flat fee.
             if (Totals.items[i].flatFeeModifier > 0) {
               subTotal += parseFloat(Totals.items[i].flatFeeModifier);
+            }
+            for (let k = 0; k < Totals.items[i].modifiers.length; k++) {
+              if (Totals.items[i].modifiers[k].type === "swap") {
+                subTotal += parseFloat(Totals.items[i].modifiers[k].price);
+              }
             }
           } else {
             for (let j = 0; j < Totals.items[i].modifiers.length; j++) {
