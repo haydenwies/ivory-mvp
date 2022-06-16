@@ -47,7 +47,7 @@ function CustomerInfo() {
       let timeoutId = setTimeout(() => {
         alert("The central printing computer is down.");
         dispatch(setInstances(["setPausePrinting", false]));
-      }, 40000);
+      }, 60000);
       failedPrinting("errLog", ["id", "==", finalizedOrder.id], timeoutId);
       resolvedPrinting("orders", ["id", "==", finalizedOrder.id], timeoutId);
     } else {
