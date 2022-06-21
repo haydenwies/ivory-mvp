@@ -16,10 +16,9 @@ function ViewOrders() {
     if (tab === "Receipt Data") setShowReceiptData(true);
     else if (tab === "Financial Info") setShowReceiptData(false);
   };
-  const { documents } = useCollection("orders", ["date", "==", date]);
+  const { documents, loading } = useCollection("orders", ["date", "==", date]);
 
   useEffect(() => {
-    console.log(documents);
     setData(documents);
   }, [documents]);
 
@@ -49,9 +48,9 @@ function ViewOrders() {
           </div>
         </div>
         {/* ----------------------------- Receipt Section ----------------------------- */}
-        {showReceiptData && data && <ReceiptData documents={documents} />}
+        {showReceiptData && data && <ReceiptData documents={documents} loading={loading} />}
         {/* ----------------------------- Financial Section ----------------------------- */}
-        {!showReceiptData && <FinancialInfo documents={documents} />}
+        {!showReceiptData && <FinancialInfo documents={documents} loading={loading} />}
       </div>
     </div>
   );

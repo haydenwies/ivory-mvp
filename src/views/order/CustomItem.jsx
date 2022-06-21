@@ -25,12 +25,21 @@ function CustomItem() {
     dispatch(setOrderOptions(["ADD_CUSTOM_ITEM"]));
   };
 
+  const handleQuickClose = (e) => {
+    e.preventDefault();
+    dispatch(setInstances(["setCustomItemOn", false]));
+  };
   useEffect(() => {
     customNameRef.current.focus();
   }, []);
   return (
     <>
-      <div className="custom-item">
+      <div
+        className="custom-item"
+        onContextMenu={(e) => {
+          handleQuickClose(e);
+        }}
+      >
         <div className="custom-item-info row-c-c">
           <div className="custom-item-content">
             <h1>Add Custom Item</h1>

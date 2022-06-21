@@ -99,7 +99,7 @@ function Items() {
       {/* ----------------------------- Edit Items ----------------------------- */}
       {editItemOn && items[editingItemIndex] && (
         <div className="edit-item-container">
-          <EditItem />
+          <EditItem handleAddItem={handleAddItem} />
         </div>
       )}
 

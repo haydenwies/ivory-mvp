@@ -34,9 +34,7 @@ export const orderInfoSlice = createSlice({
       discountPercent: 0.1,
       isDiscountBeforeTax: false,
       isDeliveryBeforeTax: true,
-      printers: [],
-      printerChoice: "Cashier Printer",
-      printerOptions: [],
+      // printerChoice: "Cashier Printer",
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
       filteredAddresses: [],
       addressList: ADDRESS_LIST,
@@ -60,8 +58,22 @@ export const orderInfoSlice = createSlice({
       defaultOrder: {},
       defaultOrderOptions: {},
     },
+    printers: {
+      printerOptions: [],
+    },
   },
   reducers: {
+    setPrinters: ({ printers }, { payload }) => {
+      const [actionType, value] = payload;
+
+      switch (actionType) {
+        case "setPrinterOptions":
+          printers.printerOptions = value;
+          break;
+        default:
+          console.log("Invalid actiontype for setPrinters");
+      }
+    },
     setOrderOptions: ({ orderOptions, order, orderManagement }, { payload }) => {
       const [actionType, value] = payload;
       let { items } = order;
@@ -73,12 +85,6 @@ export const orderInfoSlice = createSlice({
           break;
         case "setIsDeliveryBeforeTax":
           orderOptions.isDeliveryBeforeTax = value;
-          break;
-        case "setPrinter":
-          orderOptions.printers[value.index] = { name: value.name, ip: value.ip };
-          break;
-        case "setPrinterOptions":
-          orderOptions.printerOptions = value;
           break;
         case "setFilteredAddresses":
           orderOptions.filteredAddresses = value;
@@ -98,7 +104,7 @@ export const orderInfoSlice = createSlice({
               ...items,
               {
                 name: orderOptions.customItem.name,
-                price: parseFloat(orderOptions.customItem.price),
+                price: orderOptions.customItem.price === "" ? 0.0 : parseFloat(orderOptions.customItem.price),
                 category: [],
                 modifiable: false,
                 selectionList: { itemLimit: 0, items: [] },
@@ -186,6 +192,7 @@ export const orderInfoSlice = createSlice({
             order.orderType = "DELIVERY";
           } else {
             order.deliveryFee = orderManagement.defaultOrder.deliveryFee;
+            order.orderType = "PICKUP";
           }
           break;
         case "setTempFlatFee":
@@ -461,5 +468,5 @@ export const orderInfoSlice = createSlice({
   },
 });
 
-export const { setOrder, setOrderOptions, setOrderManagement } = orderInfoSlice.actions;
+export const { setOrder, setOrderOptions, setOrderManagement, setPrinters } = orderInfoSlice.actions;
 export default orderInfoSlice.reducer;

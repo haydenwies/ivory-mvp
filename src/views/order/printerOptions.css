@@ -4,8 +4,8 @@
 }
 .printer-options-content {
   position: absolute;
-  bottom: 1rem;
-  right: 1rem;
+  top: 1rem;
+  right: 1.5rem;
 }
 .printer-choices {
   display: grid;
@@ -19,7 +19,6 @@
   margin: 3rem 0;
 }
 .print {
-  background-color: #20b68a;
   padding: 0.8rem 0;
   border-radius: 0.5rem;
   font-size: 1.3rem;
@@ -58,15 +57,28 @@
   background-color: antiquewhite;
   color: #0d0f18;
 }
+
+/* Name dependent print buttons */
+.Cashier-print {
+  grid-column: span 2;
+}
+.Kitchen-print {
+  grid-column: span 2;
+}
+
 /* Tablet */
 @media only screen and (max-width: 1300px) {
   .printer-options-content {
     right: 1rem;
-    bottom: 2rem;
+    top: 0rem;
   }
   .printer-choices {
     grid-template-columns: 1fr;
-    row-gap: 2rem;
+    row-gap: 1.5rem;
+  }
+  .printer-options h4 {
+    font-size: 1.3rem;
+    margin: 1rem 0 0.5rem 0;
   }
   .print {
     padding: 1rem;

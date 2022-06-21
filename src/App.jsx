@@ -11,14 +11,18 @@ import ViewOrders from "./views/view_orders/ViewOrders";
 import { useDispatch, useSelector } from "react-redux";
 import NavTab from "./components/navTab/NavTab";
 import { useEffect } from "react";
-import { setOrderManagement, setOrderOptions } from "./redux/orderInfo";
+import { setOrderManagement, setOrderOptions, setPrinters } from "./redux/orderInfo";
 import { setInstancesDefaultSettings } from "./redux/functionality";
-import { doc, collection, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, collection, getDoc, onSnapshot, where } from "firebase/firestore";
 import { db } from "./firebase/config";
+import { useDeleteDocs } from "./hooks/useDeleteDocs";
+import Loading from "./components/loading/Loading";
 function App() {
   // const { auth, user } = useAuthContext();
   const { navOn } = useSelector(({ functionality }) => functionality.instances[functionality.indexInstance]);
+  const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.printers);
   const dispatch = useDispatch();
+  const { deleteOutDatedDocs } = useDeleteDocs();
 
   const getPrinterInfo = async () => {
     // Get documents with correct date
@@ -31,8 +35,7 @@ function App() {
           printersInfo.push(printerData[i]);
         }
       }
-      console.log(printersInfo);
-      dispatch(setOrderOptions(["setPrinterOptions", printersInfo])); //Stores the printer options in redux
+      dispatch(setPrinters(["setPrinterOptions", printersInfo])); //Stores the printer options in redux
     });
   };
 
@@ -40,6 +43,12 @@ function App() {
     dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]));
     dispatch(setInstancesDefaultSettings(["SAVE_DEFAULT_FUNCTIONALITY"]));
     getPrinterInfo();
+    // let date = new Date();
+    // let tempDates = [];
+    // tempDates.push(date.toLocaleString().slice(0, 10));
+    // tempDates.push(date.toLocaleString(date.setDate(date.getDate() - 1)).slice(0, 10));
+    // tempDates.push(date.toLocaleString(date.setDate(date.getDate() - 1)).slice(0, 10));
+    // deleteOutDatedDocs("orders", ["date", "not-in", tempDates]);
   }, []);
 
   return (
@@ -61,8 +70,14 @@ function App() {
             element={
               <PrivateRoute>
                 {navOn && <Nav />}
-                <NavTab />
-                <Order />
+                {printerOptions.length !== 0 ? (
+                  <>
+                    <Order />
+                    <NavTab />
+                  </>
+                ) : (
+                  <Loading pageName={"Order Page"} />
+                )}
               </PrivateRoute>
             }
           />

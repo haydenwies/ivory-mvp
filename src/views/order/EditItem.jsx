@@ -6,8 +6,9 @@ import { setInstances } from "../../redux/functionality";
 import { setOrder, setOrderOptions } from "../../redux/orderInfo";
 import { CheckMark } from "../../Assets/Images";
 import { priceInputCheck } from "../../utils/customerInfoUtils";
+import { SPECIAL_COMBO } from "../../redux/menuData";
 
-function EditItem() {
+function EditItem({ handleAddItem }) {
   const dispatch = useDispatch();
   // Functionality State
   const { editItemOn, categoryType } = useSelector(
@@ -62,7 +63,11 @@ function EditItem() {
     dispatch(
       setOrder([
         "ADD_SWAP",
-        { name: `${currentSwapItem.name} --> ${desiredSwapItem.name}`, price: parseFloat(swapPrice), type:"swap" },
+        {
+          name: `${currentSwapItem.name} --> ${desiredSwapItem.name}`,
+          price: parseFloat(swapPrice),
+          type: "swap",
+        },
       ])
     );
     dispatch(setOrderOptions(["setCurrentSwapItem", { name: "", price: 0 }]));
@@ -82,6 +87,11 @@ function EditItem() {
     }
 
     dispatch(setOrder(["setFlatFeeModifier", tempFlatFee]));
+  };
+
+  const handleQuickClose = (e) => {
+    e.preventDefault();
+    dispatch(setInstances(["setEditItemOn", false]));
   };
 
   useEffect(() => {
@@ -110,7 +120,12 @@ function EditItem() {
       />
 
       {/* ----------------------------- Beginning of Edit Tab----------------------------- */}
-      <div className="edit-item col-fe-c">
+      <div
+        className="edit-item col-fe-c"
+        onContextMenu={(e) => {
+          handleQuickClose(e);
+        }}
+      >
         <div className="edit-item-content">
           <div className="edit-item-tabs row-se-c">
             {/* ----------------------------- Edit Tabs ----------------------------- */}
@@ -159,7 +174,10 @@ function EditItem() {
                     key={key}
                     className="edit-selection-item row-c-c"
                     style={{
-                      backgroundColor: item.selectionList.items.indexOf("/") === -1 ? "#f2d38f84" : "#f2d38f",
+                      backgroundColor:
+                        item.selectionList.items.indexOf("/") === -1
+                          ? "rgba(247, 232, 191,0.5)"
+                          : "rgb(247, 232, 191)",
                     }}
                     onClick={() => {
                       dispatch(setOrder(["ADD_SELECTION_ITEM", selectionItem]));
@@ -240,7 +258,7 @@ function EditItem() {
               {/* ----------------------------- Swap Actions ----------------------------- */}
               <div className="swap-actions">
                 {/* Top Swap Container*/}
-                <div className="top-swap-container">
+                <div className="swap-container">
                   {/* Clear Swap */}
                   <button
                     className="clear-swap"
@@ -260,7 +278,7 @@ function EditItem() {
                     }}
                     readOnly
                     onChange={() => {}}
-                    placeholder="Current Item to be swapped"
+                    placeholder="Oringal Item"
                     value={currentSwapItem.name}
                   />
                   {/* Swap Price Difference */}
@@ -282,7 +300,7 @@ function EditItem() {
                     }}
                     readOnly
                     onChange={() => {}}
-                    placeholder="Current Item to be swapped"
+                    placeholder="Change Item"
                     value={desiredSwapItem.name}
                   />
 
@@ -311,7 +329,7 @@ function EditItem() {
                   <div
                     key={key}
                     className="add-or-no-add-items col-c-c"
-                    style={{ backgroundColor: modifier.checked ? "#20b98a" : "#f2d38f" }}
+                    style={{ backgroundColor: modifier.checked ? "#20b98a" : "white" }}
                     onClick={() => {
                       dispatch(setOrder(["TOGGLE_MODIFIER", modifier]));
                     }}
@@ -388,6 +406,16 @@ function EditItem() {
                     -
                   </button>
                 </div>
+              </div>
+              <div className="new-combo-container">
+                <button
+                  className="new-combo"
+                  onClick={() => {
+                    handleAddItem(SPECIAL_COMBO);
+                  }}
+                >
+                  New Combo
+                </button>
               </div>
               <button
                 className="done-edit"

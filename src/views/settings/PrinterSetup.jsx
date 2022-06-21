@@ -26,7 +26,7 @@ const reducer = (printers, action) => {
 };
 
 function PrinterSetup() {
-  const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
+  const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.printers);
   // Static constant to hold initial fetched printer data
   const printerData = [];
   // Holds data that can be changed by the user and re-uploaded

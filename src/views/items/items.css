@@ -34,13 +34,14 @@
   overflow-y: scroll;
 }
 .selection-item {
-  background-color: #f2d38f;
+  background-color: rgb(247, 232, 191);
   color: black;
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
   padding: 0 0.5rem;
   height: var(--selection-box-height);
+  height: 100%;
 }
 .selection-item p {
   color: black;
@@ -65,7 +66,7 @@
   overflow-y: scroll;
 }
 .category-item {
-  background-color: #262835;
+  background-color: #a52a2a;
   color: white;
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;

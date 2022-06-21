@@ -113,7 +113,7 @@ const formatOrder = (
 ) => {
   let idFormat = true;
   let isTwelveHour = true;
-  let finalizedOrderOptions = JSON.parse(JSON.stringify(orderOptions));
+  let printers = JSON.parse(JSON.stringify(printerOptions));
 
   let finalizedOrder = JSON.parse(JSON.stringify(order));
   finalizedOrder.finishTime = orderOptions.isScheduledOrder
@@ -128,36 +128,31 @@ const formatOrder = (
   // Selects which printer to print from
   switch (printerChoice) {
     case "Save Only":
-      finalizedOrderOptions.printers = [];
+      printers = [];
       break;
     case "Kitchen":
-      finalizedOrderOptions.printers = printerOptions.filter((printer) => printer.name === printerChoice);
+      printers = printerOptions.filter((printer) => printer.name === printerChoice);
       break;
     case "Cashier":
-      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
-        (printer) => printer.name === printerChoice
-      );
+      printers = printerOptions.filter((printer) => printer.name === printerChoice);
       break;
     case "Both":
-      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
-        (printer) => printer.name === printerChoice
-      );
-      break;
+    //Don't need to do anything since printers already has both printers by default
+    break;
     default:
-      finalizedOrderOptions.printers = finalizedOrderOptions.printers = printerOptions.filter(
-        (printer) => printer.name === printerChoice
-      );
+      console.log("ERROR with print choice. Saved order to cloud as default.");
+      printers = [];
       break;
   }
 
-  const activePrinters = finalizedOrderOptions.printers.filter((printer) => printer.activated);
+
   console.log("HERE ARE THE PRINTERS");
-  console.table(activePrinters);
+  console.table(printers);
 
   let printInfo = {
     time: finalizedOrder.time,
     date: finalizedOrder.date,
-    printers: activePrinters,
+    printers: printers,
     id: finalizedOrder.id,
   };
 

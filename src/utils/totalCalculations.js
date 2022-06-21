@@ -18,8 +18,7 @@ export class Totals {
     deliveryType,
     discountPercent,
     deliveryFee,
-    taxPercent,
-    flatFeeModifier
+    taxPercent
   ) {
     Totals.items = items;
     Totals.discountOn = discountOn;
@@ -58,12 +57,10 @@ export class Totals {
           }
         }
       }
-      Totals.subTotal = subTotal;
-      return Totals.subTotal;
-    } else {
-      Totals.subTotal = 0.0;
-      return Totals.subTotal;
     }
+
+    Totals.subTotal = subTotal;
+    return Totals.subTotal;
   }
 
   static getTax() {
@@ -98,13 +95,25 @@ export class Totals {
 
   static getTotal() {
     let { subTotal, tax, discount, discountOn, deliveryFee, deliveryOn, deliveryType } = Totals;
-    if (discountOn) {
+    if (discountOn && !deliveryOn) {
+      // Discount On, delivery Off
       return (Totals.total = subTotal + tax - discount);
-    } else if (deliveryOn && deliveryType === "AFTER_TAX") {
+    } else if (discountOn && deliveryOn) {
+    console.log("HI WE SHOULD EB RUNINNING")
+
+      //Delivery && Delivery on
+      return (Totals.total = subTotal + tax + deliveryFee - discount);
+    } else if (!discountOn && deliveryOn) {
+      //Discount off, delivery on
       return (Totals.total = subTotal + tax + deliveryFee);
     } else {
+      //If both discount and delivery are off
       return (Totals.total = subTotal + tax);
     }
+    // Checks if delivery is added before tax
+    // if (Totals.deliveryOn && Totals.deliveryType === "BEFORE_TAX") {
+    //   subTotal += Totals.deliveryFee;
+    // }
   }
 
   static getTotals() {
@@ -123,9 +132,9 @@ export class Totals {
     };
 
     return {
-      subTotal: getPrecision(`${subTotal.toFixed(2)}`),
-      tax: getPrecision(`${tax.toFixed(2)}`),
-      discount: getPrecision(`${discount.toFixed(2)}`),
+      subTotal: `${subTotal.toFixed(2)}`,
+      tax: `${tax.toFixed(2)}`,
+      discount: `${discount.toFixed(2)}`,
       total: getPrecision(`${total.toFixed(2)}`),
     };
   }

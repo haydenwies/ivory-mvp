@@ -11,7 +11,7 @@
   left: 0;
   right: 0;
   bottom: 1%;
-  background-color: #1e202c;
+  background-color: #121421;
   /* border: solid 1px white; */
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px;
   z-index: 2;
@@ -29,6 +29,7 @@
   align-content: flex-start;
   align-items: flex-start;
   justify-content: flex-start;
+  max-height: 99vh;
 }
 /* ----------------------------- Edit Tabs ----------------------------- */
 .edit-item-tabs {
@@ -56,7 +57,7 @@
   scrollbar-width: none;
 }
 .edit-selection-item {
-  /* background-color: #f2d38f; */
+  /* background-color: white; */
   min-height: 90px;
   color: black;
   border-radius: 0.2rem;
@@ -79,7 +80,7 @@
   cursor: pointer;
   min-width: 50px;
   min-height: 50px;
-  border: solid 1px #f2d38f;
+  border: solid 1px white;
   border-radius: 0.2rem;
   color: white;
   padding: 0 0.5rem;
@@ -95,7 +96,7 @@
   height: 25px;
 }
 .flat-fee-clear {
-  background-color: crimson;
+  background-color: #a52a2a;
   padding: 0.5rem 1rem;
   min-height: 40px;
 }
@@ -153,6 +154,16 @@
   font-size: 1rem;
   justify-self: center;
 }
+/* New Combo */
+.new-combo-container {
+  position: absolute;
+  bottom: 0.5rem;
+}
+.new-combo {
+  background-color: rgb(25, 126, 95);
+  padding: 0.5em 2em;
+  font-size: 1.2rem;
+}
 /* ----------------------------- Swap Selection ----------------------------- */
 .swap-content {
   display: grid;
@@ -188,7 +199,7 @@
 }
 /* ----------------------------- Swap Category ----------------------------- */
 .swap-category {
-  background-color: #262835;
+  background-color: #a52a2a;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
   font-weight: 400;
@@ -202,17 +213,19 @@
   height: 100%;
   width: 90%;
   display: grid;
-  grid-template-rows: repeat(2, 1fr);
+  grid-template-rows: 1fr;
   grid-gap: 0.3rem;
   margin: auto;
   padding: 1rem 0;
   row-gap: 1rem;
+  align-items: center;
 }
-.top-swap-container {
+.swap-container {
   display: grid;
   grid-template-columns: 1fr 3fr 1fr 3fr 1fr;
   justify-items: center;
   column-gap: 1rem;
+  min-height: 50px;
 }
 
 .current-swap-item,
@@ -221,7 +234,6 @@
   background-color: transparent;
   height: 100%;
   width: 100%;
-  max-height: 45px;
   cursor: pointer;
   text-align: center;
   font-size: 1.2rem;
@@ -240,15 +252,17 @@
   width: 100%;
 }
 .clear-swap {
-  background-color: crimson;
+  background-color: #a52a2a;
   border-radius: 0.5rem;
   height: 100%;
-  padding: 0.5rem 0;
+  padding: 0.5rem .1rem;
+
 }
 .add-swap {
-  background-color: #20b98a;
+  background-color: rgb(25, 126, 95);
   border-radius: 0.5rem;
   height: 100%;
+  padding: 0 .1rem;
 }
 .swap-price-container {
   width: 100%;
@@ -275,7 +289,7 @@
   max-height: 70vh;
 }
 .add-or-no-add-items {
-  /* background-color: #f2d38f; */
+  /* background-color: white; */
   cursor: pointer;
   border-radius: 0.3rem;
 }
@@ -300,9 +314,16 @@
 }
 
 @media only screen and (max-width: 1100px) {
-    .edit-item-content{
-    }
-    .swap-actions{
-        padding:0;
-    }
+  .edit-item-content {
   }
+  .swap-actions {
+    padding: 0;
+    min-height: 100px;
+  }
+  .swap-content {
+    max-height: 580px;
+  }
+  .swap-category {
+    font-size: 0.9rem !important;
+  }
+}

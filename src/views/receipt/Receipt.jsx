@@ -45,7 +45,7 @@ function Receipt() {
       isDeliveryBeforeTax ? "BEFORE_TAX" : "AFTER_TAX",
       discountPercent,
       deliveryFee,
-      taxPercent
+      taxPercent,
     );
     const { subTotal, tax, total, discount } = Totals.getTotals();
 
@@ -86,7 +86,7 @@ function Receipt() {
     return () => {
       getTotal();
     };
-  }, [items, discounted]);
+  }, [items, discounted, orderType, deliveryFee]);
 
   //Triggers the scroll animation when item is added to receipt
   useEffect(() => {

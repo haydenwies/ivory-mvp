@@ -4,9 +4,12 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 export const useCollection = (c, _q) => {
   const [documents, setDocuments] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const q = useRef(_q).current;
 
   useEffect(() => {
+    setLoading(true);
     let ref = collection(db, c); //Gets a reference to a collection based on the param "c"
 
     //If a query is passed in we get a new ref with the query params else it will just get the entire collection
@@ -23,10 +26,11 @@ export const useCollection = (c, _q) => {
       });
 
       setDocuments(results);
+      setLoading(false);
     });
 
     return () => unsub(); //Clean up function when the component unmounts
   }, [c]);
 
-  return { documents };
+  return { documents, loading };
 };

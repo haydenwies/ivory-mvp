@@ -267,7 +267,7 @@
   row-gap: 0.5rem;
 }
 .modifier-item-container {
-  width:100%;
+  width: 100%;
 }
 
 /* ---------------------------- Receipt Actions ---------------------------- */
@@ -290,5 +290,26 @@
   border: solid 2px #20b98a;
 }
 .delete-order {
-  border: solid 2px crimson;
+  border: solid 2px #a52a2a;
+}
+
+
+/* Tablets */
+@media only screen and (max-width: 1100px) {
+  .receipts-container {
+     grid-template-columns: repeat(2, 1fr);
+  }
+  .receipt-actions button {
+    /* border: solid 1px white; */
+    padding: 0.8rem 1rem;
+  }
+  .financial-info{
+    grid-template-columns: 1fr 1fr;
+  }
+  .data-card h2 {
+    font-size: 3rem;
+  }
+  .data-card h4 {
+    font-size: 1.3rem;
+  }
 }
