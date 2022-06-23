@@ -17,32 +17,25 @@ import { doc, collection, getDoc, onSnapshot, where } from "firebase/firestore";
 import { db } from "./firebase/config";
 import { useDeleteDocs } from "./hooks/useDeleteDocs";
 import Loading from "./components/loading/Loading";
+import Checkout from "./views/checkout/Checkout";
+import { useGetPrinters } from "./hooks/useGetPrinters";
+import { useGetReceipts } from "./hooks/useGetReceipts";
+import { setReceipts } from "./redux/receiptInfo";
+import { useState } from "react";
 function App() {
   // const { auth, user } = useAuthContext();
   const { navOn } = useSelector(({ functionality }) => functionality.instances[functionality.indexInstance]);
   const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.printers);
+  const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
-  const { deleteOutDatedDocs } = useDeleteDocs();
-
-  const getPrinterInfo = async () => {
-    // Get documents with correct date
-    const printInfoRef = doc(db, "general", "printerInfo");
-    onSnapshot(printInfoRef, (printerDoc) => {
-      let printersInfo = [];
-      if (printerDoc.exists()) {
-        let printerData = printerDoc.data().printers;
-        for (let i = 0; i < printerData.length; i++) {
-          printersInfo.push(printerData[i]);
-        }
-      }
-      dispatch(setPrinters(["setPrinterOptions", printersInfo])); //Stores the printer options in redux
-    });
-  };
+  const { receiptsLoaded } = useGetReceipts("orders");
+  const { printersLoaded } = useGetPrinters("orders");
+  const { deleteOutDatedReceipts } = useDeleteDocs();
 
   useEffect(() => {
     dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]));
     dispatch(setInstancesDefaultSettings(["SAVE_DEFAULT_FUNCTIONALITY"]));
-    getPrinterInfo();
+
     // let date = new Date();
     // let tempDates = [];
     // tempDates.push(date.toLocaleString().slice(0, 10));
@@ -50,6 +43,13 @@ function App() {
     // tempDates.push(date.toLocaleString(date.setDate(date.getDate() - 1)).slice(0, 10));
     // deleteOutDatedDocs("orders", ["date", "not-in", tempDates]);
   }, []);
+
+  useEffect(() => {
+    if (receiptsLoaded && printersLoaded) {
+      setLoaded(true);
+      deleteOutDatedReceipts();
+    }
+  }, [receiptsLoaded, printersLoaded]);
 
   return (
     <div className="app">
@@ -70,7 +70,7 @@ function App() {
             element={
               <PrivateRoute>
                 {navOn && <Nav />}
-                {printerOptions.length !== 0 ? (
+                {loaded ? (
                   <>
                     <Order />
                     <NavTab />
@@ -88,6 +88,16 @@ function App() {
                 {navOn && <Nav />}
                 <NavTab />
                 <ViewOrders />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                {navOn && <Nav />}
+                <NavTab />
+                <Checkout />
               </PrivateRoute>
             }
           />

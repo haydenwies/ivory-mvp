@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { calculateFinishTime } from "../utils/dateFormat";
 import { ADDRESS_LIST } from "../utils/dataUtils";
+import { SPECIAL_COMBO } from "./menuData";
 
 export const orderInfoSlice = createSlice({
   name: "orderInfo",
@@ -306,14 +307,34 @@ export const orderInfoSlice = createSlice({
         // ---------------- Adding a Selection Item --------------- //
         case "ADD_SELECTION_ITEM":
           let emptySpot = items[editingItemIndex].selectionList.items.indexOf("/");
+
           if (emptySpot !== -1) {
             items[editingItemIndex].selectionList.items[emptySpot] = value;
           }
+
+          // SPECIAL COMBO FEATURE
+          let noodleFee = items[editingItemIndex].selectionList.items.indexOf("17");
+          console.log("Noodle fee", noodleFee);
+          if (noodleFee === -1) {
+            items[editingItemIndex].price = SPECIAL_COMBO.price;
+          } else {
+            items[editingItemIndex].price = SPECIAL_COMBO.price + 1;
+          }
+
           break;
         // ---------------- Deleting an item from selection items --------------- //
         case "DELETE_SELECTION_ITEM":
           if (items[editingItemIndex].selectionList.items[value] !== "/") {
             items[editingItemIndex].selectionList.items[value] = "/";
+          }
+
+          // SPECIAL COMBO FEATURE
+          let checkNoodle = items[editingItemIndex].selectionList.items.indexOf("17");
+          console.log("Noodle fee", checkNoodle);
+          if (checkNoodle === -1) {
+            items[editingItemIndex].price = SPECIAL_COMBO.price;
+          } else {
+            items[editingItemIndex].price = SPECIAL_COMBO.price + 1;
           }
           break;
         // ---------------- Deleting item from items ---------------- //

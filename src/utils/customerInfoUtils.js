@@ -108,7 +108,7 @@ const formatOrder = (
   printerChoice,
   printerOptions,
   order,
-  orderOptions,
+  // orderOptions,
   { calculateFinishTime, getDate, getTime, getSeconds }
 ) => {
   let idFormat = true;
@@ -116,9 +116,8 @@ const formatOrder = (
   let printers = JSON.parse(JSON.stringify(printerOptions));
 
   let finalizedOrder = JSON.parse(JSON.stringify(order));
-  finalizedOrder.finishTime = orderOptions.isScheduledOrder
-    ? ""
-    : calculateFinishTime(order.waitTime.magnitude);
+  console.log("THIS SHOULD BE A SCHEDULED ORDER", order.isScheduledOrder);
+  finalizedOrder.finishTime = order.isScheduledOrder ? "" : calculateFinishTime(order.waitTime.magnitude);
   finalizedOrder.date = getDate();
   finalizedOrder.time = [getTime(!idFormat, isTwelveHour), getTime(!idFormat, !isTwelveHour)];
   finalizedOrder.id = `${getDate(idFormat)}${getTime(idFormat)}${getSeconds(
@@ -137,17 +136,15 @@ const formatOrder = (
       printers = printerOptions.filter((printer) => printer.name === printerChoice);
       break;
     case "Both":
-    //Don't need to do anything since printers already has both printers by default
-    break;
+      //Don't need to do anything since printers already has both printers by default
+      break;
+    case "Reprint":
+      break;
     default:
       console.log("ERROR with print choice. Saved order to cloud as default.");
       printers = [];
       break;
   }
-
-
-  console.log("HERE ARE THE PRINTERS");
-  console.table(printers);
 
   let printInfo = {
     time: finalizedOrder.time,

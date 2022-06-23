@@ -8,7 +8,6 @@ import CustomItem from "../order/CustomItem";
 import SearchItem from "../order/SearchItem";
 import EditItem from "../order/EditItem";
 import { SPECIAL_COMBO } from "../../redux/menuData";
-import { useEffect } from "react";
 function Items() {
   /* ----------------------------- State Variables ----------------------------- */
   const dispatch = useDispatch();

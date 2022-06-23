@@ -55,6 +55,13 @@ function Nav() {
             <p>View Orders</p>
           </div>
           <div className="nav-link row-fs-c" onClick={() => {
+              navigate("/checkout") 
+              dispatch(setInstances(["setNavOn", false]));
+            }}>
+            {/* <img src={Settings} alt="Checkout" className="checkout-icon" /> */}
+            <p>Checkout</p>
+          </div>
+          <div className="nav-link row-fs-c" onClick={() => {
               navigate("/settings") 
               dispatch(setInstances(["setNavOn", false]));
             }}>

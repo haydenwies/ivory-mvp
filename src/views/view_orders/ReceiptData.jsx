@@ -1,38 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Info, Search } from "../../Assets/Images";
 import { db } from "../../firebase/config";
 import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./viewOrder.css";
 import { setOrderManagement } from "../../redux/orderInfo";
 import { useNavigate } from "react-router-dom";
 import { numbersOnly, numbersOnlyPhoneNum } from "../../utils/customerInfoUtils";
 import { filterPhoneNum } from "../../utils/filterUtils";
 import Loading from "../../components/loading/Loading";
-function Receipts({ documents, loading }) {
+import { setFilteredReceipts, setSelectedDate } from "../../redux/receiptInfo";
+function Receipts() {
+  const { receipts, activeDates, selectedDate, filteredReceipts } = useSelector(
+    ({ receiptInfo }) => receiptInfo
+  );
   // Modal data
   const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState("");
-  const [filteredData, setFilteredData] = useState([]);
-  const [ordersToday, setOrdersToday] = useState([]);
   const [phoneEntry, setPhoneEntry] = useState("");
-  const [orderDates, setOrderDates] = useState([]);
-  const [selectedDate, setSelectedDate] = useState("");
+  const searchByPhoneRef = useRef();
+
   // Show full receipt toggle data
   const [showFullReceipt, setShowFullReceipt] = useState(true);
-  const [filterLoad, setFilterLoad] = useState(false);
 
   //Redux
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const onToggleModal = (e) => {
-    if (modalType === e.target.innerHTML && showModal === true) {
-      setShowModal(false);
-    } else {
-      setModalType(e.target.innerHTML);
-      setShowModal(true);
-    }
+    setShowModal(!showModal);
   };
 
   const onToggleFullReceipt = (e) => {
@@ -41,10 +36,11 @@ function Receipts({ documents, loading }) {
   };
 
   const findByPhone = (entry, data) => {
-    if (entry === "") setFilteredData(data);
+    if (entry === "") dispatch(setFilteredReceipts(data));
 
     if (numbersOnly(entry)) {
-      setFilteredData(filterPhoneNum(entry, data));
+      dispatch(setFilteredReceipts(filterPhoneNum(entry, data)));
+      console.log(filterPhoneNum(entry, data));
       setPhoneEntry(entry);
     } else {
       setPhoneEntry(entry.slice(0, -1));
@@ -57,53 +53,20 @@ function Receipts({ documents, loading }) {
     await deleteDoc(docRef);
   };
 
-  /**
-   * Filters out the orders based on the selected date.
-   * @param {*} date the selected filtered date
-   */
-  const filterDates = async (date) => {
-    let today = new Date();
-    today = today.toLocaleString().slice(0, 10);
-
-    if (date === today) {
-      setFilteredData(ordersToday);
-    } else {
-      setFilterLoad(true);
-    }
-    // Get documents with correct date
-    const q = query(collection(db, "orders"), where("date", "==", date));
-    const snapshot = await getDocs(q);
-    // Loop through data and add to array
-    const docs = [];
-    snapshot.forEach((doc) => {
-      docs.push(doc.data());
-    });
-    // Set data as array once loop finishes
-    setFilteredData(docs);
-    setSelectedDate(date);
-    setShowModal(false);
-    setFilterLoad(false);
-  };
+  useEffect(() => {
+    dispatch(setFilteredReceipts(receipts.filter((receipt) => receipt.date === selectedDate)));
+  }, [selectedDate, receipts]);
 
   useEffect(() => {
     let date = new Date();
-    let tempDates = [];
-    tempDates.push(date.toLocaleString().slice(0, 10));
-    tempDates.push(date.toLocaleString(date.setDate(date.getDate() - 1)).slice(0, 10));
-    tempDates.push(date.toLocaleString(date.setDate(date.getDate() - 1)).slice(0, 10));
-    setOrderDates(tempDates);
-    setSelectedDate(tempDates[0]);
+    let day = date.getDate() >= 10 ? `${date.getDate()}` : `0${date.getDate()}`;
+    let month = date.getMonth() + 1 >= 10 ? `${date.getMonth() + 1}` : `0${date.getMonth() + 1}`;
+    let year = date.getFullYear();
+    let today = `${year}-${month}-${day}`;
+    dispatch(setSelectedDate(today));
+
+    searchByPhoneRef.current.focus();
   }, []);
-
-  useEffect(() => {
-    let today = new Date();
-    today = today.toLocaleString().slice(0, 10);
-    if (documents !== null) {
-      setFilteredData(documents);
-      setOrdersToday(documents);
-    }
-  }, [documents]);
-
   return (
     <div className="receipt-data">
       {/* ----------------------------- Display Receipt Options ----------------------------- */}
@@ -114,8 +77,9 @@ function Receipts({ documents, loading }) {
             type="text"
             placeholder="Search by phone number"
             value={phoneEntry}
+            ref={searchByPhoneRef}
             onChange={(e) => {
-              findByPhone(e.target.value, ordersToday);
+              findByPhone(e.target.value, receipts);
             }}
           />
         </div>
@@ -127,9 +91,6 @@ function Receipts({ documents, loading }) {
               onClick={onToggleFullReceipt}
             />
           </div>
-          {/* <div className="sort">
-            <h5 onClick={onToggleModal}>Sort</h5>
-          </div> */}
           <div className="filter">
             <h5 onClick={onToggleModal}>Dates</h5>
           </div>
@@ -138,14 +99,13 @@ function Receipts({ documents, loading }) {
         {showModal && (
           <div className="display-options-modal col-c-fs">
             <h2>Date Options</h2>
-            {[...orderDates].map((property, key) => (
+            {[...activeDates].map((property, key) => (
               <div key={key}>
                 <button
                   className="display-option"
                   style={{ color: selectedDate === property ? "#20b98a" : "white" }}
                   onClick={() => {
-                    filterDates(property);
-                    setSelectedDate(property);
+                    dispatch(setSelectedDate(property));
                   }}
                 >
                   {property}
@@ -156,16 +116,12 @@ function Receipts({ documents, loading }) {
         )}
       </div>
       {/* ----------------------------- Receipts ----------------------------- */}
-      {filteredData.length === 0 ? (
-        loading || filterLoad ? (
-          <Loading />
-        ) : (
-          <div className="no-orders-saved row-c-c">No Orders.</div>
-        )
+      {filteredReceipts.length === 0 ? (
+        <div className="no-orders-saved row-c-c">No Orders.</div>
       ) : (
         <div className="receipts">
           <div className="receipts-container">
-            {[...filteredData].reverse().map((doc, i) => (
+            {[...filteredReceipts].reverse().map((doc, i) => (
               /* ----------------------------- Receipt Meta Data ----------------------------- */
               <div key={i} className="receipt-card">
                 <div className="receipt-content col-sb-c">
@@ -210,51 +166,49 @@ function Receipts({ documents, loading }) {
 
                     {/* Full Receipt + Items */}
                     {showFullReceipt && (
-                      <>
-                        <div className="items-property receipt-property col-c-fs">
-                          <p>Items:</p>
-                          <div className="items-container col-c-fe">
-                            {doc.items.map((item, j) => (
-                              <div key={j} className="item-container row-sb-c">
-                                <p>
-                                  <b>{item.name}</b>
-                                </p>
-                                <p>
-                                  <b>${item.price.toFixed(2)}</b>
-                                </p>
-                                {/* Selection Choices */}
-                                {item.selectionList.itemLimit !== 0 && (
-                                  <div className="selection-list-container row-fs-c">
-                                    {item.selectionList.items.map((selectionItem, key3) => (
-                                      <p key={key3} className="selection-list">
-                                        {selectionItem}
+                      <div className="items-property receipt-property col-c-fs">
+                        <p>Items:</p>
+                        <div className="items-container col-c-fe">
+                          {doc.items.map((item, j) => (
+                            <div key={j} className="item-container row-sb-c">
+                              <p>
+                                <b>{item.name}</b>
+                              </p>
+                              <p>
+                                <b>${item.price.toFixed(2)}</b>
+                              </p>
+                              {/* Selection Choices */}
+                              {item.selectionList.itemLimit !== 0 && (
+                                <div className="selection-list-container row-fs-c">
+                                  {item.selectionList.items.map((selectionItem, key3) => (
+                                    <p key={key3} className="selection-list">
+                                      {selectionItem}
+                                    </p>
+                                  ))}
+                                </div>
+                              )}
+                              {/* Modifiers */}
+                              {item.modifiers.length !== 0 && (
+                                <div className="modifier-list-container col-c-fs">
+                                  {item.modifiers.map((modifierItem, key4) => (
+                                    <div key={key4} className="modifier-item-container row-sb-c">
+                                      <p className="modifier-list">
+                                        {"|-->"}
+                                        {modifierItem.name}
                                       </p>
-                                    ))}
-                                  </div>
-                                )}
-                                {/* Modifiers */}
-                                {item.modifiers.length !== 0 && (
-                                  <div className="modifier-list-container col-c-fs">
-                                    {item.modifiers.map((modifierItem, key4) => (
-                                      <div key={key4} className="modifier-item-container row-sb-c">
-                                        <p className="modifier-list">
-                                          {"|-->"}
-                                          {modifierItem.name}
-                                        </p>
-                                        $
-                                        {item.flatFeeModifierOn &&
-                                        (modifierItem.type === "No Add" || modifierItem.type === "Add")
-                                          ? "0.00"
-                                          : `${modifierItem.price.toFixed(2)}`}
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
+                                      $
+                                      {item.flatFeeModifierOn &&
+                                      (modifierItem.type === "No Add" || modifierItem.type === "Add")
+                                        ? "0.00"
+                                        : `${modifierItem.price.toFixed(2)}`}
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))}
                         </div>
-                      </>
+                      </div>
                     )}
 
                     <div className="receipt-property sub-total row-sb-c">
@@ -289,7 +243,7 @@ function Receipts({ documents, loading }) {
                       <div className="receipt-property row-sb-c">
                         <p>Delivery Fee</p>
                         <p>
-                          <b>-${doc.deliveryFee.toFixed(2)}</b>
+                          <b>${doc.deliveryFee.toFixed(2)}</b>
                         </p>
                       </div>
                     )}
@@ -315,7 +269,6 @@ function Receipts({ documents, loading }) {
                         className="delete-order"
                         onClick={(e) => {
                           deleteOrder(e, doc.id);
-                          filterDates(selectedDate);
                         }}
                       >
                         Delete Order

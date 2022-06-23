@@ -1,30 +1,52 @@
+import { deleteDoc, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "../firebase/config";
-import { collection, onSnapshot, query, where, deleteDoc, getDocs, doc } from "firebase/firestore";
+import { setActiveDates } from "../redux/receiptInfo";
 
 export const useDeleteDocs = () => {
-  const deleteOutDatedDocs = async (c, q) => {
-    let ref = collection(db, c); //Gets a reference to a collection based on the param "c"
+  const receipts = useSelector(({ receiptInfo }) => receiptInfo.receipts);
+  const dispatch = useDispatch();
+  const activeDates = [];
+  const ACTIVE_DAYS = 3;
+  const deleteOutDatedReceipts = () => {
+    let date = new Date();
+    let day = date.getDate() >= 10 ? `${date.getDate()}` : `0${date.getDate()}`;
+    let month = date.getMonth() + 1 >= 10 ? `${date.getMonth() + 1}` : `0${date.getMonth() + 1}`;
+    let year = date.getFullYear();
+    let formattedDate = `${year}-${month}-${day}`;
 
-    //If a query is passed in we get a new ref with the query params else it will just get the entire collection
-    if (q) {
-      ref = query(ref, where(...q));
+    //Gets the active dates for the receipts to be stored under
+    activeDates.push(formattedDate);
+    for (let i = 0; i < ACTIVE_DAYS - 1; i++) {
+      date.setDate(date.getDate() - 1);
+      day = date.getDate() >= 10 ? `${date.getDate()}` : `0${date.getDate()}`;
+      month = date.getMonth() + 1 >= 10 ? `${date.getMonth() + 1}` : `0${date.getMonth() + 1}`;
+      year = date.getFullYear();
+      formattedDate = `${year}-${month}-${day}`;
+      activeDates.push(formattedDate);
     }
-    let tempDocs = [];
-    const snapshot = await getDocs(ref);
-    snapshot.forEach((order) => {
-      tempDocs.push(order);
+
+    dispatch(setActiveDates(activeDates));
+
+    let outDatedReceipts = receipts.filter((receipt) => {
+      let outdated = true;
+      for (let i = 0; i < ACTIVE_DAYS; i++) {
+        if (receipt.date === activeDates[i]) {
+          outdated = false;
+        }
+      }
+      return outdated;
     });
-    for (let order of tempDocs) {
-      const docRef = doc(db, "orders", order.id);
-      deleteDoc(docRef);
-    }
-    if (tempDocs.length !== 0) {
-      console.log("Outdated docs deleted.");
-    } else {
-      console.log("No more outdated docs.");
-    }
+    console.log("Here are the active dates", activeDates);
+    console.log(outDatedReceipts);
+
+    outDatedReceipts.forEach(async (receipt) => {
+      let receiptRef = doc(db, "orders", receipt.id);
+      // await deleteDoc(receiptRef);
+    });
+    console.log("Outdated orders deleted");
   };
 
-  return { deleteOutDatedDocs };
+  return { deleteOutDatedReceipts };
 };

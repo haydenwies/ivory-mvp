@@ -51,10 +51,36 @@
 .financial-info {
   display: grid;
   grid-template-columns: 1.5fr 2fr;
+  grid-template-rows: auto 1fr;
   height: 100%;
   width: 100%;
   grid-gap: 1.5rem;
   margin-top: 3rem;
+}
+.financial-options {
+  grid-column: span 2;
+  position: relative;
+}
+.financial-date-option {
+  cursor: pointer;
+}
+.financial-date-option h5 {
+  font-size: 1.2rem;
+}
+.financial-date-modal {
+  position: absolute;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  bottom: -310px;
+  right: 0;
+  width: clamp(300px, 30vw, 350px);
+  height: auto;
+  background-color: #121421;
+  border: solid 1px white;
+  row-gap: 2rem;
+}
+.financial-date-modal h2{
+  padding-left: 4rem;
 }
 .data-card {
   background-color: #1e202c;
@@ -167,7 +193,7 @@
   row-gap: 2rem;
 }
 .display-options-modal h2 {
-  padding-left: 3.5rem;
+  padding-left: 4rem;
 }
 .display-option {
   padding-left: 4rem;
@@ -293,17 +319,16 @@
   border: solid 2px #a52a2a;
 }
 
-
 /* Tablets */
 @media only screen and (max-width: 1100px) {
   .receipts-container {
-     grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
   .receipt-actions button {
     /* border: solid 1px white; */
     padding: 0.8rem 1rem;
   }
-  .financial-info{
+  .financial-info {
     grid-template-columns: 1fr 1fr;
   }
   .data-card h2 {

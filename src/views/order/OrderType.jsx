@@ -21,14 +21,14 @@ function OrderType() {
         >
           Pick-Up
         </button>
-        {/* DINEINN */}
+        {/* DINEIN */}
         <button
-          className={orderType === "DINE_INN" ? "order-type-active" : undefined}
+          className={orderType === "DINE_IN" ? "order-type-active" : undefined}
           onClick={() => {
-            dispatch(setOrder(["setOrderType", "DINE_INN"]));
+            dispatch(setOrder(["setOrderType", "DINE_IN"]));
           }}
         >
-          Dine Inn
+          dine in
         </button>
         {/* DELIVERY */}
         <button

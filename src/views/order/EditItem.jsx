@@ -97,8 +97,10 @@ function EditItem({ handleAddItem }) {
   useEffect(() => {
     if (item.selectionList.itemLimit > 0) {
       dispatch(setOrderOptions(["setEditingTab", "Selection List"]));
-    } else {
+    } else if (item.swappable) {
       dispatch(setOrderOptions(["setEditingTab", "Swap"]));
+    } else {
+      dispatch(setOrderOptions(["setEditingTab", "No Add"]));
     }
   }, [editingItemIndex]);
   useEffect(() => {
@@ -139,14 +141,16 @@ function EditItem({ handleAddItem }) {
                 Selection List
               </button>
             )}
-            <button
-              className={editingTab === "Swap" ? "editing-tab-active" : undefined}
-              onClick={(e) => {
-                dispatch(setOrderOptions(["setEditingTab", "Swap"])); //Change was used instead
-              }}
-            >
-              Change
-            </button>
+            {item.swappable && (
+              <button
+                className={editingTab === "Swap" ? "editing-tab-active" : undefined}
+                onClick={() => {
+                  dispatch(setOrderOptions(["setEditingTab", "Swap"])); //Change was used instead
+                }}
+              >
+                Change
+              </button>
+            )}
             <button
               className={editingTab === "No Add" ? "editing-tab-active" : undefined}
               onClick={(e) => {
@@ -329,7 +333,7 @@ function EditItem({ handleAddItem }) {
                   <div
                     key={key}
                     className="add-or-no-add-items col-c-c"
-                    style={{ backgroundColor: modifier.checked ? "#20b98a" : "white" }}
+                    style={{ backgroundColor: modifier.checked ? "#20b98a" : "rgb(247, 232, 191)" }}
                     onClick={() => {
                       dispatch(setOrder(["TOGGLE_MODIFIER", modifier]));
                     }}

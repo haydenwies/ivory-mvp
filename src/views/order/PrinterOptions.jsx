@@ -9,54 +9,52 @@ import { formatOrder, numbersOnlyPhoneNum } from "../../utils/customerInfoUtils"
 import { setOrderManagement } from "../../redux/orderInfo";
 import { useCheckPrinted } from "../../hooks/useCheckPrinted";
 import { useFailedPrinting } from "../../hooks/useFailedPrinting";
+import { usePrintOrder } from "../../hooks/usePrintOrder";
 import "./printerOptions.css";
 function PrinterOptions() {
-  const dispatch = useDispatch();
-  const { order, orderOptions } = useSelector(({ orderInfo }) => orderInfo);
+  // const dispatch = useDispatch();
+  const { order } = useSelector(({ orderInfo }) => orderInfo);
   const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.printers);
-
-  const [resolvedPrinting] = useCheckPrinted();
-  const [failedPrinting] = useFailedPrinting();
   const { pausePrinting } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
+  const { printOrder } = usePrintOrder();
+  // const printOrder = async (printerChoice) => {
+  //   const { finalizedOrder, printInfo } = formatOrder(printerChoice, printerOptions, order, orderOptions, {
+  //     calculateFinishTime,
+  //     getDate,
+  //     getTime,
+  //     getSeconds,
+  //   });
 
-  const printOrder = async (printerChoice) => {
-    const { finalizedOrder, printInfo } = formatOrder(printerChoice, printerOptions, order, orderOptions, {
-      calculateFinishTime,
-      getDate,
-      getTime,
-      getSeconds,
-    });
+  //   dispatch(setInstances(["setPausePrinting", true])); //Disables the print button
 
-    dispatch(setInstances(["setPausePrinting", true])); //Disables the print button
+  //   await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder); //Save Only in firestore
 
-    await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder); //Save Only in firestore
+  //   console.log("Printers total", printInfo.printers.length)
+  //   console.log(printInfo.printers.length !== 0)
 
-    console.log("Printers total", printInfo.printers.length)
-    console.log(printInfo.printers.length !== 0)
+  //   // Check if there are any printers we need to print to.
+  //   if (printInfo.printers.length !== 0) {
+  //     console.log("Sent print info");
+  //     await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
 
-    // Check if there are any printers we need to print to.
-    if (printInfo.printers.length !== 0) {
-      console.log("Sent print info");
-      await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
+  //     // Checks if the printer script is the issue
+  //     let timeoutId = setTimeout(() => {
+  //       alert("The central printing computer is down.");
+  //       dispatch(setInstances(["setPausePrinting", false]));
+  //     }, 60000);
 
-      // Checks if the printer script is the issue
-      let timeoutId = setTimeout(() => {
-        alert("The central printing computer is down.");
-        dispatch(setInstances(["setPausePrinting", false]));
-      }, 60000);
-
-      //Checks if the printer has finished printing from the thermal printer
-      failedPrinting("errLog", ["id", "==", finalizedOrder.id], timeoutId);
-      resolvedPrinting("orders", ["id", "==", finalizedOrder.id], timeoutId);
-    } else {
-      //Save Onlys disable the paused printing
-      dispatch(setInstances(["setPausePrinting", false]));
-      dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
-      dispatch(setOrderManagement(["RESET_ORDER"]));
-    }
-  };
+  //     //Checks if the printer has finished printing from the thermal printer
+  //     failedPrinting("errLog", ["id", "==", finalizedOrder.id], timeoutId);
+  //     resolvedPrinting("orders", ["id", "==", finalizedOrder.id], timeoutId);
+  //   } else {
+  //     //Save Onlys disable the paused printing
+  //     dispatch(setInstances(["setPausePrinting", false]));
+  //     dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
+  //     dispatch(setOrderManagement(["RESET_ORDER"]));
+  //   }
+  // };
 
   return (
     <>
@@ -70,7 +68,7 @@ function PrinterOptions() {
                   key={key}
                   className={`print ${printer.name}-print`}
                   onClick={() => {
-                    printOrder(printer.name);
+                    printOrder(printer.name, order, "ORDER");
                   }}
                   disabled={pausePrinting}
                   style={{
@@ -84,7 +82,7 @@ function PrinterOptions() {
               <button
                 className="print save-only-print"
                 onClick={() => {
-                  printOrder("Save Only");
+                  printOrder("Save Only", order, "ORDER");
                 }}
                 disabled={pausePrinting}
                 style={{
@@ -97,7 +95,7 @@ function PrinterOptions() {
               <button
                 className="print both-print"
                 onClick={() => {
-                  printOrder("Both");
+                  printOrder("Both", order, "ORDER");
                 }}
                 disabled={pausePrinting}
                 style={{
