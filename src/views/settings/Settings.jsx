@@ -1,5 +1,4 @@
 import React from "react";
-import { NavigationIcon } from "../../Assets/Images";
 import MyAccount from "./MyAccount";
 
 import "./settings.css";

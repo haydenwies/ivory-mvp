@@ -1,9 +1,8 @@
 import React from "react";
 import "./printerSetup.css";
-import { Trash } from "../../Assets/Images";
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useReducer } from "react";
 import { db } from "../../firebase/config";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { useSelector } from "react-redux";
 const PRINTER_ACTIONS = {
   SET: "set",

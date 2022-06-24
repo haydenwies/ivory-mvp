@@ -10,10 +10,6 @@ import { SPECIAL_COMBO } from "../../redux/menuData";
 
 function EditItem({ handleAddItem }) {
   const dispatch = useDispatch();
-  // Functionality State
-  const { editItemOn, categoryType } = useSelector(
-    ({ functionality }) => functionality.instances[functionality.indexInstance]
-  );
 
   // Menu Data State
   const { nonSwappable, menuItems, menuCategories } = useSelector(({ menuData }) => menuData);
@@ -53,7 +49,7 @@ function EditItem({ handleAddItem }) {
     if (
       currentSwapItem.name === "" ||
       !currentSwapItem.hasOwnProperty("name") ||
-      desiredSwapItem.name == "" ||
+      desiredSwapItem.name === "" ||
       !desiredSwapItem.hasOwnProperty("name")
     ) {
       alert("Select swap items");

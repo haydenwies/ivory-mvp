@@ -28,14 +28,14 @@ export const usePrintOrder = () => {
       getTime,
       getSeconds,
     });
-
+    
     dispatch(setInstances(["setPausePrinting", true])); //Disables the print button
     await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder); //Save Only in firestore
 
     // Check if there are any printers we need to print to.
     if (printInfo.printers.length !== 0) {
       console.log("Sent print info");
-      //   await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
+        await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
 
       // Checks if the printer script is the issue
       let timeoutId = setTimeout(() => {

@@ -19,8 +19,8 @@ function FinancialInfo() {
     tempTaxes = tempRev * TAX;
     tempAfterTaxes = tempRev - tempTaxes;
     setTotalRev(parseFloat(tempRev));
-    setTaxes(parseFloat(tempRev));
-    setAfterTaxes(parseFloat(tempRev));
+    setTaxes(parseFloat(tempTaxes));
+    setAfterTaxes(parseFloat(tempAfterTaxes));
   };
   const [showModal, setShowModal] = useState(false);
   const [totalRev, setTotalRev] = useState(0);

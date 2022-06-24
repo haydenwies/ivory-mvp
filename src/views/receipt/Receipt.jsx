@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./receipt.css";
-import { NavigationTab, XIcon } from "../../Assets/Images";
+import { XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
-import { setNavOn } from "../../redux/functionality";
 import { Totals } from "../../utils/totalCalculations";
 import { setOrder, setOrderOptions } from "../../redux/orderInfo";
 import { setInstances } from "../../redux/functionality";
@@ -17,11 +16,9 @@ function Receipt() {
     beforeTaxDiscount,
     afterTaxDiscount,
     total,
-    paymentMethod,
     orderType,
     deliveryFee,
   } = useSelector(({ orderInfo }) => orderInfo.order);
-  const { order } = useSelector(({ orderInfo }) => orderInfo);
   const {
     scrollDetect,
     isDiscountBeforeTax,
@@ -31,7 +28,7 @@ function Receipt() {
     editingItemIndex,
     outOfTownDeliveryOn,
   } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
-  const { editItemOn, categoryType } = useSelector(
+  const { editItemOn } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
   const { choiceList } = useSelector((state) => state.menuData);
@@ -45,7 +42,7 @@ function Receipt() {
       isDeliveryBeforeTax ? "BEFORE_TAX" : "AFTER_TAX",
       discountPercent,
       deliveryFee,
-      taxPercent,
+      taxPercent
     );
     const { subTotal, tax, total, discount } = Totals.getTotals();
 
@@ -169,7 +166,8 @@ function Receipt() {
                               <div className="modifier-right-section row-c-c">
                                 <p className="modifier-price">
                                   +$
-                                  {item.flatFeeModifierOn && (modifier.type === "No Add" || modifier.type === "Add")
+                                  {item.flatFeeModifierOn &&
+                                  (modifier.type === "No Add" || modifier.type === "Add")
                                     ? "0.00"
                                     : modifier.price.toFixed(2)}
                                 </p>

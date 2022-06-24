@@ -108,7 +108,6 @@ const formatOrder = (
   printerChoice,
   printerOptions,
   order,
-  // orderOptions,
   { calculateFinishTime, getDate, getTime, getSeconds }
 ) => {
   let idFormat = true;
@@ -116,7 +115,6 @@ const formatOrder = (
   let printers = JSON.parse(JSON.stringify(printerOptions));
 
   let finalizedOrder = JSON.parse(JSON.stringify(order));
-  console.log("THIS SHOULD BE A SCHEDULED ORDER", order.isScheduledOrder);
   finalizedOrder.finishTime = order.isScheduledOrder ? "" : calculateFinishTime(order.waitTime.magnitude);
   finalizedOrder.date = getDate();
   finalizedOrder.time = [getTime(!idFormat, isTwelveHour), getTime(!idFormat, !isTwelveHour)];

@@ -1,7 +1,6 @@
 import Login from "./views/login/Login";
 import "./globalStyles/app.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useAuthContext } from "./hooks/useAuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Logout from "./views/logout/Logout";
 import Order from "./views/order/Order";
@@ -11,21 +10,17 @@ import ViewOrders from "./views/view_orders/ViewOrders";
 import { useDispatch, useSelector } from "react-redux";
 import NavTab from "./components/navTab/NavTab";
 import { useEffect } from "react";
-import { setOrderManagement, setOrderOptions, setPrinters } from "./redux/orderInfo";
+import { setOrderManagement } from "./redux/orderInfo";
 import { setInstancesDefaultSettings } from "./redux/functionality";
-import { doc, collection, getDoc, onSnapshot, where } from "firebase/firestore";
-import { db } from "./firebase/config";
 import { useDeleteDocs } from "./hooks/useDeleteDocs";
 import Loading from "./components/loading/Loading";
 import Checkout from "./views/checkout/Checkout";
 import { useGetPrinters } from "./hooks/useGetPrinters";
 import { useGetReceipts } from "./hooks/useGetReceipts";
-import { setReceipts } from "./redux/receiptInfo";
 import { useState } from "react";
 function App() {
   // const { auth, user } = useAuthContext();
   const { navOn } = useSelector(({ functionality }) => functionality.instances[functionality.indexInstance]);
-  const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.printers);
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
   const { receiptsLoaded } = useGetReceipts("orders");
@@ -35,13 +30,6 @@ function App() {
   useEffect(() => {
     dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]));
     dispatch(setInstancesDefaultSettings(["SAVE_DEFAULT_FUNCTIONALITY"]));
-
-    // let date = new Date();
-    // let tempDates = [];
-    // tempDates.push(date.toLocaleString().slice(0, 10));
-    // tempDates.push(date.toLocaleString(date.setDate(date.getDate() - 1)).slice(0, 10));
-    // tempDates.push(date.toLocaleString(date.setDate(date.getDate() - 1)).slice(0, 10));
-    // deleteOutDatedDocs("orders", ["date", "not-in", tempDates]);
   }, []);
 
   useEffect(() => {

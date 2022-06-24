@@ -1,14 +1,13 @@
 import { useEffect, useState, useRef } from "react";
-import { Info, Search } from "../../Assets/Images";
+import { Search } from "../../Assets/Images";
 import { db } from "../../firebase/config";
-import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc } from "firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
 import "./viewOrder.css";
 import { setOrderManagement } from "../../redux/orderInfo";
 import { useNavigate } from "react-router-dom";
-import { numbersOnly, numbersOnlyPhoneNum } from "../../utils/customerInfoUtils";
+import { numbersOnly } from "../../utils/customerInfoUtils";
 import { filterPhoneNum } from "../../utils/filterUtils";
-import Loading from "../../components/loading/Loading";
 import { setFilteredReceipts, setSelectedDate } from "../../redux/receiptInfo";
 function Receipts() {
   const { receipts, activeDates, selectedDate, filteredReceipts } = useSelector(

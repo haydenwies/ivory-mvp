@@ -1,19 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCheckoutPhoneEntry, setCheckoutReceipt } from "../../redux/checkout";
 import { setFilteredReceipts } from "../../redux/receiptInfo";
-import { formatOrder, numbersOnly } from "../../utils/customerInfoUtils";
+import { numbersOnly } from "../../utils/customerInfoUtils";
 import { filterPhoneNum } from "../../utils/filterUtils";
 import "./checkout.css";
 import { usePrintOrder } from "../../hooks/usePrintOrder";
+import { doc, updateDoc } from "firebase/firestore";
+import { db } from "../../firebase/config";
+import { Totals } from "../../utils/totalCalculations";
 function Checkout() {
   const dispatch = useDispatch();
   const { receipts, filteredReceipts } = useSelector(({ receiptInfo }) => receiptInfo);
+  const { printOrder } = usePrintOrder();
+  const { order } = useSelector(({ orderInfo }) => orderInfo);
   const { checkoutReceipt, checkoutPhoneEntry } = useSelector(({ checkout }) => checkout);
-  const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.printers);
-
+  const { pausePrinting } = useSelector(
+    ({ functionality }) => functionality.instances[functionality.indexInstance]
+  );
+  const { taxPercent, isDiscountBeforeTax, isDeliveryBeforeTax, discountPercent } = useSelector(
+    ({ orderInfo }) => orderInfo.orderOptions
+  );
   const checkoutPhoneRef = useRef();
   const findByPhone = (entry, data) => {
     if (entry === "") dispatch(setFilteredReceipts(data));
@@ -27,51 +36,127 @@ function Checkout() {
     }
   };
 
+  const toggleDiscount = async (receiptDoc) => {
+    const { id, items, discounted, orderType, deliveryFee } = receiptDoc;
+    // Gets the new totals with the opposite discounted option
+    new Totals(
+      items,
+      !discounted,
+      orderType === "DELIVERY",
+      isDiscountBeforeTax ? "BEFORE_TAX" : "AFTER_TAX",
+      isDeliveryBeforeTax ? "BEFORE_TAX" : "AFTER_TAX",
+      discountPercent,
+      deliveryFee,
+      taxPercent
+    );
+    const { subTotal, tax, total, discount } = Totals.getTotals();
+
+    const receiptRef = doc(db, "orders", id); //Gets reference to current receipt being edited
+
+    if (isDiscountBeforeTax) {
+      await updateDoc(receiptRef, {
+        discounted: !discounted,
+        subTotal: parseFloat(subTotal),
+        tax: parseFloat(tax),
+        beforeTaxDiscount: parseFloat(discount),
+        total: parseFloat(total),
+      });
+    } else {
+      await updateDoc(receiptRef, {
+        discounted: !discounted,
+        subTotal: parseFloat(subTotal),
+        tax: parseFloat(tax),
+        afterTaxDiscount: parseFloat(discount),
+        total: parseFloat(total),
+      });
+    }
+  };
+
   useEffect(() => {
-    console.log(checkoutReceipt.id !== undefined && checkoutReceipt.id === filteredReceipts.id);
     checkoutPhoneRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    findByPhone(checkoutPhoneEntry, receipts);
+
+    //We update the checkoutReceipt when the discount is added
+    if (checkoutReceipt.id !== undefined) {
+      let updatedDoc = receipts.find((item) => item.id === checkoutReceipt.id);
+      dispatch(setCheckoutReceipt(updatedDoc));
+    }
+  }, [receipts]);
+
   return (
     <div className="checkout-container">
       <div className="checkout-content">
-        <div className="checkout-totals-container">
-          <div className="checkout-total col-c-c checkout-subtotal">
-            <h3>Sub-Total</h3>
-            <h3>{checkoutReceipt.subTotal !== undefined ? `$${checkoutReceipt.subTotal}` : "$0.00"}</h3>
+        {checkoutReceipt !== undefined && (
+          <div className="checkout-totals-container">
+            <div className="checkout-total col-c-c checkout-subtotal">
+              <h3>Sub-Total</h3>
+              <h3>
+                {checkoutReceipt.id !== undefined
+                  ? checkoutReceipt.subTotal !== ""
+                    ? `$${checkoutReceipt.subTotal}`
+                    : "$0.00"
+                  : "$0.00"}
+              </h3>
+            </div>
+            <div className="checkout-total col-c-c checkout-tax">
+              <h3>Tax</h3>
+              <h3>
+                {checkoutReceipt.id !== undefined
+                  ? checkoutReceipt.tax !== ""
+                    ? `$${checkoutReceipt.tax}`
+                    : "$0.00"
+                  : "$0.00"}
+              </h3>
+            </div>
+            <div className="checkout-total col-c-c checkout-discount">
+              <h3>Discount</h3>
+              <h3>
+                {checkoutReceipt.id !== undefined
+                  ? checkoutReceipt.discounted
+                    ? `-$${
+                        isDiscountBeforeTax
+                          ? checkoutReceipt.beforeTaxDiscount.toFixed(2)
+                          : checkoutReceipt.afterTaxDiscount.toFixed(2)
+                      }`
+                    : "$0.00"
+                  : "$0.00"}
+              </h3>
+            </div>
+            <div className="checkout-total col-c-c checkout-grandtotal">
+              <h3>Total</h3>
+              <h3>
+                {checkoutReceipt.id !== undefined
+                  ? checkoutReceipt.total !== ""
+                    ? `$${checkoutReceipt.total}`
+                    : "$0.00"
+                  : "$0.00"}
+              </h3>
+            </div>
           </div>
-          <div className="checkout-total col-c-c checkout-tax">
-            <h3>Tax</h3>
-            <h3>{checkoutReceipt.tax !== undefined ? `$${checkoutReceipt.tax}` : "$0.00"}</h3>
-          </div>
-          <div className="checkout-total col-c-c checkout-discount">
-            <h3>Discount</h3>
-            <h3>{checkoutReceipt.discount !== undefined ? `-$${checkoutReceipt.discount}` : "$0.00"}</h3>
-          </div>
-          <div className="checkout-total col-c-c checkout-grandtotal">
-            <h3>Total</h3>
-            <h3>{checkoutReceipt.total !== undefined ? `$${checkoutReceipt.total}` : "$0.00"}</h3>
-          </div>
-        </div>
+        )}
         <div className="checkout-print-container row-c-c">
-          <button className="checkout-print">Print</button>
+          <button
+            className="checkout-print"
+            disabled={pausePrinting}
+            style={{
+              backgroundColor: pausePrinting ? "#1d675083" : "rgb(25, 126, 95)",
+              color: pausePrinting ? "darkgrey" : "white",
+            }}
+            onClick={() => {
+              printOrder("Cashier", order, "RECEIPT");
+            }}
+          >
+            Print
+          </button>
         </div>
       </div>
 
       {/* ----------------------------- Checkout Receipts Container----------------------------- */}
 
       <div className="checkout-receipt-content">
-        <div className="checkout-search-container row-c-fs">
-          <input
-            type="text"
-            ref={checkoutPhoneRef}
-            value={checkoutPhoneEntry}
-            onChange={(e) => {
-              findByPhone(e.target.value, receipts);
-            }}
-            placeholder="Search Phone Number"
-            className="checkout-search"
-          />
-        </div>
         <div className="checkout-receipts-container col-fs-c">
           {[...filteredReceipts].reverse().map((doc, key) => (
             <div
@@ -81,9 +166,12 @@ function Checkout() {
               }}
               style={{
                 border:
-                  checkoutReceipt.id !== undefined && checkoutReceipt.id === doc.id
-                    ? "2px solid rgb(32, 185, 138)"
+                  checkoutReceipt !== undefined
+                    ? checkoutReceipt.id !== undefined && checkoutReceipt.id === doc.id
+                      ? "2px solid rgb(32, 185, 138)"
+                      : ""
                     : "",
+                cursor: "default",
               }}
               className="checkout-receipt-main-content col-c-c"
             >
@@ -176,7 +264,7 @@ function Checkout() {
                   <b>${doc.subTotal.toFixed(2)}</b>
                 </p>
               </div>
-              {doc.discounted && doc.beforeTaxDiscount !== 0 && (
+              {doc.discounted && isDiscountBeforeTax && (
                 <div className="receipt-property row-sb-c">
                   <p>Discount:</p>
                   <p>
@@ -190,7 +278,7 @@ function Checkout() {
                   <b>${doc.tax.toFixed(2)}</b>
                 </p>
               </div>
-              {doc.discounted && doc.afterTaxDiscount !== 0 && (
+              {doc.discounted && !isDiscountBeforeTax && (
                 <div className="receipt-property row-sb-c">
                   <p>Discount:</p>
                   <p>
@@ -212,8 +300,31 @@ function Checkout() {
                   <b>${doc.total.toFixed(2)}</b>
                 </p>
               </div>
+              <div className="discount-button col-c-c">
+                <h3>Add Discount</h3>
+                <button
+                  className={doc.discounted ? "full-receipt-btn full-receipt-on" : "full-receipt-btn"}
+                  onClick={() => {
+                    toggleDiscount(doc);
+                  }}
+                />
+              </div>
             </div>
           ))}
+        </div>
+
+        {/* ----------------------------- Search Phone Number ----------------------------- */}
+        <div className="checkout-search-container row-c-fs">
+          <input
+            type="text"
+            ref={checkoutPhoneRef}
+            // value={checkoutPhoneEntry}
+            onChange={(e) => {
+              findByPhone(e.target.value, receipts);
+            }}
+            placeholder="Search Phone Number"
+            className="checkout-search"
+          />
         </div>
       </div>
     </div>
