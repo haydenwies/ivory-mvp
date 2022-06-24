@@ -1,5 +1,5 @@
 :root {
-  --customer-info-h1: clamp(1rem, 50% + 20px, 2rem);
+  --customer-info-h1: clamp(1rem, 50% + 20px, 1.5rem);
   --customer-info-btn: clamp(1rem, 30vw + 1rem, 1.5rem);
   --customer-info-content-width: 70%;
 }
@@ -15,6 +15,7 @@
   background-color: #121421;
   box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 0px, rgba(255, 255, 255, 1) 0px 0px 3px;
   z-index: 2;
+  min-height: var(--min-modal-height);
 }
 h1 {
   font-size: var(--customer-info-h1);
@@ -26,7 +27,6 @@ h1 {
 .input-info button {
   background: none;
   border: 2px solid rgba(255, 255, 255, 0.5);
-
   /* box-shadow: inset rgba(255, 255, 255, 1) 0px 0px 2px, rgba(255, 255, 255, 1) 0px 0px 2px; */
   padding: 0.8rem 0;
   width: var(--customer-info-content-width);
@@ -45,13 +45,29 @@ h1 {
   left: 0;
   width: 50px;
   height: 50px;
-  background-color: crimson;
+  background-color: #a52a2a;
   z-index: 0;
 }
-.print {
-  background-color: #20b68a;
-  width: var(--customer-info-content-width);
-  padding:1rem 0;
-  border-radius: .5rem;
-  font-size: 1.2rem;
+
+/* Tablet */
+@media only screen and (max-width: 1050px) {
+  .input-info input {
+    font-size: 1.1rem;
+  }
+  .order-type button {
+    font-size: 1.1rem !important;
+  }
+  .wait-time button {
+    font-size: 1.1rem;
+  }
+  .notes textarea {
+    font-size: 1.1rem !important;
+  }
+  .printer-options {
+    position: relative;
+    right: 1rem;
+  }
+  .print {
+    font-size: 1.1rem;
+  }
 }

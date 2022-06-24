@@ -137,6 +137,7 @@ function WaitTime() {
                 <div className="wait-times col-c-c">
                   {[
                     { displayName: "10 Minutes", units: "MM", magnitude: 10 },
+                    { displayName: "15 Minutes", units: "MM", magnitude: 15 },
                     { displayName: "20 Minutes", units: "MM", magnitude: 20 },
                     { displayName: "30 Minutes", units: "MM", magnitude: 30 },
                     { displayName: "40 Minutes", units: "MM", magnitude: 40 },

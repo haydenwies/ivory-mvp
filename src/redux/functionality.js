@@ -26,7 +26,6 @@ export const functionalitySlice = createSlice({
 
       switch (actionType) {
         case "setNavOn":
-          console.log(value);
           instance.navOn = value;
           break;
         case "setCustomerInfoOn":
@@ -50,6 +49,9 @@ export const functionalitySlice = createSlice({
         //This resets all modals and closes them
         case "RESET_DEFAULT_FUNCTIONALITY":
           instances[indexInstance] = state.instancesDefaultSettings[indexInstance];
+          break;
+        case "setPausePrinting":
+          instance.pausePrinting = value;
           break;
       }
     },

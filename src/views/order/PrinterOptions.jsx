@@ -1,66 +1,69 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setOrderOptions } from "../../redux/orderInfo";
+import { useSelector } from "react-redux";
+
+import { usePrintOrder } from "../../hooks/usePrintOrder";
 import "./printerOptions.css";
 function PrinterOptions() {
-  const dispatch = useDispatch();
-  const { printers, printerOptions, printerToggles } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
+  // const dispatch = useDispatch();
+  const { order } = useSelector(({ orderInfo }) => orderInfo);
+  const { printerOptions } = useSelector(({ orderInfo }) => orderInfo.printers);
+  const { pausePrinting } = useSelector(
+    ({ functionality }) => functionality.instances[functionality.indexInstance]
+  );
+  const { printOrder } = usePrintOrder();
 
   return (
     <>
       <div className="printer-options col-c-c">
-        <div className="printer-options-content col-fs-c">
+        <div className="printer-options-content col-fe-c">
           <h4>Printer Options</h4>
-          {Array.from(Array(printerToggles.length)).map((undefined, optionIndex) => (
-            <div className="printer-option col-c-c" key={optionIndex}>
-              <h5>Option {optionIndex + 1}</h5>
-              {/* ----------------------------- Printer Choice ----------------------------- */}
+          <div className="printer-option col-c-c">
+            <div className="printer-choices">
+              {[...printerOptions].reverse().map((printer, key) => (
+                <button
+                  key={key}
+                  className={`print ${printer.name}-print`}
+                  onClick={() => {
+                    printOrder(printer.name, order, "ORDER");
+                  }}
+                  disabled={pausePrinting}
+                  style={{
+                    backgroundColor: pausePrinting ? "#1d675083" : "rgb(25, 126, 95)",
+                    color: pausePrinting ? "darkgrey" : "white",
+                  }}
+                >
+                  {printer.name}
+                </button>
+              ))}
               <button
-                className="printer-choice"
+                className="print save-only-print"
                 onClick={() => {
-                  dispatch(
-                    setOrderOptions([
-                      "setPrinterToggles",
-                      { index: optionIndex, isOn: !printerToggles[optionIndex] },
-                    ])
-                  );
+                  printOrder("Save Only", order, "ORDER");
+                }}
+                disabled={pausePrinting}
+                style={{
+                  backgroundColor: pausePrinting ? "#1d675083" : "rgb(25, 126, 95)",
+                  color: pausePrinting ? "darkgrey" : "white",
                 }}
               >
-                {printers[optionIndex].name}
+                Save Only
               </button>
-              {/* ----------------------------- Printer Selection ----------------------------- */}
-              {printerToggles[optionIndex] && (
-                <div className="printer-selection col-c-c">
-                  {printerOptions.map((printer, key) => (
-                    <div
-                      key={key}
-                      className="printer"
-                      onClick={() => {
-                        dispatch(
-                          setOrderOptions([
-                            "setPrinter",
-                            { index: optionIndex, name: printer.name, ip: printer.ip },
-                          ])
-                        );
-                        dispatch(setOrderOptions(["setPrinterToggles", { index: optionIndex, isOn: false }]));
-                      }}
-                    >
-                      <button className="printer-name">{printer.name}</button>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <button
+                className="print both-print"
+                onClick={() => {
+                  printOrder("Both", order, "ORDER");
+                }}
+                disabled={pausePrinting}
+                style={{
+                  backgroundColor: pausePrinting ? "#1d675083" : "rgb(25, 126, 95)",
+                  color: pausePrinting ? "darkgrey" : "white",
+                }}
+              >
+                Both
+              </button>
             </div>
-          ))}
+          </div>
         </div>
-        {/* <div className="reprint-order">
-    <h4>Reprint Order</h4>
-    <img src="" alt="" />
-    </div>
-    <div className="save-order">
-    <h4>Save Order</h4>
-    <img src="" alt="" />
-</div> */}
       </div>
     </>
   );

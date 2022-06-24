@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import BackgroundExit from "../../components/backgroundExit/BackgroundExit";
 import Numpad from "../../components/numpad/Numpad";
 import "./customItem.css";
@@ -11,6 +11,8 @@ import { setInstances } from "../../redux/functionality";
 function CustomItem() {
   const { customItem } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
   const dispatch = useDispatch();
+  const customNameRef = useRef();
+
   const validPrice = () => {
     let decimalCount = 0;
     for (let i = 0; i < customItem.price.length; i++) {
@@ -22,9 +24,22 @@ function CustomItem() {
     }
     dispatch(setOrderOptions(["ADD_CUSTOM_ITEM"]));
   };
+
+  const handleQuickClose = (e) => {
+    e.preventDefault();
+    dispatch(setInstances(["setCustomItemOn", false]));
+  };
+  useEffect(() => {
+    customNameRef.current.focus();
+  }, []);
   return (
     <>
-      <div className="custom-item">
+      <div
+        className="custom-item"
+        onContextMenu={(e) => {
+          handleQuickClose(e);
+        }}
+      >
         <div className="custom-item-info row-c-c">
           <div className="custom-item-content">
             <h1>Add Custom Item</h1>
@@ -42,6 +57,7 @@ function CustomItem() {
                 type="text"
                 placeholder="Custom Item Name"
                 value={customItem.name}
+                ref={customNameRef}
                 onChange={(e) => {
                   dispatch(setOrderOptions(["setCustomItemName", e.target.value]));
                 }}
@@ -56,27 +72,29 @@ function CustomItem() {
                 X
               </button>
             </div>
-            <div className="custom-item-price row-c-fe">
-              <input
-                type="text"
-                placeholder="$0.00"
-                value={customItem.price}
-                onChange={(e) => {
-                  dispatch(setOrderOptions(["setCustomItemPrice", priceInputCheck(e.target.value)]));
-                }}
-              />
-              <button
-                className="clear-custom-price"
-                onClick={() => {
-                  dispatch(setOrderOptions(["setCustomItemPrice", ""]));
-                }}
-                tabIndex={-1}
-              >
-                X
-              </button>
-            </div>
-            <div className="custom-item-num-pad">
-              <Numpad />
+            <div className="custom-item-middle-section row-sb-c">
+              <div className="custom-item-price row-c-fe">
+                <input
+                  type="text"
+                  placeholder="$0.00"
+                  value={customItem.price}
+                  onChange={(e) => {
+                    dispatch(setOrderOptions(["setCustomItemPrice", priceInputCheck(e.target.value)]));
+                  }}
+                />
+                <button
+                  className="clear-custom-price"
+                  onClick={() => {
+                    dispatch(setOrderOptions(["setCustomItemPrice", ""]));
+                  }}
+                  tabIndex={-1}
+                >
+                  X
+                </button>
+              </div>
+              <div className="custom-item-num-pad">
+                <Numpad />
+              </div>
             </div>
             <div
               className="add-custom-item row-c-c"

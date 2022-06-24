@@ -1,7 +1,6 @@
 import Login from "./views/login/Login";
 import "./globalStyles/app.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useAuthContext } from "./hooks/useAuthContext";
 import PrivateRoute from "./components/PrivateRoute";
 import Logout from "./views/logout/Logout";
 import Order from "./views/order/Order";
@@ -11,16 +10,35 @@ import ViewOrders from "./views/view_orders/ViewOrders";
 import { useDispatch, useSelector } from "react-redux";
 import NavTab from "./components/navTab/NavTab";
 import { useEffect } from "react";
-import {setOrderManagement} from "./redux/orderInfo"
+import { setOrderManagement } from "./redux/orderInfo";
 import { setInstancesDefaultSettings } from "./redux/functionality";
+import { useDeleteDocs } from "./hooks/useDeleteDocs";
+import Loading from "./components/loading/Loading";
+import Checkout from "./views/checkout/Checkout";
+import { useGetPrinters } from "./hooks/useGetPrinters";
+import { useGetReceipts } from "./hooks/useGetReceipts";
+import { useState } from "react";
 function App() {
   // const { auth, user } = useAuthContext();
-  const { navOn } = useSelector(({functionality}) => functionality.instances[functionality.indexInstance]);
+  const { navOn } = useSelector(({ functionality }) => functionality.instances[functionality.indexInstance]);
+  const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]))
-    dispatch(setInstancesDefaultSettings(["SAVE_DEFAULT_FUNCTIONALITY"]))
-  },[])
+  const { receiptsLoaded } = useGetReceipts("orders");
+  const { printersLoaded } = useGetPrinters("orders");
+  const { deleteOutDatedReceipts } = useDeleteDocs();
+
+  useEffect(() => {
+    dispatch(setOrderManagement(["SAVE_DEFAULT_ORDER"]));
+    dispatch(setInstancesDefaultSettings(["SAVE_DEFAULT_FUNCTIONALITY"]));
+  }, []);
+
+  useEffect(() => {
+    if (receiptsLoaded && printersLoaded) {
+      setLoaded(true);
+      deleteOutDatedReceipts();
+    }
+  }, [receiptsLoaded, printersLoaded]);
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -40,8 +58,14 @@ function App() {
             element={
               <PrivateRoute>
                 {navOn && <Nav />}
-                <NavTab />
-                <Order />
+                {loaded ? (
+                  <>
+                    <Order />
+                    <NavTab />
+                  </>
+                ) : (
+                  <Loading pageName={"Order Page"} />
+                )}
               </PrivateRoute>
             }
           />
@@ -56,7 +80,17 @@ function App() {
             }
           />
           <Route
-            path="/settings"
+            path="/checkout"
+            element={
+              <PrivateRoute>
+                {navOn && <Nav />}
+                <NavTab />
+                <Checkout />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/settings/*"
             element={
               <PrivateRoute>
                 {navOn && <Nav />}

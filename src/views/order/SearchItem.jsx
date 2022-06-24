@@ -15,8 +15,6 @@ function SearchItem() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(setOrder(["setSearchedItem", ""]));
-    // dispatch(setOrderOptions(["setFilteredItems", []]));
     searchItemRef.current.focus();
     return () => {
       dispatch(setOrder(["setSearchedItem", ""]));
@@ -25,29 +23,34 @@ function SearchItem() {
   }, []);
   return (
     <>
-      {/* <BackgroundExit /> */}
+      <BackgroundExit
+        exitPage={() => {
+          dispatch(setInstances(["setSearchItemOn", false]));
+        }}
+        bgColour={"#090a107a"}
+      />
 
-      <div className="search-item col-c-c">
-        <button
-          className="exit-search row-c-c"
-          onClick={() => {
-            dispatch(setInstances(["setSearchItemOn", false]));
-          }}
-        >
-          <img src={XIcon} alt="" />
-        </button>
-        <div className="search-item-content col-c-c">
+      <button
+        className="exit-search row-c-c"
+        onClick={() => {
+          dispatch(setInstances(["setSearchItemOn", false]));
+        }}
+      >
+        <img src={XIcon} alt="" />
+      </button>
+      <div className="search-item col-fs-c">
+        <div className="search-item-content col-fs-c">
           <input
             type="text"
             placeholder="Search Item . . ."
             value={searchedItem}
             ref={searchItemRef}
             onChange={(e) => {
-              dispatch(setOrder(["setSearchedItem", e.target.value]));
+              dispatch(setOrderOptions(["setSearchedItem", e.target.value]));
               dispatch(setOrderOptions(["setFilteredItems", getSimilarItems(e.target.value, menuItems)]));
             }}
           />
-          <div className="search-list col-fs-c">
+          <div className="search-list col-fs-c" tabIndex={-1}>
             {filteredItems.length > 0 &&
               filteredItems.map((item, key) => (
                 <button

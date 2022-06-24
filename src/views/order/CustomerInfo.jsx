@@ -1,11 +1,9 @@
-import React, { useRef } from "react";
+import React from "react";
 import "./customerInfo.css";
 import { XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
-import { setInstances, setInstancesDefaultSettings } from "../../redux/functionality";
-import { db } from "../../firebase/config";
-import { collection, addDoc, doc, setDoc, collectionGroup } from "firebase/firestore";
-import { calculateFinishTime, getDate, getTime, getSeconds } from "../../utils/dateFormat";
+import { setInstances } from "../../redux/functionality";
+
 // Views or Components
 import BackgroundExit from "../../components/backgroundExit/BackgroundExit";
 import WaitTime from "./WaitTime";
@@ -13,44 +11,13 @@ import PaymentMethod from "./PaymentMethod";
 import PhoneNumber from "./PhoneNumber";
 import OrderType from "./OrderType";
 import Notes from "./Notes";
-import { numbersOnlyPhoneNum } from "../../utils/customerInfoUtils";
-import { setOrderOptions, setOrderManagement } from "../../redux/orderInfo";
+
 import PrinterOptions from "./PrinterOptions";
-// import {firestore} from "./firebaseInit";
-// import {addDoc, setDoc, doc, collectio} from "firebase/firestore";
 function CustomerInfo() {
   const dispatch = useDispatch();
-  const { order, orderOptions } = useSelector(({ orderInfo }) => orderInfo);
-  const { phoneNumber, isScheduledOrder } = useSelector(({ orderInfo }) => orderInfo.order);
+  // const {} = useSelector(({ orderInfo }) => orderInfo.order);
+
   /* ----------------------------- Methods ----------------------------- */
-  const printOrder = async () => {
-    // const ordersRef = collection(db, "orders");
-    // const printQueRef = collection(db, "printQue");
-
-    let idFormat = true;
-    let isTwelveHour = true;
-    let finalizedOrderOptions = Object.assign({}, orderOptions);
-    let finalizedOrder = Object.assign({}, order);
-    finalizedOrder.finishTime = isScheduledOrder ? "" : calculateFinishTime(order.waitTime.magnitude);
-    finalizedOrder.date = getDate();
-    finalizedOrder.time = [getTime(!idFormat, isTwelveHour), getTime(!idFormat, !isTwelveHour)];
-    finalizedOrder.id = `${getDate(idFormat)}${getTime(idFormat)}${getSeconds(
-      order.phoneNumber
-    )}${numbersOnlyPhoneNum(phoneNumber)}`;
-
-    let printInfo = {
-      time: finalizedOrder.time,
-      date: finalizedOrder.date,
-      printers: finalizedOrderOptions.printers.filter((printer) => printer.name !== "No Printer"),
-      id: finalizedOrder.id,
-    };
-
-    await setDoc(doc(db, "orders", finalizedOrder.id), finalizedOrder);
-    await setDoc(doc(db, "printQue", finalizedOrder.id), printInfo);
-
-    dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
-    dispatch(setOrderManagement(["RESET_ORDER"]));
-  };
 
   return (
     <>
@@ -79,13 +46,10 @@ function CustomerInfo() {
           <PaymentMethod />
           {/* Notes*/}
           <Notes />
-          {/* PRINT RECEIPT */}
-          <button className="print" onClick={printOrder}>
-            Print Receipt
-          </button>
         </div>
 
         {/* ----------------------------- Print Options ----------------------------- */}
+        {/* PRINT RECEIPT*/}
         <PrinterOptions />
       </div>
     </>

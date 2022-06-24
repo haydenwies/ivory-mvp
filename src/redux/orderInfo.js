@@ -1,283 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { calculateFinishTime } from "../utils/dateFormat";
-const ADDRESS_LIST = [
-  "1st Alley",
-  "1st Street",
-  "2nd Street",
-  "3rd Street",
-  "4th Street",
-  "5th Street",
-  "Adams Avenue",
-  "Alba Avenue",
-  "Alexander Avenue",
-  "Allen Street",
-  "Andover Avenue",
-  "Angus Street",
-  "Ann Street",
-  "Arbor Lane",
-  "Argyle Street",
-  "Armstrong Drive",
-  "Balazs Court",
-  "Baldwin Street",
-  "Ball Alley",
-  "Ball Street",
-  "Barker Street",
-  "Bear Street",
-  "Beckett Boulevard",
-  "Beech Boulevard",
-  "Belfast Circle",
-  "Bell Mill Sideroad",
-  "Belmont Avenue",
-  "Beth Court",
-  "Bidwell Street",
-  "Birch Drive",
-  "Birdyway Drive",
-  "Bloomer Street",
-  "Bobolink Drive",
-  "Bond Street",
-  "Borden Crescent",
-  "Brad Avenue",
-  "Brasher Drive",
-  "Bridge Street East",
-  "Bridge Street West",
-  "Bridle Path",
-  "Broadway",
-  "Brock Street East",
-  "Brock Street West",
-  "Brookside Lane",
-  "Burdock Court",
-  "Camdon Court",
-  "Cardinal Court",
-  "Carolina Street",
-  "Cat Alley",
-  "Catalpa Court",
-  "Cedar Street",
-  "Centennial Avenue",
-  "Charles Street",
-  "Charlotte Avenue",
-  "Christie Street",
-  "Christopher Court",
-  "Clarence Street",
-  "Clarke Street East",
-  "Clarke Street West",
-  "Clear Valley Drive",
-  "Clearview Drive",
-  "Colin Avenue",
-  "Concession Street East",
-  "Concession Street West",
-  "Coon Alley",
-  "Coreless Lane",
-  "Coyle Lane",
-  "Craig Street",
-  "Cranberry Road",
-  "Crocus Drive",
-  "Daffodil Drive",
-  "Daisy Court",
-  "Delevan Crescent",
-  "Demeyere Avenue",
-  "Denis Court",
-  "Denrich Avenue",
-  "Denton Avenue",
-  "Dereham Drive",
-  "Devon Court",
-  "Devonshire Avenue",
-  "Dogwood Drive",
-  "Duncan Street",
-  "Durham Street",
-  "Earle Street",
-  "Ebert Alley",
-  "Eden Place",
-  "Edgewood Drive",
-  "Edward Street",
-  "Edwin Crescent",
-  "Eleanor Court",
-  "Elgin Street",
-  "Elm Street",
-  "Erie Court",
-  "Esseltine Drive",
-  "Fairfield Crescent",
-  "Fairs Crescent",
-  "Fairview Street",
-  "Fairway Hills Boulevard",
-  "Falcon Road",
-  "Fernwood Drive",
-  "Forest Glen Court",
-  "Fox Alley",
-  "Frances Street",
-  "Frank Street",
-  "George Street",
-  "Gibson Drive",
-  "Glendale Drive",
-  "Glenridge Road",
-  "Goldenrod Drive",
-  "Goshen Street",
-  "Gowrie Street East",
-  "Gowrie Street West",
-  "Greeneagle Drive",
-  "Hale Street",
-  "Hampton Court",
-  "Hardy Avenue",
-  "Harris Street",
-  "Harvey Street",
-  "Hawkins Crescent",
-  "Hawthorne Street",
-  "Hemlock Drive",
-  "Herford Street",
-  "Hickory Lane",
-  "Highland Drive",
-  "Highway 3",
-  "Hilldrop Crescent",
-  "Hilliker Alley",
-  "Hillside Drive",
-  "Hillyndale Road",
-  "Hogarth Drive",
-  "Holland Gate",
-  "Hollier Drive",
-  "Howe Avenue",
-  "Hunter Crescent",
-  "Hurley Avenue",
-  "Hyman Street",
-  "Jackson Court",
-  "James Avenue",
-  "Jane Street",
-  "Jean Ferrie Court",
-  "John Pound Road",
-  "John Street",
-  "Jones Crescent",
-  "Joseph Street",
-  "Judy Avenue",
-  "Kamps Crescent",
-  "Kara Lane",
-  "King Street",
-  "Lady Avenue",
-  "Lamers Court",
-  "Langrell Avenue",
-  "Library Lane",
-  "Lincoln Street",
-  "Lindsay Street",
-  "Lisgar Avenue",
-  "Lisgar Court",
-  "London Street East",
-  "London Street West",
-  "Lorraine Avenue",
-  "Lowrie Crescent",
-  "Lyndale Road",
-  "Magnolia Court",
-  "Magnolia Drive",
-  "Maple Court",
-  "Maple Lane",
-  "Maple Villa Court",
-  "Mary Street",
-  "Mcdonald Court",
-  "Mckenzie Street",
-  "Miller Alley",
-  "Moose Street",
-  "Morning Glory Drive",
-  "Myrtle Street",
-  "Neff Alley",
-  "Nelson Street",
-  "Newell Road",
-  "Niagara Street",
-  "None",
-  "North Street East",
-  "North Street West",
-  "Northern Lane",
-  "Northview Drive",
-  "Oak Street",
-  "Old Vienna Road",
-  "Ontario Street",
-  "Otter Court",
-  "Owl Drive",
-  "Oxford Street",
-  "Park Avenue",
-  "Park Drive",
-  "Park Place",
-  "Parkdale Avenue",
-  "Parkside Drive",
-  "Parkwood Court",
-  "Parkwood Drive",
-  "Peach Street",
-  "Pearl Street",
-  "Pheasant Court",
-  "Pine Avenue",
-  "Pine Street",
-  "Poplar Street",
-  "Potters Road",
-  "Potters Road North",
-  "Primrose Drive",
-  "Prospect Street",
-  "Puc Alley",
-  "Quarter Town Line",
-  "Queen Street",
-  "Railway Street",
-  "Richards Court",
-  "Ridge Boulevard",
-  "Ridout Street East",
-  "Ridout Street West",
-  "Robin Road",
-  "Rodgers Street",
-  "Rokeby Orchard Road",
-  "Rolph Street",
-  "Rosalynn Circle",
-  "Ross Street",
-  "Rouse Street",
-  "Sanders Crescent",
-  "Sanders Street",
-  "Sandy Court",
-  "Segal Drive",
-  "Seres Drive",
-  "Simcoe Street",
-  "Sinclair Drive",
-  "South Ridge Road",
-  "Spruce Street",
-  "Stoney Court",
-  "Stubbs Court",
-  "Sycamore Drive",
-  "Tanager Drive",
-  "Taylor Lane",
-  "Thistle Court",
-  "Thomas Avenue",
-  "Thorncliff Circle",
-  "Tillson Avenue",
-  "Tillson Street",
-  "Town Line Road",
-  "Trailview Drive",
-  "Trillium Drive",
-  "Trottier Drive",
-  "Tulip Drive",
-  "Valley Road",
-  "Valley View Lane",
-  "Van Norman Drive",
-  "Van Street",
-  "Vance Drive",
-  "Venison Street East",
-  "Venison Street West",
-  "Verna Drive",
-  "Victoria Street",
-  "Victoria Way",
-  "Vienna Road",
-  "Virginia Street",
-  "Wabash Road",
-  "Walnut Drive",
-  "Washington Grand Avenue",
-  "Welding Street",
-  "Wellington Street",
-  "Weston Drive",
-  "Westtown Line",
-  "Whispering Pine Lane",
-  "Wilkins Crescent",
-  "William Street",
-  "Wilson Avenue",
-  "Windemere Avenue",
-  "Winona Drive",
-  "Wolf Street",
-  "Wood Haven Drive",
-  "Woodcock Drive",
-  "Woodland Crescent",
-  "Woodside Drive",
-  "Wren Court",
-  "Young Street",
-];
+import { ADDRESS_LIST } from "../utils/dataUtils";
+import { SPECIAL_COMBO } from "./menuData";
 
 export const orderInfoSlice = createSlice({
   name: "orderInfo",
@@ -287,49 +11,47 @@ export const orderInfoSlice = createSlice({
       phoneNumber: "",
       time: "",
       date: "", //YYYY-MM-DD
-      orderType: "PICK_UP",
+      orderType: "PICKUP",
       deliveryAddress: "",
-      deliveryFee: (6.0).toFixed(2),
+      deliveryFee: 6.0,
       isScheduledOrder: false,
       scheduledTime: { date: "", time: "", hours: "", minutes: "", meridian: "PM" },
-      waitTime: { displayName: "", units: "", magnitude: 0 },
+      waitTime: { displayName: "15 Minutes", units: "MM", magnitude: 15 },
       finishTime: "",
       paid: false,
       note: "",
-      items: [], //item->{name(string), price(float), selectionList:{itemLimit:int, items:[arr]},selectionCategory:str, swappable:bool, modifiable(bool), modifiers(string), selectionList:[], quantity(int)}
-      subTotal: (0.0).toFixed(2),
+      items: [], //item->{name(string), price(float), selectionList:{itemLimit:int, items:[arr]},selectionCategory:str, swappable:bool, modifiable(bool), modifiers(string), flatFeeModifier:(int), selectionList:[], quantity(int)}
+      subTotal: 0.0,
       discounted: false,
-      beforeTaxDiscount: (0.0).toFixed(2),
-      tax: (0.0).toFixed(2),
-      afterTaxDiscount: (0.0).toFixed(2),
-      total: (0.0).toFixed(2),
+      beforeTaxDiscount: 0.0,
+      tax: 0.0,
+      afterTaxDiscount: 0.0,
+      total: 0.0,
       paymentMethod: "",
       printed: false,
     },
     orderOptions: {
       taxPercent: 0.13,
       discountPercent: 0.1,
-      isDiscountBeforeTax: true,
+      isDiscountBeforeTax: false,
       isDeliveryBeforeTax: true,
-      printers: Array(3).fill({ name: "No Printer", ip: "192.168.0.1" }),
-      printerToggles: Array(3).fill(false),
-      printerOptions: [
-        { name: "No Printer", ip: "192.168.0.1" },
-        { name: "Kitchen Printer", ip: "192.168.0.14" },
-        { name: "Cashier Printer", ip: "192.168.0.45" },
-      ],
+      // printerChoice: "Cashier Printer",
       customItem: { name: "", price: "" }, //The price will be parsed as a float before being placed as item
       filteredAddresses: [],
       addressList: ADDRESS_LIST,
       filteredItems: [],
       searchedItem: "",
-      editingItemIndex: 0,
-      editingTab: "Selection List",
-      editingCategory: "Selection List",
+      editingItemIndex: -1,
+      editingTab: "Kitchen Printer", //Used for editing tabs
+      editingCategory: "", //Used for swap items
       editingSelection: [],
       currentSwapItem: { name: "", price: 0.0 },
       desiredSwapItem: { name: "", price: 0.0 },
       swapPrice: "",
+      scrollDetect: false,
+      outOfTownDeliveryFee: 6.0,
+      outOfTownDeliveryOn: false,
+      tempFlatFee: "",
     },
     orderManagement: {
       backupOrder: {},
@@ -337,9 +59,23 @@ export const orderInfoSlice = createSlice({
       defaultOrder: {},
       defaultOrderOptions: {},
     },
+    printers: {
+      printerOptions: [],
+    },
   },
   reducers: {
-    setOrderOptions: ({ orderOptions, order }, { payload }) => {
+    setPrinters: ({ printers }, { payload }) => {
+      const [actionType, value] = payload;
+
+      switch (actionType) {
+        case "setPrinterOptions":
+          printers.printerOptions = value;
+          break;
+        default:
+          console.log("Invalid actiontype for setPrinters");
+      }
+    },
+    setOrderOptions: ({ orderOptions, order, orderManagement }, { payload }) => {
       const [actionType, value] = payload;
       let { items } = order;
       let { customItem } = orderOptions;
@@ -350,13 +86,6 @@ export const orderInfoSlice = createSlice({
           break;
         case "setIsDeliveryBeforeTax":
           orderOptions.isDeliveryBeforeTax = value;
-          break;
-        case "setPrinter":
-          orderOptions.printers[value.index] = { name: value.name, ip: value.ip };
-          break;
-        case "setPrinterToggles":
-          orderOptions.printerToggles = Array(orderOptions.printerToggles.length).fill(false);
-          orderOptions.printerToggles[value.index] = value.isOn;
           break;
         case "setFilteredAddresses":
           orderOptions.filteredAddresses = value;
@@ -376,7 +105,7 @@ export const orderInfoSlice = createSlice({
               ...items,
               {
                 name: orderOptions.customItem.name,
-                price: parseFloat(orderOptions.customItem.price),
+                price: orderOptions.customItem.price === "" ? 0.0 : parseFloat(orderOptions.customItem.price),
                 category: [],
                 modifiable: false,
                 selectionList: { itemLimit: 0, items: [] },
@@ -406,6 +135,7 @@ export const orderInfoSlice = createSlice({
           orderOptions.searchedItem = value;
           break;
         case "setEditingItemIndex":
+          // We find the editing item index by creating a deep copy of each item in receipt and comparing their properties
           orderOptions.editingItemIndex = items.findIndex((receiptItem) => {
             //We have to create a copy of the item with the same quantity to check if the objects are the same.
             let tempItem = JSON.parse(JSON.stringify(receiptItem));
@@ -415,12 +145,19 @@ export const orderInfoSlice = createSlice({
             return JSON.stringify(tempItem) === JSON.stringify(tempValue);
           });
           break;
+        case "resetEditingItemIndex":
+          orderOptions.editingItemIndex = -1;
+          break;
         case "setEditingSelectionList":
           orderOptions.editingSelection = value; //Sets the list of items the special order can choose from (aka combos)
+          break;
+        case "setEditingTab":
+          orderOptions.editingTab = value;
           break;
         case "setEditingCategory":
           orderOptions.editingCategory = value;
           break;
+
         case "setSwapItem":
           if (
             orderOptions.currentSwapItem.name === "" ||
@@ -433,9 +170,11 @@ export const orderInfoSlice = createSlice({
             !orderOptions.desiredSwapItem.hasOwnProperty("name")
           ) {
             orderOptions.desiredSwapItem = value;
-            orderOptions.swapPrice = `${parseFloat(
-              orderOptions.desiredSwapItem.price - orderOptions.currentSwapItem.price
-            ).toFixed(2)}`;
+            let priceDiff = orderOptions.desiredSwapItem.price - orderOptions.currentSwapItem.price;
+
+            priceDiff = priceDiff < 0 ? 0 : (priceDiff += 1); //Makes sure the price difference is always >= 0 and charges additional 1$ for swap fee.
+
+            orderOptions.swapPrice = priceDiff.toFixed(2); //Converts the swap price diff to a string rounded to two decimals
           }
           break;
         case "setCurrentSwapItem":
@@ -446,6 +185,19 @@ export const orderInfoSlice = createSlice({
           break;
         case "setSwapPrice":
           orderOptions.swapPrice = value;
+          break;
+        case "setOutOfTownDeliveryOn":
+          orderOptions.outOfTownDeliveryOn = value;
+          if (orderOptions.outOfTownDeliveryOn) {
+            order.deliveryFee += 6.0;
+            order.orderType = "DELIVERY";
+          } else {
+            order.deliveryFee = orderManagement.defaultOrder.deliveryFee;
+            order.orderType = "PICKUP";
+          }
+          break;
+        case "setTempFlatFee":
+          orderOptions.tempFlatFee = value;
           break;
       }
     },
@@ -459,14 +211,19 @@ export const orderInfoSlice = createSlice({
           state.orderManagement.defaultOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
           break;
         case "RESTORE_BACKUP_ORDER":
-          if (Object.entries(orderManagement.backupOrder) === 0) {
-            break;
+          try {
+            if (Object.entries(orderManagement.backupOrder).length === 0) {
+              alert("No backup order saved.");
+              break;
+            }
+            if (order.items.length > 0) {
+              break;
+            }
+            state.order = JSON.parse(JSON.stringify(state.orderManagement.backupOrder));
+            state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.backupOrderOptions));
+          } catch (e) {
+            alert("Failed to restore backup order.");
           }
-          if (order.items.length > 0) {
-            break;
-          }
-          state.order = JSON.parse(JSON.stringify(state.orderManagement.backupOrder));
-          state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.backupOrderOptions));
           break;
 
         case "RESET_ORDER":
@@ -474,6 +231,10 @@ export const orderInfoSlice = createSlice({
           state.orderManagement.backupOrderOptions = JSON.parse(JSON.stringify(state.orderOptions));
 
           state.order = JSON.parse(JSON.stringify(state.orderManagement.defaultOrder));
+          state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.defaultOrderOptions));
+          break;
+        case "setReprintOrder":
+          state.order = JSON.parse(JSON.stringify(value));
           state.orderOptions = JSON.parse(JSON.stringify(state.orderManagement.defaultOrderOptions));
           break;
       }
@@ -495,27 +256,85 @@ export const orderInfoSlice = createSlice({
             tempValue.quantity = 1;
             return JSON.stringify(tempItem) === JSON.stringify(tempValue);
           });
-          if (index === -1 || value.modifiable) {
+
+          //Adds the item to the receipt or increments the quantity of an item if it already exists
+          if (index === -1) {
             order.items = [...items, value];
           } else {
             order.items[index].quantity++;
           }
+
+          orderOptions.scrollDetect = !orderOptions.scrollDetect; //Triggers the scroll animation on receipt
           break;
         // ---------------- Setting the selection Items  --------------- //
         case "setSelectionItems":
           items[editingItemIndex].selectionList.items = value;
           break;
+        // ---------------- Setting the flat fee modifier  --------------- //
+        case "setFlatFeeModifier":
+          if (items[editingItemIndex].flatFeeModifierOn) {
+            items[editingItemIndex].flatFeeModifier = value;
+
+            let modifyIndex = items[editingItemIndex].modifiers.findIndex(
+              () => items[editingItemIndex].modifiers.name !== "Modify Flat Fee"
+            );
+            items[editingItemIndex].modifiers[modifyIndex].price = value === "" ? 0 : parseFloat(value);
+          }
+          break;
+        // ---------------- Setting the flat fee modifier Checkbox  --------------- //
+        case "setFlatFeeModifierOn":
+          items[editingItemIndex].flatFeeModifierOn = value;
+
+          if (value) {
+            items[editingItemIndex].modifiers = [
+              {
+                name: "Modify Flat Fee",
+                checked: false,
+                type: "Modify Flat Fee",
+                price:
+                  items[editingItemIndex].flatFeeModifier === ""
+                    ? 0
+                    : parseFloat(items[editingItemIndex].flatFeeModifier),
+              },
+              ...items[editingItemIndex].modifiers,
+            ];
+          } else {
+            items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter((modifier) => {
+              return modifier.name !== "Modify Flat Fee";
+            });
+          }
+          break;
         // ---------------- Adding a Selection Item --------------- //
         case "ADD_SELECTION_ITEM":
           let emptySpot = items[editingItemIndex].selectionList.items.indexOf("/");
+
           if (emptySpot !== -1) {
             items[editingItemIndex].selectionList.items[emptySpot] = value;
           }
+
+          // SPECIAL COMBO FEATURE
+          let noodleFee = items[editingItemIndex].selectionList.items.indexOf("17");
+          console.log("Noodle fee", noodleFee);
+          if (noodleFee === -1) {
+            items[editingItemIndex].price = SPECIAL_COMBO.price;
+          } else {
+            items[editingItemIndex].price = SPECIAL_COMBO.price + 1;
+          }
+
           break;
         // ---------------- Deleting an item from selection items --------------- //
         case "DELETE_SELECTION_ITEM":
           if (items[editingItemIndex].selectionList.items[value] !== "/") {
             items[editingItemIndex].selectionList.items[value] = "/";
+          }
+
+          // SPECIAL COMBO FEATURE
+          let checkNoodle = items[editingItemIndex].selectionList.items.indexOf("17");
+          console.log("Noodle fee", checkNoodle);
+          if (checkNoodle === -1) {
+            items[editingItemIndex].price = SPECIAL_COMBO.price;
+          } else {
+            items[editingItemIndex].price = SPECIAL_COMBO.price + 1;
           }
           break;
         // ---------------- Deleting item from items ---------------- //
@@ -574,11 +393,6 @@ export const orderInfoSlice = createSlice({
             items[editingItemIndex].modifiers = [...items[editingItemIndex].modifiers, value];
           } else {
             //If not checked remove it to the modifiers list
-            console.log(
-              items[editingItemIndex].modifiers.filter(
-                (modifierItem) => JSON.stringify(modifierItem) !== JSON.stringify(value)
-              )[0]
-            );
             items[editingItemIndex].modifiers = items[editingItemIndex].modifiers.filter(
               (modifierItem) => modifierItem.name !== value.name
             );
@@ -604,10 +418,6 @@ export const orderInfoSlice = createSlice({
         // ---------------- Set Scheduled Date---------------- //
         case "setScheduledDate":
           order.scheduledTime.date = value;
-          break;
-        // ---------------- Set Scheduled Time---------------- //
-        case "setScheduledTime":
-          order.scheduledTime.time = value;
           break;
         // ---------------- Set Scheduled Hours---------------- //
         case "setScheduledHours":
@@ -635,10 +445,15 @@ export const orderInfoSlice = createSlice({
           break;
         // ---------------- Set Payment Method---------------- //
         case "setPaymentMethod":
+          //Checks if they've unchecked the payment method
           if (order.paymentMethod === value) {
             order.paymentMethod = "";
-          } else {
+            order.paid = false;
+          }
+          //Assigns a payment method and sets paid to true
+          else {
             order.paymentMethod = value;
+            order.paid = true;
           }
           break;
         // ---------------- Set Notes---------------- //
@@ -647,23 +462,23 @@ export const orderInfoSlice = createSlice({
           break;
         // ---------------- Set Subtotal ---------------- //
         case "setSubTotal":
-          order.subTotal = value;
+          order.subTotal = parseFloat(value);
           break;
         // ---------------- Set Before Tax Discount ---------------- //
         case "setBeforeTaxDiscount":
-          order.beforeTaxDiscount = value;
+          order.beforeTaxDiscount = parseFloat(value);
           break;
         // ---------------- Set Tax ---------------- //
         case "setTax":
-          order.tax = value;
+          order.tax = parseFloat(value);
           break;
         // ---------------- Set After Tax Discount ---------------- //
         case "setAfterTaxDiscount":
-          order.afterTaxDiscount = value;
+          order.afterTaxDiscount = parseFloat(value);
           break;
         // ---------------- Set Total---------------- //
         case "setTotal":
-          order.total = value;
+          order.total = parseFloat(value);
           break;
         // ---------------- Set Discounted---------------- //
         case "setDiscounted":
@@ -674,5 +489,5 @@ export const orderInfoSlice = createSlice({
   },
 });
 
-export const { setOrder, setOrderOptions, setOrderManagement } = orderInfoSlice.actions;
+export const { setOrder, setOrderOptions, setOrderManagement, setPrinters } = orderInfoSlice.actions;
 export default orderInfoSlice.reducer;

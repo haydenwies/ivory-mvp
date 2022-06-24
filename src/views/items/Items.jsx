@@ -4,10 +4,10 @@ import { Trash, Info, Swap, Draw, Undo, Search, Elipse, Custom } from "../../Ass
 import { setInstances, setInstancesDefaultSettings } from "../../redux/functionality";
 import { useDispatch, useSelector } from "react-redux";
 import { setOrder, setOrderManagement, setOrderOptions } from "../../redux/orderInfo";
-import { getDefaultState } from "../../utils/managementUtils";
 import CustomItem from "../order/CustomItem";
 import SearchItem from "../order/SearchItem";
 import EditItem from "../order/EditItem";
+import { SPECIAL_COMBO } from "../../redux/menuData";
 function Items() {
   /* ----------------------------- State Variables ----------------------------- */
   const dispatch = useDispatch();
@@ -18,37 +18,58 @@ function Items() {
   const { categoryType, customItemOn, searchItemOn, editItemOn } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
-  const handleAddItem = (item) => {
-    dispatch(setOrder(["ADD_ITEM", item]));
 
-    if (item.modifiable) {
+  /**
+   * Handles adding an item to the receipt and decides whether the item has selection choices.
+   * @param {menuItem} item menu item selected from the selection section
+   */
+  const handleAddItem = (item) => {
+    dispatch(setOrder(["ADD_ITEM", item])); //Adds the selected item to the receipt
+
+    // Checks if the item is modifiable
+    if (item.selectionList.itemLimit > 0) {
+      //Finds the index of the selection items object from the choice list array
       let selectionIndex = choiceList.findIndex((selection) => {
         return selection.category === item.selectionCategory;
       });
 
-      if (selectionIndex !== -1) {
-        let selectionList = choiceList[selectionIndex].list;
-        dispatch(setOrderOptions(["setEditingItemIndex", item]));
-        dispatch(setOrderOptions(["setEditingSelectionList", selectionList]));
-        dispatch(setInstances(["setEditItemOn", true]));
+      //Opens the editing modal and sets the item that we will be editing
+      dispatch(setOrderOptions(["setEditingItemIndex", item]));
+      dispatch(setInstances(["setEditItemOn", true]));
 
+      // Checks if there is a selection item list for that particular item
+      if (selectionIndex !== -1) {
+        let selectionList = choiceList[selectionIndex].list; //Gets the list of selection items for the corresponding item
+        dispatch(setOrderOptions(["setEditingSelectionList", selectionList]));
+
+        //Initializes the selection options to be empty slashes if there wasn't anything previously stored in state.
         if (item.selectionList.items.length === 0) {
           dispatch(setOrder(["setSelectionItems", Array(item.selectionList.itemLimit).fill("/")]));
         }
       }
     }
   };
+  const handleSpecialCombos = (category, e) => {
+    if (category === "Special Combo") {
+      handleAddItem(SPECIAL_COMBO);
+    } else {
+      dispatch(setInstances(["setCategoryType", e.target.innerText]));
+    }
+  };
+
   return (
     <div className="items">
       {/* ----------------------------- Selection Items ----------------------------- */}
       <div className="selection">
         {menuItems
-          .filter((item) => item.category[0] === categoryType)
+          .filter((item) => item.category === categoryType)
           .map((item, key) => (
             <div
               key={key}
               className={
-                item.modifiable ? `modifiable-item selection-item row-c-c` : `selection-item row-c-c`
+                item.selectionList.itemLimit !== 0
+                  ? `choose-item selection-item row-c-c`
+                  : `selection-item row-c-c`
               }
               onClick={() => {
                 handleAddItem(item);
@@ -59,13 +80,6 @@ function Items() {
           ))}
       </div>
 
-      {/* ----------------------------- Edit Items ----------------------------- */}
-      {editItemOn && items[editingItemIndex] && (
-        <div className="edit-item-container">
-          <EditItem />
-        </div>
-      )}
-
       {/* ----------------------------- Item Categories ----------------------------- */}
       <div className="category">
         {menuCategories.map((category, key) => (
@@ -73,14 +87,22 @@ function Items() {
             key={key}
             className="category-item row-c-c"
             onClick={(e) => {
-              dispatch(setInstances(["setCategoryType", e.target.innerText]));
+              handleSpecialCombos(category, e);
             }}
           >
-            <p>{category}</p>
+            {category}
           </div>
         ))}
       </div>
-      {/* ----------------------------- Item Categories ----------------------------- */}
+
+      {/* ----------------------------- Edit Items ----------------------------- */}
+      {editItemOn && items[editingItemIndex] && (
+        <div className="edit-item-container">
+          <EditItem handleAddItem={handleAddItem} />
+        </div>
+      )}
+
+      {/* ----------------------------- Custom Item----------------------------- */}
       {customItemOn && (
         <div className="custom-item-container row-c-c">
           <CustomItem />
@@ -98,7 +120,7 @@ function Items() {
         <div
           className="trash"
           onClick={() => {
-            dispatch(setOrderManagement(["RESET_ORDER"]))
+            dispatch(setOrderManagement(["RESET_ORDER"]));
             dispatch(setInstances(["RESET_DEFAULT_FUNCTIONALITY"]));
           }}
         >

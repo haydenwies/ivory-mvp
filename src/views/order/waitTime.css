@@ -27,9 +27,10 @@
   column-gap: 4rem;
 }
 .order-time-options button {
-  font-size: 1rem;
+  font-size: 1.2rem;
   color: rgba(255, 255, 255, 0.5);
-  font-weight: 200 !important;
+  font-weight: 400;
+
 }
 .wait-times {
   row-gap: 0.5rem;
@@ -42,10 +43,11 @@
 .time-option {
   font-weight: 300;
   min-height: 60px;
-  background-color: #3968ff;
+  background-color: #404f58;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   height: 100%;
   width: 100%;
+  font-size: 1.3rem;
   cursor: pointer;
 }
 .wait-time-content h2 {
@@ -59,12 +61,12 @@
 }
 .scheduled-order label {
   width: 100%;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 .scheduled-order span {
   padding-bottom: 0.5rem;
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 /* ----------------------------- Scheduled Date ----------------------------- */
 
@@ -89,7 +91,7 @@
   justify-self: flex-end;
 }
 .time-option-active {
-  background-color: #20b68a;
+  background-color: rgb(25, 126, 95);
 }
 /* ----------------------------- Scheduled Time ----------------------------- */
 
@@ -140,6 +142,6 @@
 
 }
 .meridian-active{
-  background-color: #20b68a;
+  background-color: rgb(25, 126, 95);
   height: 100%;
 }

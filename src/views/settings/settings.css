@@ -17,11 +17,15 @@
   justify-content: flex-start;
   margin: 0 2rem;
   row-gap: 5rem;
+  text-decoration: none;
 }
 .side-nav h4 {
   font-size: 1.2rem;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 1);
+}
+.side-nav h4:hover {
+  text-decoration: underline;
 }
 .side-nav h1 {
   font-size: 3rem;

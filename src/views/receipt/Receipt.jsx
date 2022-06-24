@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import "./receipt.css";
-import { NavigationTab, XIcon } from "../../Assets/Images";
+import { XIcon } from "../../Assets/Images";
 import { useDispatch, useSelector } from "react-redux";
-import { setNavOn } from "../../redux/functionality";
 import { Totals } from "../../utils/totalCalculations";
 import { setOrder, setOrderOptions } from "../../redux/orderInfo";
 import { setInstances } from "../../redux/functionality";
@@ -17,13 +16,18 @@ function Receipt() {
     beforeTaxDiscount,
     afterTaxDiscount,
     total,
-    paymentMethod,
     orderType,
     deliveryFee,
   } = useSelector(({ orderInfo }) => orderInfo.order);
-  const { order } = useSelector(({ orderInfo }) => orderInfo);
-  const { isDiscountBeforeTax, isDeliveryBeforeTax, discountPercent, taxPercent, editingItemIndex } =
-    useSelector(({ orderInfo }) => orderInfo.orderOptions);
+  const {
+    scrollDetect,
+    isDiscountBeforeTax,
+    isDeliveryBeforeTax,
+    discountPercent,
+    taxPercent,
+    editingItemIndex,
+    outOfTownDeliveryOn,
+  } = useSelector(({ orderInfo }) => orderInfo.orderOptions);
   const { editItemOn } = useSelector(
     ({ functionality }) => functionality.instances[functionality.indexInstance]
   );
@@ -41,6 +45,8 @@ function Receipt() {
       taxPercent
     );
     const { subTotal, tax, total, discount } = Totals.getTotals();
+
+    // Stores the receipt totals in redux state
     dispatch(setOrder(["setSubTotal", subTotal]));
     dispatch(setOrder(["setTax", tax]));
     dispatch(setOrder(["setTotal", total]));
@@ -49,17 +55,22 @@ function Receipt() {
 
   const handleEditingItem = (item) => {
     if (item.modifiable) {
-      // This finds the selection items that is associated with the item (aka combo selection list)
+      //Finds the index of the selection items object from the choice list array
       let selectionIndex = choiceList.findIndex((selection) => {
+        //Item Selection category represents the category name from the choiceList array
         return selection.category === item.selectionCategory;
       });
 
-      if (selectionIndex !== -1) {
-        let itemChoices = choiceList[selectionIndex].list; //These are the items to be selected from
-        dispatch(setOrderOptions(["setEditingItemIndex", item]));
-        dispatch(setOrderOptions(["setEditingSelectionList", itemChoices]));
-        dispatch(setInstances(["setEditItemOn", true]));
+      //Opens the editing modal and sets the item that we will be editing
+      dispatch(setOrderOptions(["setEditingItemIndex", item]));
+      dispatch(setInstances(["setEditItemOn", true]));
 
+      // Checks if there is a selection item list for that particular item
+      if (selectionIndex !== -1) {
+        let itemChoices = choiceList[selectionIndex].list; //Gets the list of selection items for the corresponding item
+        dispatch(setOrderOptions(["setEditingSelectionList", itemChoices]));
+
+        //Initializes the selection options to be empty slashes if there wasn't anything previously stored in state.
         if (item.selectionList.items.length === 0) {
           dispatch(setOrder(["setSelectionItems", Array(item.selectionList.itemLimit).fill("/")]));
         }
@@ -68,21 +79,29 @@ function Receipt() {
   };
   // Moves receipt scroll position to the bottom of the page.
   useEffect(() => {
-    let r = document.querySelector(".receipt");
     getTotal();
+    return () => {
+      getTotal();
+    };
+  }, [items, discounted, orderType, deliveryFee]);
 
-    r.scrollTop = r.scrollHeight;
-  }, [items, discounted]);
-
+  //Triggers the scroll animation when item is added to receipt
+  useEffect(() => {
+    let r = document.querySelector(".receipt");
+    r.scrollTo({ top: r.scrollHeight, behavior: "smooth" });
+  }, [scrollDetect]);
   return (
     <div className="receipt col-fe-c">
       <div className="receipt-container col-sb-c">
         {/* ----------------------------- Receipt Items ----------------------------- */}
         <div className="receipt-items col-c-c">
-          <h3>Name</h3>
           {items &&
             items.map((item, itemKey) => (
-              <div key={itemKey} className="receipt-item row-sb-c">
+              <div
+                key={itemKey}
+                className="receipt-item row-sb-c"
+                style={{ border: editingItemIndex === itemKey ? "#20b98a solid 2px" : "" }}
+              >
                 <div className="receipt-item-content ">
                   {/* Item Name */}
                   <div
@@ -115,11 +134,19 @@ function Receipt() {
                   {item.selectionList ? (
                     item.selectionList.items.length > 0 && (
                       <div className="receipt-selection-list">
-                        <ul>
-                          {item.selectionList.items.map((subItem, key) => (
-                            <li key={key}>{subItem}</li>
-                          ))}
-                        </ul>
+                        {item.category === "Special Combo" ? (
+                          <div className="special-combo row-fs-c">
+                            {item.selectionList.items.map((subItem, key) => (
+                              <p key={key}>{subItem}</p>
+                            ))}
+                          </div>
+                        ) : (
+                          <ul>
+                            {item.selectionList.items.map((subItem, key) => (
+                              <li key={key}>{subItem}</li>
+                            ))}
+                          </ul>
+                        )}
                       </div>
                     )
                   ) : (
@@ -137,7 +164,13 @@ function Receipt() {
                             <div className="modifier-container" key={key}>
                               <p key={key}>{modifier.name}</p>
                               <div className="modifier-right-section row-c-c">
-                                <p className="modifier-price">+${modifier.price.toFixed(2)}</p>
+                                <p className="modifier-price">
+                                  +$
+                                  {item.flatFeeModifierOn &&
+                                  (modifier.type === "No Add" || modifier.type === "Add")
+                                    ? "0.00"
+                                    : modifier.price.toFixed(2)}
+                                </p>
                                 {editingItemIndex === itemKey && editItemOn ? (
                                   <button
                                     className="remove-modifier"
@@ -169,56 +202,61 @@ function Receipt() {
           <div className="totals col-fe-c">
             <div className="sub-total row-sb-c total-container">
               <h6 className="price-label">Sub-Total:</h6>
-              <h6 className="price-amount">${subTotal}</h6>
+              <h6 className="price-amount">${subTotal.toFixed(2)}</h6>
             </div>
             {discounted && isDiscountBeforeTax && (
               <div className="discount row-sb-c total-container">
                 <h6 className="price-label">Discount:</h6>
-                <h6 className="price-amount">-${beforeTaxDiscount}</h6>
+                <h6 className="price-amount">-${beforeTaxDiscount.toFixed(2)}</h6>
               </div>
             )}
             {orderType === "DELIVERY" && isDeliveryBeforeTax && (
               <div className="delivery row-sb-c total-container">
                 <h6 className="price-label">Delivery:</h6>
-                <h6 className="price-amount">${deliveryFee}</h6>
+                <h6 className="price-amount">${deliveryFee.toFixed(2)}</h6>
               </div>
             )}
             <div className="tax row-sb-c total-container">
               <h6 className="price-label">Tax:</h6>
-              <h6 className="price-amount">${tax}</h6>
+              <h6 className="price-amount">${tax.toFixed(2)}</h6>
             </div>
             {discounted && !isDiscountBeforeTax && (
               <div className="delivery row-sb-c total-container">
                 <h6 className="price-label">Discount:</h6>
-                <h6 className="price-amount">-${afterTaxDiscount}</h6>
+                <h6 className="price-amount">-${afterTaxDiscount.toFixed(2)}</h6>
               </div>
             )}
             {orderType === "DELIVERY" && !isDeliveryBeforeTax && (
               <div className="delivery row-sb-c total-container">
                 <h6 className="price-label">Delivery:</h6>
-                <h6 className="price-amount">${deliveryFee}</h6>
+                <h6 className="price-amount">${deliveryFee.toFixed(2)}</h6>
               </div>
             )}
             <div className="grand-total row-sb-c total-container">
               <h6 className="price-label">Grand-Total:</h6>
-              <h6 className="price-amount">${total}</h6>
+              <h6 className="price-amount">${total.toFixed(2)}</h6>
             </div>
           </div>
           {/* ----------------------------- Options ----------------------------- */}
           <div className="receipt-options row-sa-c">
             <label
-              className="col-c-c"
-              onClick={() => {
+              className="col-sb-c"
+              onChange={() => {
                 dispatch(setOrder(["setDiscounted", !discounted]));
               }}
             >
               <span>Discount</span>
               <input type="checkbox" checked={discounted} onChange={() => {}} />
             </label>
-            {/* <label className="col-c-c">
-              <span>Delivery</span>
-              <input type="checkbox" />
-            </label> */}
+            <label
+              className="col-sb-c"
+              onChange={() => {
+                dispatch(setOrderOptions(["setOutOfTownDeliveryOn", !outOfTownDeliveryOn]));
+              }}
+            >
+              <span>Out of Town Delivery</span>
+              <input type="checkbox" checked={outOfTownDeliveryOn} onChange={() => {}} />
+            </label>
           </div>
         </div>
       </div>

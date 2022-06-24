@@ -1,8 +1,14 @@
 /* Custom CSS Variables */
 :root {
-  --options-gap: clamp(4rem, 10vw + 5rem, 8rem);
+  --options-gap: clamp(2vw, 10vw, 10vw);
+  --options-padding: clamp(0.5rem, 50vw + 1rem, 1rem);
   --options-height: clamp(30px, 10vw, 50px);
   --main-option-WH: clamp(30px, 10vw + 40px, 50px);
+  --selection-box-height: 100%;
+  --selection-min-height: 70px;
+  --item-name-font-size: 1.3rem;
+  --items-section-height: clamp(230px, 30vw, 400px);
+  /* --items-section-height: 100%; */
 }
 
 /* ----------------------------- Items ----------------------------- */
@@ -14,6 +20,8 @@
   grid-template-rows: 4fr 4fr 1fr;
   margin: auto;
   position: relative;
+  align-items: flex-start;
+  /* row-gap: 2.5rem; */
 }
 /* ----------------------------- Selection ----------------------------- */
 .selection {
@@ -22,20 +30,29 @@
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 0.3em;
   margin: 1em 0;
+  height: var(--items-section-height);
+  overflow-y: scroll;
 }
 .selection-item {
-  background-color: #f2d38f;
+  background-color: rgb(247, 232, 191);
   color: black;
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
+  padding: 0 0.5rem;
+  height: var(--selection-box-height);
+  height: 100%;
 }
 .selection-item p {
   color: black;
-  font-weight: 300;
+  font-weight: 400;
+  text-align: center;
+  font-size: var(--item-name-font-size);
+  padding: 0 0.1rem;
 }
-.modifiable-item{
-  background-color: #78ce7a
+.choose-item {
+  background-color: #d0e2b0;
+  text-align: center;
 }
 /* ----------------------------- Category ----------------------------- */
 .category {
@@ -44,19 +61,30 @@
   grid-template-rows: repeat(4, 1fr);
   grid-gap: 0.3em;
   margin-top: 1em;
+  align-items: center;
+  height: var(--items-section-height);
+  overflow-y: scroll;
 }
 .category-item {
-  background-color: #262835;
+  background-color: #a52a2a;
   color: white;
   border-radius: 0.2rem;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
   cursor: pointer;
-  font-weight: 300
+  font-weight: 400;
+  text-align: center;
+  font-size: var(--item-name-font-size);
+  height: var(--selection-box-height);
+  min-height: var(--selection-min-height);
+  padding: 0 0.5rem;
+  /* position: relative;
+  top: var(--selection-min-height); */
 }
 /* ----------------------------- Item Options ----------------------------- */
 .item-options {
-  padding: 0 3rem;
+  /* padding: 0 3rem; */
   align-self: center;
+  height: 100%;
 }
 .trash,
 .info,
@@ -71,7 +99,7 @@
 .main-options {
   column-gap: var(--options-gap);
   background-color: #1e202c;
-  padding: 0 var(--options-gap);
+  padding: 0 var(--options-padding);
   border-radius: 1rem;
   height: var(--options-height);
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
@@ -85,7 +113,7 @@
   height: var(--main-option-WH);
 }
 .item-options img {
-  transform: scale(1.1);
+  width: clamp(20px, 10vw, 23px);
 }
 .elipse,
 .trash {
@@ -98,5 +126,26 @@
 .elipse img,
 .trash img {
   transform: scale(1);
-  padding: 0 1.5em;
+  padding: 0 1em;
+  width: clamp(20px, 10vw, 23px);
+}
+
+/* ----------------------------- MEDIA QUERIES ----------------------------- */
+
+/* Tablets */
+@media only screen and (max-width: 1100px) {
+  :root {
+    --item-name-font-size: 1.1rem;
+    --items-section-height: clamp(200px, 30vw, 400px);
+  }
+}
+/* Laptop Screens */
+@media only screen and (max-width: 1550px) {
+  :root {
+    --item-name-font-size: 1.1rem;
+    --items-section-height: clamp(200px, 30vw, 300px);
+  }
+  .category {
+    /* background-color: yellow; */
+  }
 }

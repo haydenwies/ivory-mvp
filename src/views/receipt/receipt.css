@@ -2,6 +2,9 @@
 :root {
   --item-delete: clamp(12px, 5vw + 13px, 15px);
   --receipt-width-content: 95%;
+  --price-label-font-size: clamp(0.5rem, 10vw + 0.5rem, 1rem);
+  --price-amount-font-size: clamp(0.5rem, 10vw + 0.5rem, 1rem);
+  --receipt-options-font-size:.9rem;
 }
 
 /* ----------------------------- Receipt ----------------------------- */
@@ -26,9 +29,9 @@
 }
 /* ----------------------------- Receipt Items ----------------------------- */
 .receipt-items {
-  margin-top: 2rem;
+  margin-top: 5rem;
   width: 100%;
-  row-gap: 1.5rem;
+  /* row-gap: 1.5; */
 }
 .receipt-item {
   position: relative;
@@ -37,6 +40,7 @@
   /* padding: 0.8rem 0; */
   border-radius: 0.3rem;
   cursor: pointer;
+  margin:.5rem 0;
 }
 .receipt-item-content {
   width: 100%;
@@ -53,6 +57,9 @@
   height: 100%;
   padding: 0.8rem 0;
 }
+.item-name span {
+  font-size: clamp(0.8rem, 10vw + 0.8rem, 1rem);
+}
 .delete-icon {
   width: 30px;
   height: 30px;
@@ -62,6 +69,14 @@
 }
 .receipt-selection-list {
   grid-column: span 2;
+}
+.special-combo {
+  column-gap: 1rem;
+}
+.special-combo p {
+  border: solid 1px white;
+  padding: 0.2rem 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .receipt-selection-list ul {
   margin-top: 0.5rem;
@@ -91,13 +106,13 @@
 }
 .receipt-modifiers p {
   padding: 0 0 0.2rem 0;
-  font-size:1.1rem;
+  font-size: 1.1rem;
 }
 .modifier-right-section {
   column-gap: 1rem;
 }
-.modifier-price{
-  font-size:1.1rem;
+.modifier-price {
+  font-size: 1.1rem;
 }
 .remove-modifier {
   justify-self: center;
@@ -106,7 +121,7 @@
   min-width: 35px;
   max-height: 40px;
   font-size: 1.5rem;
-  background-color: crimson;
+  background-color: #a52a2a;
 }
 .totals-and-options {
   width: 100%;
@@ -123,10 +138,10 @@
   width: 100%;
 }
 .price-label {
-  font-size: 1.1rem;
+  font-size: var(--price-label-font-size);
 }
 .price-amount {
-  font-size: 1.1rem;
+  font-size: var(--price-amount-font-size);
 }
 .delivery {
   /* padding-top: 1.5rem; */
@@ -142,11 +157,20 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 .receipt-options label {
+  width:50%;
+  height: 100%;
 }
 .receipt-options span {
-  padding-bottom: 0.5rem;
+  padding: 0 .5rem 0.5rem 0.5rem;
+  text-align: center;
+  font-size: var(--receipt-options-font-size);
 }
 .receipt-options input {
   width: 25px;
   height: 25px;
+}
+@media only screen and (max-width: 1050px) {
+  .receipt-options{
+    font-size: .8rem;
+  }
 }

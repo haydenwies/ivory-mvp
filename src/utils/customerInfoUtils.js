@@ -1,6 +1,5 @@
 const numbersOnly = (charInput) => {
   let validNum = new RegExp(/[0-9\b]/);
-
   return validNum.test(charInput);
 };
 
@@ -40,6 +39,8 @@ const getSimilarAddresses = (entry, addressList) => {
   const firstChar = new RegExp(/[a-zA-Z]/);
   let filteredAddresses = [];
 
+  if (entry === "") return [];
+
   //Need to slice out the numbers and only get the name
   for (let j = 0; j < entry.length; j++) {
     if (firstChar.test(entry[j])) {
@@ -69,9 +70,14 @@ const formatAddress = (addressEntry, streetName) => {
       break;
     }
   }
-  return `${streetNum === undefined? "": streetNum}${streetName}`;
+  return `${streetNum === undefined ? "" : streetNum}${streetName}`;
 };
 
+/**
+ * Allkows only number and decimal entries
+ * @param {string} priceEntry
+ * @returns the string interpretation of the price
+ */
 const priceInputCheck = (priceEntry) => {
   const validPrice = new RegExp(/\d\.*$/);
   if (validPrice.test(priceEntry)) {
@@ -83,9 +89,7 @@ const priceInputCheck = (priceEntry) => {
 
 const getSimilarItems = (entry, menuItems) => {
   let filteredItems = [];
-
   const entrySimilarities = new RegExp(entry, "i"); //Will check if anything is similar to the entry
-
   if (entry === "") {
     return [];
   }
@@ -99,7 +103,59 @@ const getSimilarItems = (entry, menuItems) => {
 
   return filteredItems;
 };
+
+const formatOrder = (
+  printerChoice,
+  printerOptions,
+  order,
+  { calculateFinishTime, getDate, getTime, getSeconds }
+) => {
+  let idFormat = true;
+  let isTwelveHour = true;
+  let printers = JSON.parse(JSON.stringify(printerOptions));
+
+  let finalizedOrder = JSON.parse(JSON.stringify(order));
+  finalizedOrder.finishTime = order.isScheduledOrder ? "" : calculateFinishTime(order.waitTime.magnitude);
+  finalizedOrder.date = getDate();
+  finalizedOrder.time = [getTime(!idFormat, isTwelveHour), getTime(!idFormat, !isTwelveHour)];
+  finalizedOrder.id = `${getDate(idFormat)}${getTime(idFormat)}${getSeconds(
+    order.phoneNumber
+  )}${numbersOnlyPhoneNum(order.phoneNumber)}`;
+
+  // Selects which printer to print from
+  switch (printerChoice) {
+    case "Save Only":
+      printers = [];
+      break;
+    case "Kitchen":
+      printers = printerOptions.filter((printer) => printer.name === printerChoice);
+      break;
+    case "Cashier":
+      printers = printerOptions.filter((printer) => printer.name === printerChoice);
+      break;
+    case "Both":
+      //Don't need to do anything since printers already has both printers by default
+      break;
+    case "Reprint":
+      break;
+    default:
+      console.log("ERROR with print choice. Saved order to cloud as default.");
+      printers = [];
+      break;
+  }
+
+  let printInfo = {
+    time: finalizedOrder.time,
+    date: finalizedOrder.date,
+    printers: printers,
+    id: finalizedOrder.id,
+  };
+
+  return { finalizedOrder, printInfo };
+};
+
 export {
+  formatOrder,
   getSimilarItems,
   priceInputCheck,
   formatAddress,

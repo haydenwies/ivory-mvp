@@ -11,6 +11,7 @@ function Notes() {
         value={note}
         type="textarea"
         placeholder="Notes"
+        spellCheck={false}
         onChange={(e) => {
           dispatch(setOrder(["setNote", e.target.value]));
         }}
